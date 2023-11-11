@@ -9,20 +9,3 @@ def main_index():
 @index.route('/user/')
 def home():
     return render_template("user/user.html")
-
-# @index.route('/')
-# def create():
-#     return render_template("index.html")
-
-# @index.route('/')
-# def read():
-#     return render_template("index.html")
-
-# @index.route('/')
-# def update():
-#     return render_template("index.html")
-
-# @index.route('/')
-# def delete():
-#     return render_template("index.html")
-
