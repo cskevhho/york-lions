@@ -8,7 +8,7 @@
 4. `export FLASK_APP=yorklions`
 5. `flask run --debug`
 
-## Reinitializing server
+## Reinitializing database
 
 If you choose to delete the instance folder to just quickly refresh your current database (can probably delete the migrations file too for a fresh run).:
 

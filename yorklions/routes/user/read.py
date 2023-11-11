@@ -1,15 +1,9 @@
-from flask import Blueprint
-from ...extensions import db
 from ...models.user import User
+from ...extensions import db
 
-read = Blueprint("read", __name__)  # this is imported by init.py
 
-
-@read.route("/read/<name>")
-def find_user(name):
-    user = User.query.filter_by(name=name).first()
-
-    if user is None:
-        return {"message": "User does not exist."}
-
-    return {"user": user.name}
+def read_user():
+    users = db.session.query(User).all()
+    if not users:
+        return {"message": "No users found"}, 400
+    return {"users": [user.to_dict() for user in users]}, 200

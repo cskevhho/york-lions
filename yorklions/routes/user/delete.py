@@ -1,12 +1,14 @@
-from flask import Blueprint
-from ...extensions import db
 from ...models.user import User
+from ...extensions import db
 
-delete = Blueprint("delete", __name__)  # this is imported by init.py
 
+def delete_all():
+    users = User.query.all()
 
-@delete.route("/delete/<name>")
-def find_user(name):
-    # TODO
-    
-    return "TODO"
+    if not User.query.all():
+        return {"message": "No users to delete"}, 400
+    for user in users:
+        db.session.delete(user)
+
+    db.session.commit()
+    return {"message": "All users deleted successfully"}, 200

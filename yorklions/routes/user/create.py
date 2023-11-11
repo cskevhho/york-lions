@@ -1,13 +1,16 @@
-from flask import Blueprint
-from ...extensions import db
 from ...models.user import User
+from ...extensions import db
 
-create = Blueprint('create', __name__) # this is imported by init.py
 
-@create.route("/create/<name>")
 def create_user(name):
-    user = User(name=name)
-    db.session.add(user)
+    if not name:
+        return {"message": "Name is required"}, 409
+
+    new_user = User(name=name)
+
+    if User.query.filter_by(name=name).first():
+        return {"message": "User "+name+" already exists"}, 409
+
+    db.session.add(new_user)
     db.session.commit()
-    
-    return "User created."
+    return {"message": "User "+name+" created successfully"}, 200

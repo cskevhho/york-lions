@@ -1,0 +1,8 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<p>Are you sure you want to delete all?</p>
+<form action="/user/delete" method="post">
+    <input type="submit" value="Yes, delete all">
+</form>
+{% endblock %}

@@ -1,12 +1,14 @@
-from flask import Blueprint
-from ...extensions import db
 from ...models.user import User
+from ...extensions import db
 
-update = Blueprint("update", __name__)  # this is imported by init.py
 
+def update_user(id):
+    user = User.query.filter_by(id=id).first()
 
-@update.route("/update/<name>")
-def find_user(name):
-    # TODO
-    
-    return "TODO"
+    if not user:
+        return {"message": "User " + id + " not found"}, 400
+
+    user.name = "Updated Name"
+
+    db.session.commit()
+    return {"message": "User " + id + " updated successfully"}, 200

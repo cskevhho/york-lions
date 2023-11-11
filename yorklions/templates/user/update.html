@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<form action="/user/update" method="post">
+    <label for="id">ID:</label>
+    <input type="number" id="id" name="id">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name">
+    <input type="submit" value="Update User">
+</form>
+{% endblock %}
