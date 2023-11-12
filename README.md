@@ -10,7 +10,7 @@
 
 ## Reinitializing database
 
-If you choose to delete the instance folder to just quickly refresh your current database (can probably delete the migrations file too for a fresh run).:
+Everytime we add new models to the schema or edit existing ones, delete your `instance` and `migrations` folders.
 
 1. `flask db init`
 2. `flask db migrate`

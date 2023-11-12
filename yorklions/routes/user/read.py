@@ -8,7 +8,11 @@ def read_user():
         return {"message": "No users found"}, 400
 
     user_data = [
-        {"id": user.id, "email": user.email, "username": user.username,}
+        {
+            "id": user.id,
+            "email": user.email,
+            "username": user.username,
+        }
         for user in users
     ]  # note this is will return that json format response thing
     return {"users": user_data}, 200
