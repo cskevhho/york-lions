@@ -2,7 +2,7 @@ from flask import Flask
 from .extensions import db, migrate
 from .routes.user.controller import user_ctrl
 from .routes.index import index
-
+from .models import *
 
 def create_app():
     app = Flask(__name__)

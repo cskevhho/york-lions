@@ -9,6 +9,3 @@ class User(db.Model):
     username: Mapped[str] = mapped_column(String, unique=True, nullable=False)
     email: Mapped[str] = mapped_column(String, unique=True, nullable=False)
     password: Mapped[str] = mapped_column(String, unique=True, nullable=False)
-    address: Mapped["Address"] = db.relationship(
-        "Address", backref="user", uselist=False
-    )  # uselist=False means that the relationship is one-to-one
