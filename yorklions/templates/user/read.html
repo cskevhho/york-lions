@@ -2,7 +2,7 @@
 
 {% block content %}
 <p>Read all?</p>
-<form action="/api/user/read" method="post">
+<form action="{{ url_for('user.read') }} method="post">
     <input type="submit" value="Yes">
 </form>
 {% endblock %}

@@ -18,5 +18,7 @@
             {{ form.submit() }}
         </div>
     </form>
+    <div><a href="TODO">Forgot Password?</a></div>
 </div>
+<div>No account? <a href="{{ url_for('auth.register') }}">Register now!</a></div>
 {% endblock content %}

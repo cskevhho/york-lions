@@ -2,7 +2,7 @@
 
 {% block content %}
 <p>Are you sure you want to delete all?</p>
-<form action="/api/user/delete" method="post">
+<form action="{{ url_for('user.delete') }}" method="post">
     <input type="submit" value="Yes, delete all">
 </form>
 {% endblock %}

@@ -24,22 +24,31 @@
             </div>
             <nav>
                 <ul>
-                    <li>Shop Now</li>
-                    <li>New Cars</li>
-                    <li>Reviews</li>
-                    <li>Sell Your Car</li>
-                    <li>Hot Deals</li>
+                    <li><a href="{{ url_for('main.shop') }}">Shop Now</a></li>
+                    <li><a href="{{ url_for('main.new_cars') }}">New Cars</a></li>
+                    <li><a href="{{ url_for('main.reviews') }}">Reviews</a></li>
+                    <li><a href="{{ url_for('main.trade_in') }}">Sell Your Car</a></li>
+                    <li><a href="{{ url_for('main.hot_deals') }}">Hot Deals</a></li>
                 </ul>
             </nav>
             <ul>
-                <li><a href="/login">Sign In</a></li>
-                <li><a href="/register">Register</a></li>
-                <li><a href="/admin">Dev</a></li>
+                <li><a href="{{ url_for('auth.login') }}">Sign In</a></li>
+                <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+                <li><a href="{{ url_for('main.admin_dash') }}">Dev</a></li>
             </ul>
             {% endif %}
         </header>
 
         <div>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
             {% block content %}
             {% if sidebar %}
             <!-- Sidebar HTML logic here once they clicked on catalog, etc -->

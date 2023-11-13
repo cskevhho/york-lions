@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="content-section">
-    <form action="" method="post">
+    <form action="{{ url_for('user.create') }}" method="post">
         {{ form.hidden_tag() }} <!-- Accessing the form we passed in -->
         <fieldset>
             <legend>Register</legend>
