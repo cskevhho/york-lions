@@ -1,8 +1,8 @@
-{% extends "layout.html" %}
+{% extends "admin_layout.html" %}
 
-{% block body %}
+{% block content %}
 <p>Read all?</p>
-<form action="/user/read" method="post">
+<form action="/api/user/read" method="post">
     <input type="submit" value="Yes">
 </form>
 {% endblock %}

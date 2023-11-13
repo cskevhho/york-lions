@@ -1,7 +1,7 @@
-{% extends "layout.html" %}
+{% extends "admin_layout.html" %}
 
-{% block body %}
-<form action="/user/update" method="post">
+{% block content %}
+<form action="/api/user/update" method="post">
     <label for="id">ID:</label>
     <input type="number" id="id" name="id">
     <label for="username">Username:</label>

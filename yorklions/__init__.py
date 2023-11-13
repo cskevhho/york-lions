@@ -1,18 +1,16 @@
 from flask import Flask
 from .extensions import db, migrate
 from .routes.user.controller import user_ctrl
-from .routes.index import index
-from .models import *
+from .routes.auth import auth
+from .routes.main import main
 
-def create_app():
-    app = Flask(__name__)
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite3"
-    app.config["SECRET_KEY"] = "1234"
-    # we will hash this once live
-    db.init_app(app)
-    migrate.init_app(app, db)
+app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite3"
+app.config["SECRET_KEY"] = "1234"
 
-    app.register_blueprint(index)
-    app.register_blueprint(user_ctrl, url_prefix="/user")
+db.init_app(app)
+migrate.init_app(app, db)
 
-    return app
+app.register_blueprint(main)
+app.register_blueprint(auth)
+app.register_blueprint(user_ctrl, url_prefix="/api/user")

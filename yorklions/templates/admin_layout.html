@@ -7,35 +7,18 @@
     {% if title %} <!-- If title is passed in render_template use title -->
     <title>YORK L-IONS - {{ title }}</title>
     {% else %}
-    <title>YORK L-IONS</title>
+    <title>Admin Dashboard</title>
     {% endif %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
 </head>
 
 <body>
     <div id="wrapper">
-
+        <h1>Admin Dashboard</h1>
         <header>
             {% if header %}
             {% block header %}{% endblock header %}
             {% else %}
-            <div class="logo">
-                <a href="/">YORK L-IONS</a>
-            </div>
-            <nav>
-                <ul>
-                    <li>Shop Now</li>
-                    <li>New Cars</li>
-                    <li>Reviews</li>
-                    <li>Sell Your Car</li>
-                    <li>Hot Deals</li>
-                </ul>
-            </nav>
-            <ul>
-                <li><a href="/login">Sign In</a></li>
-                <li><a href="/register">Register</a></li>
-                <li><a href="/admin">Dev</a></li>
-            </ul>
             {% endif %}
         </header>
 

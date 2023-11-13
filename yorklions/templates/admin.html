@@ -1,0 +1,24 @@
+{% extends "admin_layout.html" %}
+
+{% block content %}
+    <h2><a href="/admin">Admin Home</a></h2>
+
+    <b>USER</b>
+    <ul>
+        <li>
+            <a href="/api/user/create">Create</a>
+        </li>
+        <li>
+            <a href="/api/user/read">Read</a>
+        </li>
+        <li>
+            <a href="/api/user/update">Update</a>
+        </li>
+        <li>
+            <a href="/api/user/delete">Delete</a>
+        </li>
+    </ul>
+
+    <br><br>
+    <p></p>
+{% endblock content %}
