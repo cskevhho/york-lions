@@ -1,9 +1,22 @@
 {% extends "layout.html" %}
-
-
-{% block header %}
-{% endblock header %}
-
 {% block content %}
-This is block content from login.html
+<div class="content-section">
+    <form action="" method="post">
+        {{ form.hidden_tag() }} <!-- Accessing the form we passed in -->
+        <fieldset>
+            <legend>Login</legend>
+            <div>
+                {{ form.email.label() }}
+                {{ form.email() }}
+            </div>
+            <div>
+                {{ form.password.label() }}
+                {{ form.password() }}
+            </div>
+        </fieldset>
+        <div>
+            {{ form.submit() }}
+        </div>
+    </form>
+</div>
 {% endblock content %}
