@@ -2,18 +2,32 @@
 {% block content %}
 <div class="content-section">
     <form action="" method="post">
-        {{ form.hidden_tag() }} <!-- Accessing the form we passed in -->
+        {{ form.hidden_tag() }}
         <fieldset>
             <legend>Login</legend>
             <div>
                 {{ form.email.label() }}
                 {{ form.email() }}
+                {% if form.email.errors %}
+                    {% for error in form.email.errors %}
+                        <p style="color: red;">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
             </div>
             <div>
                 {{ form.password.label() }}
                 {{ form.password() }}
+                {% if form.password.errors %}
+                    {% for error in form.password.errors %}
+                        <p style="color: red;">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
             </div>
         </fieldset>
+        <div class>
+            {{ form.remember()}}
+            {{ form.remember.label() }}
+        </div>
         <div>
             {{ form.submit() }}
         </div>

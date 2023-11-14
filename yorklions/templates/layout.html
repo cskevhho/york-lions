@@ -32,22 +32,27 @@
                 </ul>
             </nav>
             <ul>
+                {% if current_user.is_authenticated %} <!-- Flask session management is just :chefs_kiss: -->
+                <li><a href="{{ url_for('auth.account') }}">Account</a></li>
+                <li><a href="{{ url_for('auth.logout') }}">Sign Out</a></li>
+                {% else %}
                 <li><a href="{{ url_for('auth.login') }}">Sign In</a></li>
                 <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+                {% endif %}
                 <li><a href="{{ url_for('main.admin_dash') }}">Dev</a></li>
             </ul>
             {% endif %}
         </header>
 
         <div>
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="alert" role="alert">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="flash-message {{ category }}" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
             {% endwith %}
             {% block content %}
             {% if sidebar %}

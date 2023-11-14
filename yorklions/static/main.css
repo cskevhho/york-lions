@@ -35,7 +35,6 @@ nav {
 }
 
 div {
-  border: 1px solid red;
   padding: 4px;
   margin: 4px;
 }
@@ -53,4 +52,25 @@ ul {
   display: flex;
   justify-content: center;
   gap: 20px;
+}
+
+.flash-message.success {
+  color: white;
+  background-color: green;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.flash-message.danger {
+  color: white;
+  background-color: red;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.flash-message.info {
+  color: white;
+  background-color: blue;
+  padding: 10px;
+  margin-bottom: 10px;
 }

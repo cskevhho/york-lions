@@ -1,26 +1,46 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="content-section">
-    <form action="{{ url_for('user.create') }}" method="post">
-        {{ form.hidden_tag() }} <!-- Accessing the form we passed in -->
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
         <fieldset>
             <legend>Register</legend>
             <div>
                 {{ form.username.label() }}
                 {{ form.username() }}
+                {% if form.username.errors %}
+                    {% for error in form.username.errors %}
+                        <p style="color: red;">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
             </div>
             <div>
                 {{ form.email.label() }}
                 {{ form.email() }}
+                {% if form.email.errors %}
+                    {% for error in form.email.errors %}
+                        <p style="color: red;">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
             </div>
             <div>
                 {{ form.password.label() }}
                 {{ form.password() }}
+                {% if form.password.errors %}
+                    {% for error in form.password.errors %}
+                        <p style="color: red;">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
             </div>
             <div>
                 {{ form.confirm_password.label() }}
                 {{ form.confirm_password() }}
-            </div 
+                {% if form.confirm_password.errors %}
+                    {% for error in form.confirm_password.errors %}
+                        <p style="color: red;">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
         </fieldset>
         <div>
             {{ form.submit() }}
