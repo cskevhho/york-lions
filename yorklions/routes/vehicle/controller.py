@@ -8,6 +8,7 @@ vehicle_ctrl = Blueprint("vehicle", __name__)
 @vehicle_ctrl.route("/create", methods=["GET", "POST"])
 def create():
     if request.method == "POST":
+        price = request.form["price"]
         year = request.form["year"]
         make = request.form["make"]
         model = request.form["model"]
@@ -16,7 +17,8 @@ def create():
         type = request.form["type"]
         kilometres = request.form["kilometres"]
         max_range = request.form["max_range"]
-        return create_vehicle(year, make, model, trim, colour, type, kilometres, max_range)
+        description = request.form["description"]
+        return create_vehicle(price, year, make, model, trim, colour, type, kilometres, max_range, description)
 
     return render_template("vehicle/create.html")
 
@@ -33,6 +35,7 @@ def read():
 def update():
     if request.method == "POST":
         vehicle_id = request.form.get("id")
+        price = request.form["price"]
         year = request.form["year"]
         make = request.form["make"]
         model = request.form["model"]
@@ -41,9 +44,11 @@ def update():
         type = request.form["type"]
         kilometres = request.form["kilometres"]
         max_range = request.form["max_range"]
+        description = request.form["description"]
 
         # Do not pass in objects to the route, pass the parameters in, ORM formalities stuff
         return update_vehicle (vehicle_id, {
+                "price": price,
                 "year": year,
                 "make": make,
                 "model": model,
@@ -51,7 +56,8 @@ def update():
                 "colour": colour,
                 "type": type,
                 "kilometres": kilometres,
-                "max_range": max_range
+                "max_range": max_range,
+                "description": description
         })
 
     return render_template("vehicle/update.html")

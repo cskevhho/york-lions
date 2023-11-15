@@ -1,6 +1,8 @@
 {% extends "admin_layout.html" %}
 {% block content %}
 <form action="{{ url_for('vehicle.create') }}" method="post">
+    <label for="price">Price:</label>
+    <input type="number" id="price" name="price" /><br/>
     <label for="year">Year:</label>
     <input type="number" id="year" name="year" /><br/>
     <label for="make">Make:</label>
@@ -17,6 +19,8 @@
     <input type="number" id="kilometres" name="kilometres" /><br />
     <label for="max_range">Max Range:</label>
     <input type="number" id="max_range" name="max_range" /><br />
+    <label for="description">Description:</label>
+    <input type="text" id="description" name="description" /><br />
     <input type="submit" value="Create Vehicle" />
 </form>
 {% endblock content %}

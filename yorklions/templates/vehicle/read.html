@@ -14,6 +14,8 @@
 <form action="{{ url_for('vehicle.read') }}" method="post">
     <input type="radio" onclick="javascript:enableDisableSearchField();" name="search_type" id="vehicle_id" value="vehicle_id" checked="checked">
     <label for="vehicle_id">Search by Vehicle ID</label><br/>
+    <input type="radio" onclick="javascript:enableDisableSearchField();" name="search_type" id="price" value="price">
+    <label for="price">Search by Price</label><br />
     <input type="radio" onclick="javascript:enableDisableSearchField();" name="search_type" id="year" value="year">
     <label for="year">Search by Year</label><br />
     <input type="radio" onclick="javascript:enableDisableSearchField();" name="search_type" id="make" value="make">
@@ -30,6 +32,8 @@
     <label for="kilometres">Search by Kilometres on Odometer</label><br />
     <input type="radio" onclick="javascript:enableDisableSearchField();" name="search_type" id="max_range" value="max_range">
     <label for="max_range">Search by Max Vehicle Range</label><br />
+    <input type="radio" onclick="javascript:enableDisableSearchField();" name="search_type" id="description" value="description">
+    <label for="description">Search by Description</label><br />
     <input type="radio" onclick="javascript:enableDisableSearchField();" name="search_type" id="display_all" value="display_all">
     <label for="display_all">Display All Vehicles</label><br />
     <input type="text" value="" id="search_field" name="search_field">
