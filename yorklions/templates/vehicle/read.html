@@ -1,0 +1,38 @@
+{% extends "admin_layout.html" %}
+
+{% block content %}
+<script type="text/javascript">
+    function enableDisableSearchField() {
+        if (document.getElementById("display_all").checked) {
+            document.getElementById("search_field").style.display = "none"
+        } else {
+            document.getElementById("search_field").style.display = "inline-block"
+        }
+    }
+</script>
+
+<form action="{{ url_for('vehicle.read') }}" method="post">
+    <input type="radio" onclick="javascript:enableDisableSearchField();" name="search_type" id="vehicle_id" value="vehicle_id" checked="checked">
+    <label for="vehicle_id">Search by Vehicle ID</label><br/>
+    <input type="radio" onclick="javascript:enableDisableSearchField();" name="search_type" id="year" value="year">
+    <label for="year">Search by Year</label><br />
+    <input type="radio" onclick="javascript:enableDisableSearchField();" name="search_type" id="make" value="make">
+    <label for="make">Search by Make</label><br />
+    <input type="radio" onclick="javascript:enableDisableSearchField();" name="search_type" id="model" value="model">
+    <label for="model">Search by Model</label><br />
+    <input type="radio" onclick="javascript:enableDisableSearchField();" name="search_type" id="trim" value="trim">
+    <label for="trim">Search by Trim Level</label><br />
+    <input type="radio" onclick="javascript:enableDisableSearchField();" name="search_type" id="colour" value="colour">
+    <label for="colour">Search by Colour</label><br />
+    <input type="radio" onclick="javascript:enableDisableSearchField();" name="search_type" id="type" value="type">
+    <label for="type">Search by Vehicle Type</label><br />
+    <input type="radio" onclick="javascript:enableDisableSearchField();" name="search_type" id="kilometres" value="kilometres">
+    <label for="kilometres">Search by Kilometres on Odometer</label><br />
+    <input type="radio" onclick="javascript:enableDisableSearchField();" name="search_type" id="max_range" value="max_range">
+    <label for="max_range">Search by Max Vehicle Range</label><br />
+    <input type="radio" onclick="javascript:enableDisableSearchField();" name="search_type" id="display_all" value="display_all">
+    <label for="display_all">Display All Vehicles</label><br />
+    <input type="text" value="" id="search_field" name="search_field">
+    <input type="submit" value="Search">
+</form>
+{% endblock %}

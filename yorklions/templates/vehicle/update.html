@@ -1,0 +1,25 @@
+{% extends "admin_layout.html" %}
+
+{% block content %}
+<form action="{{ url_for('vehicle.update') }}" method="post">
+    <label for="id">ID:</label>
+    <input type="number" id="id" name="id">
+    <label for="year">Year:</label>
+    <input type="number" id="year" name="year">
+    <label for="make">Make:</label>
+    <input type="text" id="make" name="make">
+    <label for="model">Model:</label>
+    <input type="text" id="model" name="model">
+    <label for="trim">Trim level:</label>
+    <input type="text" id="trim" name="trim">
+    <label for="colour">Colour:</label>
+    <input type="text" id="colour" name="colour">
+    <label for="type">Vehicle Type:</label>
+    <input type="text" id="type" name="type">
+    <label for="kilometres">Kilometres on odometer:</label>
+    <input type="text" id="kilometres" name="kilometres">
+    <label for="max_range">Max range:</label>
+    <input type="text" id="max_range" name="max_range">
+    <input type="submit" value="Update Vehicle">
+</form>
+{% endblock %}

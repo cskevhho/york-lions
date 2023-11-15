@@ -1,9 +1,8 @@
 from ...models.user import User
 from ...extensions import db
-from flask import request
 
 
-def read_user():
+def read_user(request):
     search_type = request.form['search_type']
     search_text = request.form['search_field']
 

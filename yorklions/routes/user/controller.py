@@ -19,7 +19,7 @@ def create():
 @user_ctrl.route("/read", methods=["GET", "POST"])
 def read():
     if request.method == "POST":
-        return read_user()
+        return read_user(request)
 
     return render_template("user/read.html")
 
