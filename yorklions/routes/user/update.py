@@ -1,3 +1,4 @@
+from PIL import Image # is a python imaging library, Image is a class that represents an image
 import secrets, os
 from flask import current_app
 from ...models.user import User
@@ -22,6 +23,11 @@ def save_picture(form_profile_pic):
     _, file_ext = os.path.splitext(form_profile_pic.filename) # _ is an unused var name since we're only using the extension?
     pic_filename = rand_hex + file_ext
     pic_path = os.path.join(current_app.root_path, "static/account", pic_filename)
-    form_profile_pic.save(pic_path)
+    
+    output_size = (128, 128) # file output size
+    img = Image.open(form_profile_pic)
+    img.thumbnail(output_size)
+    
+    img.save(pic_path) # return pillow thumbnail instead of the original form_profile_pic
     
     return pic_filename
