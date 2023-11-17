@@ -2,7 +2,6 @@ from flask import Blueprint, render_template, flash, redirect, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
 from ..forms import RegistrationForm, LoginForm
 from ..extensions import db, bcrypt
-from ..routes.user.create import create_user
 from ..models.user import User
 
 auth = Blueprint("auth", __name__)
@@ -19,7 +18,7 @@ def register():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode(
             "utf-8"
         )
-        create_user(
+        user = User(
             username=form.username.data, email=form.email.data, password=hashed_password
         )
         flash(f"Account created, please login!", "success")
@@ -59,4 +58,5 @@ def logout():
 @auth.route("/account")
 @login_required  # decorators, yum
 def account():
-    return render_template("account.html", title="Account")
+    image_file = url_for("static", filename="account/" + current_user.image_file)
+    return render_template("account.html", title="Account", image_file=image_file)

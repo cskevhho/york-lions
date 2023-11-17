@@ -1,4 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h1>Welcome, {{ current_user.username }}!</h1>
+
+<div class="account-content">
+    <div class="content-media">
+        <img src="{{ image_file }}" alt="Profile Photo">
+        <h2>Welcome, {{ current_user.username }}!</h2>
+        <p>{{ current_user.email }}</p>
+    </div>
+</div>
 {% endblock content %}
