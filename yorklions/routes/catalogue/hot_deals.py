@@ -1,19 +1,19 @@
 from ...models.vehicle import Vehicle
 from ...extensions import db
 
-def get_recent_vehicles(limit=None, descending=True):
+def get_hot_deals(limit=None, descending=True):
 
     if descending:
         if limit:
-            vehicles = db.session.query(Vehicle).order_by(Vehicle.date_added.desc()).limit(limit).all()
+            vehicles = db.session.query(Vehicle).filter(Vehicle.discount_percentage > 0).order_by(Vehicle.discount_percentage.desc()).limit(limit).all()
         else:
-            vehicles = db.session.query(Vehicle).order_by(Vehicle.date_added.desc()).all()
+            vehicles = db.session.query(Vehicle).filter(Vehicle.discount_percentage > 0).order_by(Vehicle.discount_percentage.desc()).all()
         # TODO: .paginate(page=page, per_page=per_page, error_out=error_out, max_per_page=max_per_page)
     else:
         if limit:
-            vehicles = db.session.query(Vehicle).order_by(Vehicle.date_added).limit(limit).all()
+            vehicles = db.session.query(Vehicle).filter(Vehicle.discount_percentage > 0).order_by(Vehicle.discount_percentage).limit(limit).all()
         else:
-            vehicles = db.session.query(Vehicle).order_by(Vehicle.date_added).all()
+            vehicles = db.session.query(Vehicle).filter(Vehicle.discount_percentage > 0).order_by(Vehicle.discount_percentage).all()
         # TODO: .paginate(page=page, per_page=per_page, error_out=error_out, max_per_page=max_per_page)
 
     if not vehicles:
