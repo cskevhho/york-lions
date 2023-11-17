@@ -10,6 +10,8 @@ def read_vehicle(request):
         vehicles = db.session.query(Vehicle).filter_by(id=search_text).all()
     elif search_type == "price":
         vehicles = db.session.query(Vehicle).filter_by(price=search_text).all()
+    elif search_type == "discount":
+        vehicles = db.session.query(Vehicle).filter_by(discount=search_text).all()
     elif search_type == "year":
         vehicles = db.session.query(Vehicle).filter_by(year=search_text).all()
     elif search_type == "make":
@@ -40,6 +42,7 @@ def read_vehicle(request):
         {
             "id": vehicle.id,
             "price": vehicle.price,
+            "discount": vehicle.discount,
             "year": vehicle.year,
             "make": vehicle.make,
             "model": vehicle.model,

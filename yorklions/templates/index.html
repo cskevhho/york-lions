@@ -9,6 +9,7 @@
         <thead>
             <tr>
                 <th><div>Price</div></th>
+                <th><div>Discount</div></th>
                 <th><div>Year</div></th>
                 <th><div>Make</div></th>
                 <th><div>Model</div></th>
@@ -24,7 +25,8 @@
         <tbody>
             {% for vehicle in recent_vehicles %}
             <tr>
-                <td><div>${{ vehicle.price }}</div></td>
+                <td><div>${{ '%0.2f'|format(vehicle.price|float) }}</div></td>
+                <td><div>${{ '%0.2f'|format(vehicle.discount|float) }} ({{ '%0.0f'|format(vehicle.discount_percentage|float) }}%)</div></td>
                 <td><div>{{ vehicle.year }}</div></td>
                 <td><div>{{ vehicle.make }}</div></td>
                 <td><div>{{ vehicle.model }}</div></td>

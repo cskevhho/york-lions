@@ -4,7 +4,7 @@ from ..routes.catalogue import recent
 
 main = Blueprint("main", __name__)
 
-@main.route("/home")
+@main.route("/home/")
 @main.route("/")
 def main_index():
     response = recent.recent_vehicles(descending=True)

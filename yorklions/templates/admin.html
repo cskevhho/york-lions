@@ -2,6 +2,8 @@
 
 {% block content %}
     <h2><a href="">Admin Home</a></h2>
+    <h3><a href="/">Return to homepage</a></h3>
+    <br/>
 
     <b>USER</b>
     <ul>
@@ -36,5 +38,7 @@
     </ul>
 
     <br><br>
-    <p></p>
+    {% if message %}
+    <p style="color: red;"><b>{{ message }}</b></p>
+    {% endif %}
 {% endblock content %}

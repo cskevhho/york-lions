@@ -17,6 +17,8 @@ def recent_vehicles(descending=True):
         {
             "id": vehicle.id,
             "price": vehicle.price,
+            "discount": vehicle.discount,
+            "discount_percentage": vehicle.discount_percentage,
             "year": vehicle.year,
             "make": vehicle.make,
             "model": vehicle.model,

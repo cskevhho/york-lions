@@ -3,6 +3,8 @@
 <form action="{{ url_for('vehicle.create') }}" method="post">
     <label for="price">Price:</label>
     <input type="number" id="price" name="price" /><br/>
+    <label for="discount">Discount:</label>
+    <input type="number" id="discount" name="discount" /><br/>
     <label for="year">Year:</label>
     <input type="number" id="year" name="year" /><br/>
     <label for="make">Make:</label>
@@ -22,5 +24,9 @@
     <label for="description">Description:</label>
     <input type="text" id="description" name="description" /><br />
     <input type="submit" value="Create Vehicle" />
+</form>
+
+<form action="{{ url_for('vehicle.create_dummy_data') }}" method="post">
+    <button>Create dummy data</button>
 </form>
 {% endblock content %}
