@@ -1,4 +1,50 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h1>Welcome, {{ current_user.username }}!</h1>
+
+<div class="account-content">
+    <div class="content-media">
+        <div class="media-body">
+            <img src="{{ image_file }}" alt="Profile Photo">
+            <h2>Welcome, {{ current_user.username }}!</h2>
+            <p>{{ current_user.email }}</p>
+            <p>Account Type: {{ 'Admin' if current_user.is_admin else 'User' }}</p>
+        </div>
+    </div>
+    <div class="content-section">
+        <form action="" method="post" enctype="multipart/form-data" novalidate>
+            {{ form.hidden_tag() }}
+            <legend>Update Account</legend>
+            <div>
+                {{ form.username.label() }}
+                {{ form.username() }}
+                {% if form.username.errors %}
+                {% for error in form.username.errors %}
+                <p style="color: red;">{{ error }}</p>
+                {% endfor %}
+                {% endif %}
+            </div>
+            <div>
+                {{ form.email.label() }}
+                {{ form.email() }}
+                {% if form.email.errors %}
+                {% for error in form.email.errors %}
+                <p style="color: red;">{{ error }}</p>
+                {% endfor %}
+                {% endif %}
+            </div>
+            <div>
+                {{ form.profile_pic.label() }}
+                {{ form.profile_pic() }}
+                {% if form.profile_pic.errors %}
+                {% for error in form.profile_pic.errors %}
+                <p style="color: red;">{{ error }}</p><br>
+                {% endfor %}
+                {% endif %}
+            </div>
+            <div>
+                {{ form.submit() }}
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock content %}

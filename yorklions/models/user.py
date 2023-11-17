@@ -1,8 +1,8 @@
-from sqlalchemy import Integer, String, Boolean
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import Integer, String, Boolean, Float
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from ..extensions import db, login_manager
 from flask_login import UserMixin  # adds login_manager required methods
-
+from typing import List
 
 @login_manager.user_loader  # login_managers needs to know how to load a user
 def load_user(user_id):
@@ -16,3 +16,6 @@ class User(db.Model, UserMixin):
     email: Mapped[str] = mapped_column(String, unique=True, nullable=False)
     password: Mapped[str] = mapped_column(String, nullable=False)
     is_admin: Mapped[bool] = mapped_column(Boolean, default=False)
+    image_file: Mapped[str] = mapped_column(String, nullable=False, default="default.jpg")
+    vehicles: Mapped[List["Vehicle"]] = relationship()
+    

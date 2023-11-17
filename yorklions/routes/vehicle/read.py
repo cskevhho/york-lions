@@ -10,6 +10,8 @@ def read_vehicle(request):
         vehicles = db.session.query(Vehicle).filter_by(id=search_text).all()
     elif search_type == "price":
         vehicles = db.session.query(Vehicle).filter_by(price=search_text).all()
+    elif search_type == "discount":
+        vehicles = db.session.query(Vehicle).filter_by(discount=search_text).all()
     elif search_type == "year":
         vehicles = db.session.query(Vehicle).filter_by(year=search_text).all()
     elif search_type == "make":
@@ -28,6 +30,8 @@ def read_vehicle(request):
         vehicles = db.session.query(Vehicle).filter_by(max_range=search_text).all()
     elif search_type == "description":
         vehicles = db.session.query(Vehicle).filter_by(description=search_text).all()
+    elif search_type == "date_added":
+        vehicles = db.session.query(Vehicle).filter_by(date_added=search_text).all()
     else:
         vehicles = db.session.query(Vehicle).all()
 
@@ -38,6 +42,7 @@ def read_vehicle(request):
         {
             "id": vehicle.id,
             "price": vehicle.price,
+            "discount": vehicle.discount,
             "year": vehicle.year,
             "make": vehicle.make,
             "model": vehicle.model,
@@ -46,7 +51,8 @@ def read_vehicle(request):
             "type": vehicle.type,
             "kilometres": vehicle.kilometres,
             "max_range": vehicle.max_range,
-            "description": vehicle.description
+            "description": vehicle.description,
+            "date_added": vehicle.date_added
         }
         for vehicle in vehicles
     ]  # note this is will return that json format response thing
