@@ -8,6 +8,7 @@
     <table>
         <thead>
             <tr>
+                <th><div>Picture</div></th>
                 <th><div>Price</div></th>
                 <th><div>Discount</div></th>
                 <th><div>Year</div></th>
@@ -20,11 +21,13 @@
                 <th><div>Max Range</div></th>
                 <th><div>Description</div></th>
                 <th><div>Date Added</div></th>
-            </tr>
+                <th><div>User ID</div></th>
+            </tr>http://127.0.0.1:5000/account
         </thead>
         <tbody>
             {% for vehicle in recent_vehicles %}
             <tr>
+                <td><div><img src="{{ url_for('static', filename='vehicles/' + vehicle['image_file']) }}" alt="Vehicle Image" width="100"></div></td>
                 <td><div>${{ '%0.2f'|format(vehicle.price|float) }}</div></td>
                 <td><div>${{ '%0.2f'|format(vehicle.discount|float) }} ({{ '%0.0f'|format(vehicle.discount_percentage|float) }}%)</div></td>
                 <td><div>{{ vehicle.year }}</div></td>
@@ -37,6 +40,7 @@
                 <td><div>{{ vehicle.max_range }}</div></td>
                 <td><div>{{ vehicle.description }}</div></td>
                 <td><div>{{ vehicle.date_added }}</div></td>
+                <td><div>{{ vehicle.user_id }}</div></td>
             </tr>
             {% endfor %}
         </tbody>
@@ -54,6 +58,7 @@
     <table>
         <thead>
             <tr>
+                <th><div>Picture</div></th>
                 <th><div>Price</div></th>
                 <th><div>Discount</div></th>
                 <th><div>Year</div></th>
@@ -71,6 +76,7 @@
         <tbody>
             {% for vehicle in hot_deals %}
             <tr>
+                <td><div><img src="{{ url_for('static', filename='vehicles/' + vehicle['image_file']) }}" alt="Vehicle Image" width="100"></div></td>
                 <td><div>${{ '%0.2f'|format(vehicle.price|float) }}</div></td>
                 <td><div>${{ '%0.2f'|format(vehicle.discount|float) }} ({{ '%0.0f'|format(vehicle.discount_percentage|float) }}%)</div></td>
                 <td><div>{{ vehicle.year }}</div></td>

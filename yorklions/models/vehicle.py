@@ -1,7 +1,8 @@
-from sqlalchemy import Integer, Float, String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import Integer, Float, String, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.ext.hybrid import hybrid_property
 from ..extensions import db
+from typing import List
 
 
 class Vehicle(db.Model):
@@ -20,7 +21,12 @@ class Vehicle(db.Model):
     description: Mapped[str] = mapped_column(String, nullable=False)
     image_file: Mapped[str] = mapped_column(String, nullable=False, default="default.jpg")
     date_added: Mapped[str] = mapped_column(String, nullable=False)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)    
+    visit_events: Mapped[List["VisitEvent"]] = relationship()
+    product_orders: Mapped[List["POItem"]] = relationship()
 
+
+    
     @hybrid_property
     def discount_percentage(self):
         return 100 * self.discount / self.price

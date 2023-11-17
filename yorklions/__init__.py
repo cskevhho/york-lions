@@ -19,5 +19,5 @@ app.register_blueprint(auth)
 app.register_blueprint(user_ctrl, url_prefix="/api/user")
 app.register_blueprint(vehicle_ctrl, url_prefix="/api/vehicle")
 
-with app.app_context():
-    db.create_all()
+# with app.app_context():
+#     db.create_all()

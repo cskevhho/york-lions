@@ -5,5 +5,3 @@ export FLASK_APP=yorklions
 flask db init
 flask db migrate
 flask db upgrade
-deactivate
-

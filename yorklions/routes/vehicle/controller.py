@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
+from flask_login import current_user
 from .services import create_vehicle, read_vehicle, update_vehicle, delete_all
 from ...models.vehicle import Vehicle
 import time
@@ -75,8 +76,11 @@ def delete():
     return render_template("vehicle/delete.html")
 
 import random
+from flask import session
 @vehicle_ctrl.route("/create_dummy_data", methods=["GET", "POST"])
+
 def create_dummy_data():
+    user_id = current_user.id
     for i in range(10):
         price = random.randint(500000, 15000000) / 100.0
         discount = random.randint(0, int(price-1) * 100) / 100.0
@@ -104,5 +108,5 @@ def create_dummy_data():
         date_minute = random.randint(0, 59)
         date_added = f'{date_year}{("-0" if date_month < 10 else "-")}{date_month}{("-0" if date_day < 10 else "-")}{date_day}{("-0" if date_hour < 10 else "-")}{date_hour}{(":0" if date_minute < 10 else ":")}{date_minute}'
 
-        create_vehicle(price, discount, year, car["make"], car["model"], car["trim"], colour, car["vehicle_type"], kilometres, max_range, description, date_added)
+        create_vehicle(price, discount, year, car["make"], car["model"], car["trim"], colour, car["vehicle_type"], kilometres, max_range, description, date_added, user_id)
     return redirect(url_for('main.admin_dash'))

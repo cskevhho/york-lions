@@ -1,6 +1,7 @@
 from sqlalchemy import Integer, String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from ..extensions import db
+from typing import List
 
 
 # We're going to assume only Canadian addressses for now
@@ -11,4 +12,5 @@ class Address(db.Model):
     city: Mapped[str] = mapped_column(String, nullable=False)
     province: Mapped[str] = mapped_column(String(2), nullable=False)
     zipcode: Mapped[str] = mapped_column(String(6), nullable=False)
-    phone: Mapped[str] = mapped_column(String, nullable=False)
+    phone: Mapped[str] = mapped_column(String)
+    vehicles: Mapped[List["PurchaseOrder"]] = relationship()
