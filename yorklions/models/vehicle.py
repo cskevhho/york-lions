@@ -16,3 +16,4 @@ class Vehicle(db.Model):
     kilometres: Mapped[int] = mapped_column(Integer, primary_key=False)
     max_range: Mapped[int] = mapped_column(Integer, primary_key=False)
     description: Mapped[str] = mapped_column(String, nullable=False)
+    date_added: Mapped[str] = mapped_column(String, nullable=False)

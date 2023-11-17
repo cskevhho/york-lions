@@ -1,11 +1,15 @@
 from flask import Blueprint, render_template
 from ..forms import RegistrationForm, LoginForm
+from ..routes.catalogue import recent
 
 main = Blueprint("main", __name__)
 
 @main.route("/home")
 @main.route("/")
 def main_index():
+    response = recent.recent_vehicles(descending=True)
+    if response[1] == 200:
+        return render_template("index.html", recent_vehicles=response[0])
     return render_template("index.html")
 
 @main.route("/shop/")
