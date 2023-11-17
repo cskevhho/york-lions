@@ -24,4 +24,3 @@ class Vehicle(db.Model):
     @hybrid_property
     def discount_percentage(self):
         return 100 * self.discount / self.price
-    
