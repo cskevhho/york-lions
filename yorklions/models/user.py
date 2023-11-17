@@ -18,3 +18,4 @@ class User(db.Model, UserMixin):
     is_admin: Mapped[bool] = mapped_column(Boolean, default=False)
     image_file: Mapped[str] = mapped_column(String, nullable=False, default="default.jpg")
     vehicles: Mapped[List["Vehicle"]] = relationship()
+    

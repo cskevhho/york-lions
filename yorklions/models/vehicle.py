@@ -23,7 +23,7 @@ class Vehicle(db.Model):
     date_added: Mapped[str] = mapped_column(String, nullable=False)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)    
     visit_events: Mapped[List["VisitEvent"]] = relationship()
-    product_orders: Mapped[List["POItem"]] = relationship()
+    product_orders: Mapped[List["POVehicle"]] = relationship()
 
 
     

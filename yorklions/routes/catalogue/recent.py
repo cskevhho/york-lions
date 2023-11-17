@@ -35,7 +35,8 @@ def get_recent_vehicles(limit=None, descending=True):
             "kilometres": vehicle.kilometres,
             "max_range": vehicle.max_range,
             "description": vehicle.description,
-            "date_added": vehicle.date_added
+            "date_added": vehicle.date_added,
+            "image_file": vehicle.image_file,
         }
         for vehicle in vehicles
     ]  # note this is will return that json format response thing

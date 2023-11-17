@@ -11,4 +11,4 @@ class PurchaseOrder(db.Model):
     lname: Mapped[str] = mapped_column(String, nullable=False)
     status: Mapped[str] = mapped_column(String, nullable=False)
     address_id: Mapped[int] = mapped_column(ForeignKey("addresses.id"), nullable=False)
-    product_orders: Mapped[List["POItem"]] = relationship()
+    product_orders: Mapped[List["POVehicle"]] = relationship()

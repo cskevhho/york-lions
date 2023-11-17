@@ -2,7 +2,6 @@ from ...models.vehicle import Vehicle
 from ...extensions import db
 from datetime import datetime
 
-
 def create_vehicle(
     price,
     discount,
@@ -32,9 +31,9 @@ def create_vehicle(
         kilometres=kilometres,
         max_range=max_range,
         description=description,
-        date_added=date_added,
         user_id=user_id,
+        date_added=date_added,
     )
     db.session.add(new_vehicle)
     db.session.commit()
-    return {"message": f"Vehicle '{new_vehicle.id}' created successfully"}, 200
+    return {"message": f"User '{new_vehicle.id}' created successfully"}, 200
