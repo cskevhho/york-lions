@@ -3,9 +3,39 @@
 
 <div class="account-content">
     <div class="content-media">
-        <img src="{{ image_file }}" alt="Profile Photo">
-        <h2>Welcome, {{ current_user.username }}!</h2>
-        <p>{{ current_user.email }}</p>
+        <div class="media-body">
+            <img src="{{ image_file }}" alt="Profile Photo">
+            <h2>Welcome, {{ current_user.username }}!</h2>
+            <p>{{ current_user.email }}</p>
+            <p>Account Type: {{ 'Admin' if current_user.is_admin else 'User' }}</p>
+        </div>
+    </div>
+    <div class="content-section">
+        <form action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            <legend>Update Account</legend>
+            <div>
+                {{ form.username.label() }}
+                {{ form.username() }}
+                {% if form.username.errors %}
+                {% for error in form.username.errors %}
+                <p style="color: red;">{{ error }}</p>
+                {% endfor %}
+                {% endif %}
+            </div>
+            <div>
+                {{ form.email.label() }}
+                {{ form.email() }}
+                {% if form.email.errors %}
+                {% for error in form.email.errors %}
+                <p style="color: red;">{{ error }}</p>
+                {% endfor %}
+                {% endif %}
+            </div>
+            <div>
+                {{ form.submit() }}
+            </div>
+        </form>
     </div>
 </div>
 {% endblock content %}

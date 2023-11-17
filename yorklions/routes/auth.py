@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
-from ..forms import RegistrationForm, LoginForm
+from ..forms import RegistrationForm, LoginForm, UpdateAccountForm
 from ..extensions import db, bcrypt
 from ..models.user import User
+from .user.controller import create_user
 
 auth = Blueprint("auth", __name__)
 
@@ -18,9 +19,7 @@ def register():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode(
             "utf-8"
         )
-        user = User(
-            username=form.username.data, email=form.email.data, password=hashed_password
-        )
+        create_user(form.username.data, form.email.data, hashed_password)
         flash(f"Account created, please login!", "success")
         return redirect(url_for("auth.login"))
     return render_template(
@@ -55,8 +54,21 @@ def logout():
     return redirect(url_for("main.main_index"))
 
 
-@auth.route("/account")
+@auth.route("/account", methods=["POST", "GET"])
 @login_required  # decorators, yum
 def account():
+    form = UpdateAccountForm()
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash("Account updated!", "success")
+        return redirect(url_for("auth.account"))
+    elif request.method == "GET":  # populate form with current user info on
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+
     image_file = url_for("static", filename="account/" + current_user.image_file)
-    return render_template("account.html", title="Account", image_file=image_file)
+    return render_template(
+        "account.html", title="Account", image_file=image_file, form=form
+    )
