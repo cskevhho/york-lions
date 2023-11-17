@@ -39,7 +39,9 @@
                 <li><a href="{{ url_for('auth.login') }}">Sign In</a></li>
                 <li><a href="{{ url_for('auth.register') }}">Register</a></li>
                 {% endif %}
-                <li><a href="{{ url_for('main.admin_dash') }}">Dev</a></li>
+                {% if current_user.is_authenticated and current_user.is_admin %}
+                <li><a href="{{ url_for('main.admin_dash') }}">Admin</a></li>
+                {% endif %}
             </ul>
             {% endif %}
         </header>
