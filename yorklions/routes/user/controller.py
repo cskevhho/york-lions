@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from .services import create_user, read_user, update_user, delete_all
+from .services import create_user, read_user, update_user, delete_all, save_picture
 from ...models.user import User
 
 user_ctrl = Blueprint("user", __name__)
