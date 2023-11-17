@@ -54,6 +54,10 @@ ul {
   gap: 20px;
 }
 
+ table, th, td {
+   border: 1px solid black;
+ }
+
 .flash-message.success {
   color: white;
   background-color: green;

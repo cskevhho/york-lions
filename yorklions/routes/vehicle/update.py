@@ -8,6 +8,7 @@ def update_vehicle(id, updated_data):
         return {"message": f"Vehicle with ID {id} not found"}, 404
 
     vehicle.price = updated_data.get("price", vehicle.price)
+    vehicle.discount = updated_data.get("discount", vehicle.discount)
     vehicle.year = updated_data.get("year", vehicle.year)
     vehicle.make = updated_data.get("make", vehicle.make)
     vehicle.model = updated_data.get("model", vehicle.model)

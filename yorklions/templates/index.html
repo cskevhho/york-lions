@@ -1,7 +1,96 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<p><b>Test123</b></p>
-<br>
-<p><b>TBD, probably a grid of cars? A big header image?</b></p>
+<!-- TODO: Make this look nice. Probably a grid of cars? A big header image? -->
+{% if recent_vehicles %}
+<br/>
+<h1>Recently Added Vehicles</h1>
+    <table>
+        <thead>
+            <tr>
+                <th><div>Price</div></th>
+                <th><div>Discount</div></th>
+                <th><div>Year</div></th>
+                <th><div>Make</div></th>
+                <th><div>Model</div></th>
+                <th><div>Trim</div></th>
+                <th><div>Colour</div></th>
+                <th><div>Type</div></th>
+                <th><div>Kilometres</div></th>
+                <th><div>Max Range</div></th>
+                <th><div>Description</div></th>
+                <th><div>Date Added</div></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vehicle in recent_vehicles %}
+            <tr>
+                <td><div>${{ '%0.2f'|format(vehicle.price|float) }}</div></td>
+                <td><div>${{ '%0.2f'|format(vehicle.discount|float) }} ({{ '%0.0f'|format(vehicle.discount_percentage|float) }}%)</div></td>
+                <td><div>{{ vehicle.year }}</div></td>
+                <td><div>{{ vehicle.make }}</div></td>
+                <td><div>{{ vehicle.model }}</div></td>
+                <td><div>{{ vehicle.trim }}</div></td>
+                <td><div>{{ vehicle.colour }}</div></td>
+                <td><div>{{ vehicle.type }}</div></td>
+                <td><div>{{ vehicle.kilometres }}</div></td>
+                <td><div>{{ vehicle.max_range }}</div></td>
+                <td><div>{{ vehicle.description }}</div></td>
+                <td><div>{{ vehicle.date_added }}</div></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if not show_all %}
+    <form action="{{ url_for('main.new_cars') }}" method="get">
+        <button>See All</button>
+    </form>
+    {% endif %}
+{% endif %}
+
+{% if hot_deals %}
+<br/>
+<h1>Hot Deals</h1>
+    <table>
+        <thead>
+            <tr>
+                <th><div>Price</div></th>
+                <th><div>Discount</div></th>
+                <th><div>Year</div></th>
+                <th><div>Make</div></th>
+                <th><div>Model</div></th>
+                <th><div>Trim</div></th>
+                <th><div>Colour</div></th>
+                <th><div>Type</div></th>
+                <th><div>Kilometres</div></th>
+                <th><div>Max Range</div></th>
+                <th><div>Description</div></th>
+                <th><div>Date Added</div></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vehicle in hot_deals %}
+            <tr>
+                <td><div>${{ '%0.2f'|format(vehicle.price|float) }}</div></td>
+                <td><div>${{ '%0.2f'|format(vehicle.discount|float) }} ({{ '%0.0f'|format(vehicle.discount_percentage|float) }}%)</div></td>
+                <td><div>{{ vehicle.year }}</div></td>
+                <td><div>{{ vehicle.make }}</div></td>
+                <td><div>{{ vehicle.model }}</div></td>
+                <td><div>{{ vehicle.trim }}</div></td>
+                <td><div>{{ vehicle.colour }}</div></td>
+                <td><div>{{ vehicle.type }}</div></td>
+                <td><div>{{ vehicle.kilometres }}</div></td>
+                <td><div>{{ vehicle.max_range }}</div></td>
+                <td><div>{{ vehicle.description }}</div></td>
+                <td><div>{{ vehicle.date_added }}</div></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if not show_all %}
+    <form action="{{ url_for('main.hot_deals') }}" method="get">
+        <button>See All</button>
+    </form>
+    {% endif %}
+{% endif %}
 {% endblock %}
