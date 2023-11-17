@@ -3,7 +3,8 @@ from flask_login import login_user, current_user, logout_user, login_required
 from ..forms import RegistrationForm, LoginForm, UpdateAccountForm
 from ..extensions import db, bcrypt
 from ..models.user import User
-from .user.controller import create_user
+from .user.create import create_user
+from .user.services import save_picture
 
 auth = Blueprint("auth", __name__)
 
@@ -59,9 +60,13 @@ def logout():
 def account():
     form = UpdateAccountForm()
     if form.validate_on_submit():
+        if form.profile_pic.data:
+            pic_file = save_picture(form.profile_pic.data)
+            current_user.image_file = pic_file
         current_user.username = form.username.data
         current_user.email = form.email.data
         db.session.commit()
+        
         flash("Account updated!", "success")
         return redirect(url_for("auth.account"))
     elif request.method == "GET":  # populate form with current user info on
