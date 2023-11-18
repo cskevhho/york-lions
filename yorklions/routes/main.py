@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
 from ..forms import RegistrationForm, LoginForm
-from ..routes.catalogue import recent, hot_deals as deals
+from ..routes.catalogue import recent, hot_deals as deals, all_vehicles
 from .trade_in import create as trade_in_form
 
 main = Blueprint("main", __name__)
@@ -25,7 +25,13 @@ def main_index():
 
 @main.route("/shop/")
 def shop():
-    return render_template("index.html")
+    response = all_vehicles.get_all_vehicles()
+    if response[1] == 200:
+        vehicles = response[0]
+    else:
+        vehicles = None
+
+    return render_template("listing-view.html", title="All Vehicles", vehicles=vehicles)
 
 @main.route("/new-cars/")
 def new_cars():
@@ -35,7 +41,7 @@ def new_cars():
     else:
         recent_vehicles = None
 
-    return render_template("index.html", recent_vehicles=recent_vehicles, show_all=True)
+    return render_template("listing-view.html", title="Recently-Added Vehicles", vehicles=recent_vehicles)
 
 @main.route("/reviews/")
 def reviews():
@@ -58,7 +64,7 @@ def hot_deals():
     else:
         hot_deals_vehicles = None
 
-    return render_template("index.html", hot_deals=hot_deals_vehicles, show_all=True)
+    return render_template("listing-view.html", title="Hot Deals", vehicles=hot_deals_vehicles)
 
 @main.route("/admin/", methods=["GET", "POST"])
 def admin_dash():
