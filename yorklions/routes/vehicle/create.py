@@ -15,10 +15,13 @@ def create_vehicle(
     max_range,
     description,
     date_added=None,
-    user_id,
+    history=None  # Add history as an optional parameter
 ):
     if date_added is None:
         date_added = datetime.now().strftime("%F-%R")
+    if history is None:
+        history = "Default history"  # Provide a default value
+
     new_vehicle = Vehicle(
         price=price,
         discount=discount,
@@ -32,7 +35,7 @@ def create_vehicle(
         max_range=max_range,
         description=description,
         date_added=date_added,
-        user_id=user_id,
+        history=history  # Include history
     )
     db.session.add(new_vehicle)
     db.session.commit()
