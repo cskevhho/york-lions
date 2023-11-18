@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, request
+import os
+from flask import Blueprint, current_app, render_template, flash, redirect, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
 from ..forms import RegistrationForm, LoginForm, UpdateAccountForm
 from ..extensions import db, bcrypt
@@ -62,7 +63,9 @@ def account():
     if form.validate_on_submit():
         if form.profile_pic.data:
             pic_file = save_picture(form.profile_pic.data)
+            remove_old_picture(current_user.image_file)
             current_user.image_file = pic_file
+        
         current_user.username = form.username.data
         current_user.email = form.email.data
         db.session.commit()
@@ -77,3 +80,9 @@ def account():
     return render_template(
         "account.html", title="Account", image_file=image_file, form=form
     )
+
+def remove_old_picture(file_name):
+    account_static_folder = os.path.join(current_app.root_path, 'static', 'account')
+    old_image_path = os.path.join(account_static_folder, file_name)
+    if os.path.exists(old_image_path):
+        os.remove(old_image_path)
