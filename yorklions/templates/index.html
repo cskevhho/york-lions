@@ -18,11 +18,11 @@
         <tbody>
             {% for vehicle in recent_vehicles %}
             <tr>
-                <td><div><a href="vehicle/{{ vehicle.id }}"><img src="{{ vehicle.image_file }}" alt="Vehicle Image" width="100"></div></td>
+                <td><div><a href="/vehicle/{{ vehicle.id }}"><img src="{{ vehicle.image_file }}" alt="Vehicle Image" width="100"></div></td>
                 <td><div>${{ '%0.2f'|format(vehicle.price|float) }}</div></td>
                 <td><div>${{ '%0.2f'|format(vehicle.discount|float) }} ({{ '%0.0f'|format(vehicle.discount_percentage|float) }}%)</div></td>
                 <td><div>{{ vehicle.year }} {{ vehicle.make }} {{vehicle.model}} {{vehicle.trim}} </div></td>
-                <td><div>{{ vehicle.kilometres }}</div></td>
+                <td><div>{{ vehicle.kilometres }} km</div></td>
             </tr>
             {% endfor %}
         </tbody>
@@ -50,11 +50,11 @@
         <tbody>
             {% for vehicle in hot_deals %}
             <tr>
-                <td><div><a href="vehicle/{{ vehicle.id }}"><img src="{{ vehicle.image_file }}" alt="Vehicle Image" width="100"></a></div></td>
+                <td><div><a href="/vehicle/{{ vehicle.id }}"><img src="{{ vehicle.image_file }}" alt="Vehicle Image" width="100"></a></div></td>
                 <td><div>${{ '%0.2f'|format(vehicle.price|float) }}</div></td>
                 <td><div>${{ '%0.2f'|format(vehicle.discount|float) }} ({{ '%0.0f'|format(vehicle.discount_percentage|float) }}%)</div></td>
                 <td><div>{{ vehicle.year }} {{ vehicle.make }} {{vehicle.model}} {{vehicle.trim}} </div></td>
-                <td><div>{{ vehicle.kilometres }}</div></td>
+                <td><div>{{ vehicle.kilometres }} km</div></td>
             </tr>
             {% endfor %}
         </tbody>
