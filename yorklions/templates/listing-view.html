@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<!-- TODO: Make this look nice. Probably a grid of cars? A big header image? -->
+<br/>
+<h1>{{ title }}</h1>
+    <table>
+        <thead>
+            <tr>
+                <th><div>Picture</div></th>
+                <th><div>Price</div></th>
+                <th><div>Discount</div></th>
+                <th><div>Year</div></th>
+                <th><div>Make</div></th>
+                <th><div>Model</div></th>
+                <th><div>Trim</div></th>
+                <th><div>Colour</div></th>
+                <th><div>Type</div></th>
+                <th><div>Kilometres</div></th>
+                <th><div>Max Range</div></th>
+                <th><div>Description</div></th>
+                <th><div>Date Added</div></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vehicle in vehicles %}
+            <tr>
+                <td><div><a href="vehicle/{{ vehicle.id }}"><img src="{{ vehicle.image_file }}" alt="Vehicle Image" width="100"></a></div></td>
+                <td><div>${{ '%0.2f'|format(vehicle.price|float) }}</div></td>
+                <td><div>${{ '%0.2f'|format(vehicle.discount|float) }} ({{ '%0.0f'|format(vehicle.discount_percentage|float) }}%)</div></td>
+                <td><div>{{ vehicle.year }}</div></td>
+                <td><div>{{ vehicle.make }}</div></td>
+                <td><div>{{ vehicle.model }}</div></td>
+                <td><div>{{ vehicle.trim }}</div></td>
+                <td><div>{{ vehicle.colour }}</div></td>
+                <td><div>{{ vehicle.type }}</div></td>
+                <td><div>{{ vehicle.kilometres }}</div></td>
+                <td><div>{{ vehicle.max_range }}</div></td>
+                <td><div>{{ vehicle.description }}</div></td>
+                <td><div>{{ vehicle.date_added }}</div></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
