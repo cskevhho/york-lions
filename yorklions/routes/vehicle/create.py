@@ -15,6 +15,7 @@ def create_vehicle(
     max_range,
     description,
     date_added=None,
+    is_for_sale=True,
     history=None  # Add history as an optional parameter
 ):
     if date_added is None:
@@ -35,8 +36,9 @@ def create_vehicle(
         max_range=max_range,
         description=description,
         date_added=date_added,
+        is_for_sale=is_for_sale,
         history=history  # Include history
     )
     db.session.add(new_vehicle)
     db.session.commit()
-    return {"message": f"User '{new_vehicle.id}' created successfully"}, 200
+    return {"message": f"Vehicle '{new_vehicle.id}' created successfully"}, 200

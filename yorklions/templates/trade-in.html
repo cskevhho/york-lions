@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<!-- TODO: Make this look nice, add some text above explaining the process. -->
+
+{% if current_user.is_authenticated %} <!-- Flask session management is just :chefs_kiss: -->
+    <form action="{{ url_for('main.trade_in') }}" method="post">
+        <fieldset>
+            <legend>
+                <h2>Vehicle Details</h2>
+            </legend>
+            <label for="year">Year:</label><br/>
+            <input type="number" id="year" name="year"/><br/>
+            <label for="make">Make:</label><br/>
+            <input type="text" id="make" name="make"/><br/>
+            <label for="model">Model:</label><br/>
+            <input type="text" id="model" name="model"/><br/>
+            <label for="trim">Trim Level:</label><br/>
+            <input type="text" id="trim" name="trim"/><br/>
+            <label for="colour">Colour:</label><br/>
+            <select id="colour" name="colour">
+                <option value="black">Black</option>
+                <option value="white">White</option>
+                <option value="grey">Grey</option>
+                <option value="red">Red</option>
+                <option value="orange">Orange</option>
+                <option value="yellow">Yellow</option>
+                <option value="green">Green</option>
+                <option value="blue">Blue</option>
+                <option value="purple">Purple</option>
+                <option value="pink">Pink</option>
+                <option value="beige">Beige</option>
+                <option value="brown">Brown</option>
+            </select><br/>
+            <label for="type">Vehicle Type:</label><br/>
+            <select id="type" name="type">
+                <option value="sedan">Sedan</option>
+                <option value="coupe">Coupe</option>
+                <option value="sports_car">Sports Car</option>
+                <option value="station_wagon">Station Wagon</option>
+                <option value="coupe">Hatchback</option>
+                <option value="coupe">Convertible</option>
+                <option value="coupe">Pickup Truck</option>
+                <option value="coupe">Minivan</option>
+                <option value="coupe">SUV</option>
+            </select><br/>
+            <label for="kilometres">Kilometres:</label><br/>
+            <input type="number" id="kilometres" name="kilometres"/><br/>
+            <label for="max_range">Max Range:</label><br/>
+            <input type="number" id="max_range" name="max_range"/><br/>
+            <label for="accidents">Describe any accidents or repairs:</label><br/>
+            <textarea id="accidents" name="accidents" rows="4" cols="50"></textarea><br/>
+            <label for="details">Describe any other details (e.g. add-ons, packages, etc.):</label><br/>
+            <textarea id="details" name="details" rows="4" cols="50"></textarea><br/>
+            <input type="submit" value="Submit">
+        </fieldset>
+    </form>
+{% else %}
+    <h3><a href="{{ url_for('auth.login') }}">Sign In</a> or <a href="{{ url_for('auth.register') }}">Register</a> to sell your car today!</h3>
+{% endif %}
+
+
+{% endblock %}

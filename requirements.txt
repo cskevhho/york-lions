@@ -6,3 +6,4 @@ flask-bcrypt
 flask-login
 sqlalchemy
 pillow
+email_validator

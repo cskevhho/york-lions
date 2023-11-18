@@ -1,18 +1,16 @@
 {% extends "admin_layout.html" %}
 {% block content %}
-<form action="{{ url_for('vehicle.create') }}" method="post">
-    <label for="price">Price:</label>
-    <input type="number" id="price" name="price"/><br/>
-    <label for="discount">Discount:</label>
-    <input type="number" id="discount" name="discount"/><br/>
+<form action="{{ url_for('trade_in.create') }}" method="post">
+    <label for="user_id">User ID:</label>
+    <input type="number" id="user_id" name="user_id"/><br/>
     <label for="year">Year:</label>
-    <input type="number" id="year" name="year"/><br/>
+    <input type="number" id="year" name="year" /><br />
     <label for="make">Make:</label>
-    <input type="text" id="make" name="make"/><br/>
+    <input type="text" id="make" name="make" /><br />
     <label for="model">Model:</label>
-    <input type="text" id="model" name="model"/><br/>
+    <input type="text" id="model" name="model" /><br />
     <label for="trim">Trim:</label>
-    <input type="text" id="trim" name="trim"/><br/>
+    <input type="text" id="trim" name="trim" /><br />
     <label for="colour">Colour:</label>
     <select id="colour" name="colour">
         <option value="black">Black</option>
@@ -27,7 +25,7 @@
         <option value="pink">Pink</option>
         <option value="beige">Beige</option>
         <option value="brown">Beige</option>
-    </select><br/>
+    </select><br />
     <label for="type">Vehicle Type:</label>
     <select id="type" name="type">
         <option value="sedan">Sedan</option>
@@ -39,17 +37,19 @@
         <option value="coupe">Pickup Truck</option>
         <option value="coupe">Minivan</option>
         <option value="coupe">SUV</option>
-    </select><br/>
+    </select><br />
     <label for="kilometres">Kilometres:</label>
-    <input type="number" id="kilometres" name="kilometres"/><br/>
+    <input type="number" id="kilometres" name="kilometres" /><br />
     <label for="max_range">Max Range:</label>
-    <input type="number" id="max_range" name="max_range"/><br/>
-    <label for="description">Description:</label>
-    <input type="text" id="description" name="description"/><br/>
+    <input type="number" id="max_range" name="max_range" /><br />
+    <label for="status">Status:</label>
+    <input type="text" id="status" name="status"/><br/>
+    <label for="quote">Quote:</label>
+    <input type="number" id="quote" name="quote"/><br/>
+    <label for="accidents">Accidents/Repairs:</label>
+    <textarea id="accidents" name="accidents"></textarea><br/>
+    <label for="details">Additional Details:</label>
+    <textarea id="details" name="details"></textarea><br />
     <input type="submit" value="Create Vehicle"/>
-</form>
-
-<form action="{{ url_for('vehicle.create_dummy_data') }}" method="post">
-    <button>Create dummy data</button>
 </form>
 {% endblock content %}
