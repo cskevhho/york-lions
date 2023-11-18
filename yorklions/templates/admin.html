@@ -41,4 +41,60 @@
     {% if message %}
     <p style="color: red;"><b>{{ message }}</b></p>
     {% endif %}
+
+    {% if salesReport %}
+    <h1>Website sale report</h1>
+    <table>
+        <thead>
+            <tr>
+                <th><div>Purchase ID</div></th>
+                <th><div>First name</div></th>
+                <th><div>Last name</div></th>
+                <th><div>Status</div></th>
+                <th><div>Address ID</div></th>
+                <th><div>Product order</div></th>
+                <th><div>Purchase date</div></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for po in salesReport %}
+            <tr>
+                <td><div>${{ po.id }}</div></td>
+                <td><div>{{ po.fname }}</div></td>
+                <td><div>{{ po.lname }}</div></td>
+                <td><div>{{ po.ststus }}</div></td>
+                <td><div>{{ po.address_id }}</div></td>
+                <td><div>{{ po.product_orders }}</div></td>
+                <td><div>{{ po.date }}</div></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>>
+    {% endif %}
+
+    {% if eventReport %}
+    <h1>Website usage report</h1>
+    <table>
+        <thead>
+            <tr>
+                <th><div>Event ID</div></th>
+                <th><div>IP address</div></th>
+                <th><div>Date</div></th>
+                <th><div>Vechile ID</div></th>
+                <th><div>Event type</div></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for visitevent in eventReport %}
+            <tr>
+                <td><div>${{ visitevents.id }}</div></td>
+                <td><div>{{ visitevents.ipaddress }}</div></td>
+                <td><div>{{ visitevents.date }}</div></td>
+                <td><div>{{ visitevents.vehicle_id }}</div></td>
+                <td><div>{{ visitevents.eventtype }}</div></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>>
+    {% endif %}
 {% endblock content %}
