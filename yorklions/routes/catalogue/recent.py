@@ -22,7 +22,6 @@ def get_recent_vehicles(limit=None, descending=True):
     vehicle_data = [
         {
             "id": vehicle.id,
-            "user_id": vehicle.user_id,
             "price": vehicle.price,
             "discount": vehicle.discount,
             "discount_percentage": vehicle.discount_percentage,

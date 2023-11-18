@@ -22,9 +22,8 @@ def create():
         kilometres = request.form["kilometres"]
         max_range = request.form["max_range"]
         description = request.form["description"]
-        user_id = current_user.id
         
-        return create_vehicle(price, discount, year, make, model, trim, colour, type, kilometres, max_range, description, user_id)
+        return create_vehicle(price, discount, year, make, model, trim, colour, type, kilometres, max_range, description)
 
     return render_template("vehicle/create.html")
 
@@ -81,7 +80,6 @@ def delete():
 @vehicle_ctrl.route("/create_dummy_data", methods=["GET", "POST"])
 
 def create_dummy_data():
-    user_id = current_user.id
     for i in range(10):
         price = random.randint(500000, 15000000) / 100.0
         discount = random.randint(0, int(price-1) * 100) / 100.0
@@ -108,5 +106,5 @@ def create_dummy_data():
         date_hour = random.randint(0, 23)
         date_minute = random.randint(0, 59)
         date_added = f'{date_year}{("-0" if date_month < 10 else "-")}{date_month}{("-0" if date_day < 10 else "-")}{date_day}{("-0" if date_hour < 10 else "-")}{date_hour}{(":0" if date_minute < 10 else ":")}{date_minute}'
-        create_vehicle(price, discount, year, car["make"], car["model"], car["trim"], colour, car["vehicle_type"], kilometres, max_range, description, date_added, user_id)
+        create_vehicle(price, discount, year, car["make"], car["model"], car["trim"], colour, car["vehicle_type"], kilometres, max_range, description, date_added)
     return redirect(url_for('main.admin_dash'))

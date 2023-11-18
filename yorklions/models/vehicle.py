@@ -21,10 +21,9 @@ class Vehicle(db.Model):
     description: Mapped[str] = mapped_column(String, nullable=False)
     image_file: Mapped[str] = mapped_column(String, nullable=False, default="default.jpg")
     date_added: Mapped[str] = mapped_column(String, nullable=False)
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)    
+    history: Mapped[List[str]] = mapped_column(String)
     visit_events: Mapped[List["VisitEvent"]] = relationship()
     product_orders: Mapped[List["POVehicle"]] = relationship()
-
 
     
     @hybrid_property

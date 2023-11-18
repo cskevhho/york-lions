@@ -1,4 +1,4 @@
-from sqlalchemy import Integer, String, Boolean, Float
+from sqlalchemy import Integer, String, Boolean, Float, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from ..extensions import db, login_manager
 from flask_login import UserMixin  # adds login_manager required methods
@@ -17,5 +17,5 @@ class User(db.Model, UserMixin):
     password: Mapped[str] = mapped_column(String, nullable=False)
     is_admin: Mapped[bool] = mapped_column(Boolean, default=False)
     image_file: Mapped[str] = mapped_column(String, nullable=False, default="default.jpg")
-    vehicles: Mapped[List["Vehicle"]] = relationship()
-    
+    address_id: Mapped[int] = mapped_column(Integer, ForeignKey('addresses.id'), nullable=True)
+    address: Mapped["Address"] = relationship("Address", back_populates="users")
