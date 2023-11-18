@@ -1,12 +1,8 @@
 import random
 from flask import Blueprint, render_template, request, redirect, url_for, session
-from flask_login import current_user
-from .services import create_vehicle, read_vehicle, update_vehicle, delete_all
-from ...models.vehicle import Vehicle
-import time
+from .services import create_vehicle, read_vehicles, update_vehicle, delete_all
 
 vehicle_ctrl = Blueprint("vehicle", __name__)
-
 
 @vehicle_ctrl.route("/create", methods=["GET", "POST"])
 def create():
@@ -31,7 +27,7 @@ def create():
 @vehicle_ctrl.route("/read", methods=["GET", "POST"])
 def read():
     if request.method == "POST":
-        return read_vehicle(request)
+        return read_vehicles(request)
 
     return render_template("vehicle/read.html")
 

@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, flash, redirect, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
 from ..forms import RegistrationForm, LoginForm
 from ..routes.catalogue import recent, hot_deals as deals
+from .trade_in import create as trade_in_form
 
 main = Blueprint("main", __name__)
 
@@ -40,9 +41,14 @@ def new_cars():
 def reviews():
     return render_template("index.html")
 
-@main.route("/trade-in/")
+@main.route("/trade-in/", methods=["GET", "POST"])
 def trade_in():
-    return render_template("index.html")
+    if request.method == "POST":
+        trade_in_form.create_trade_in()
+        flash("Trade-in request submitted!", "success")
+        return redirect(url_for("main.main_index"))
+
+    return render_template("trade-in.html")
 
 @main.route("/hot-deals/")
 def hot_deals():

@@ -19,3 +19,5 @@ class User(db.Model, UserMixin):
     image_file: Mapped[str] = mapped_column(String, nullable=False, default="default.jpg")
     address_id: Mapped[int] = mapped_column(Integer, ForeignKey('addresses.id'), nullable=True)
     address: Mapped["Address"] = relationship("Address", back_populates="users")
+    trade_ins = db.relationship('TradeIn', backref='user', lazy=True)
+    

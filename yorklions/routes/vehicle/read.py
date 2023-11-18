@@ -1,8 +1,8 @@
 from ...models.vehicle import Vehicle
 from ...extensions import db
+from ..vehicle.utils import vehicle_json
 
-
-def read_vehicle(request):
+def read_vehicles(request):
     search_type = request.form['search_type']
     search_text = request.form['search_field']
 
@@ -38,22 +38,5 @@ def read_vehicle(request):
     if not vehicles:
         return {"message": "No vehicles found"}, 400
 
-    vehicle_data = [
-        {
-            "id": vehicle.id,
-            "price": vehicle.price,
-            "discount": vehicle.discount,
-            "year": vehicle.year,
-            "make": vehicle.make,
-            "model": vehicle.model,
-            "trim": vehicle.trim,
-            "colour": vehicle.colour,
-            "type": vehicle.type,
-            "kilometres": vehicle.kilometres,
-            "max_range": vehicle.max_range,
-            "description": vehicle.description,
-            "date_added": vehicle.date_added
-        }
-        for vehicle in vehicles
-    ]  # note this is will return that json format response thing
+    vehicle_data = vehicle_json(vehicles) # note this is will return that json format response thing
     return {"vehicles": vehicle_data}, 200

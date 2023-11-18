@@ -1,0 +1,21 @@
+{% extends "admin_layout.html" %}
+
+{% block content %}
+<form action="{{ url_for('trade_in.update') }}" method="post">
+    <label for="id">ID:</label>
+    <input type="number" id="id" name="id"><br />
+    <label for="user_id">User ID:</label>
+    <input type="number" id="user_id" name="user_id"/><br/>
+    <label for="vehicle_id">Vehicle ID:</label>
+    <input type="number" id="vehicle_id" name="vehicle_id"/><br/>
+    <label for="status">Status:</label>
+    <input type="text" id="status" name="status"/><br/>
+    <label for="quote">Quote:</label>
+    <input type="number" id="quote" name="quote"/><br/>
+    <label for="accidents">Accidents/Repairs:</label>
+    <textarea id="accidents" name="accidents"></textarea><br/>
+    <label for="details">Additional Details:</label>
+    <textarea id="details" name="details"></textarea><br />
+    <input type="submit" value="Update Vehicle">
+</form>
+{% endblock %}
