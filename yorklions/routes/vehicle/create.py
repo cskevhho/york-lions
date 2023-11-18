@@ -14,8 +14,8 @@ def create_vehicle(
     kilometres,
     max_range,
     description,
-    user_id,
     date_added=None,
+    user_id,
 ):
     if date_added is None:
         date_added = datetime.now().strftime("%F-%R")
@@ -31,8 +31,8 @@ def create_vehicle(
         kilometres=kilometres,
         max_range=max_range,
         description=description,
-        user_id=user_id,
         date_added=date_added,
+        user_id=user_id,
     )
     db.session.add(new_vehicle)
     db.session.commit()
