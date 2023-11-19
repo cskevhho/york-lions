@@ -27,3 +27,6 @@ def read_user(request):
         for user in users
     ]  # note this is will return that json format response thing
     return {"users": user_data}, 200
+
+def get_user(id):
+    return db.session.query(User).filter_by(id=id).first()

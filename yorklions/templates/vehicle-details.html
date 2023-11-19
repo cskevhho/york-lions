@@ -14,9 +14,7 @@
         <h2>${{ '%0.2f'|format(vehicle.price|float) }}</h2>
     {% endif %}
     <br/>
-    <form action="print(\{\{ url_for('something.add_to_cart') \}\});" method="post">
-        <label for="quantity">Quantity:</label>
-        <input type="number" id="quantity" name="quantity"/><br/>
+    <form action="{{ url_for('cart.add', vehicle_id=vehicle.id) }}" method="post">
         <input type="submit" value="Add to Cart" />
     </form>
     <br/>

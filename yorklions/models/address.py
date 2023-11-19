@@ -11,6 +11,6 @@ class Address(db.Model):
     street: Mapped[str] = mapped_column(String, nullable=False)
     city: Mapped[str] = mapped_column(String, nullable=False)
     province: Mapped[str] = mapped_column(String(2), nullable=False)
-    zipcode: Mapped[str] = mapped_column(String(6), nullable=False)
+    postal_code: Mapped[str] = mapped_column(String(6), nullable=False)
     phone: Mapped[str] = mapped_column(String)
-    users: Mapped[List["User"]] = relationship("User", back_populates="address")
+    user: Mapped["User"] = relationship("User", back_populates="address")

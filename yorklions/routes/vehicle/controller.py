@@ -73,12 +73,12 @@ def delete():
 
     return render_template("vehicle/delete.html")
 
-@vehicle_ctrl.route("/create_dummy_data", methods=["GET", "POST"])
 
+@vehicle_ctrl.route("/create_dummy_data", methods=["GET", "POST"])
 def create_dummy_data():
     for i in range(10):
         price = random.randint(500000, 15000000) / 100.0
-        discount = random.randint(0, int(price-1) * 100) / 100.0
+        discount = random.randint(0, int(price-1) * 100) / 200.0
         year = random.randint(2012, 2023)
         cars = [
             {"make": "Chevrolet", "model": "Bolt", "trim": "LT", "vehicle_type": "Hatchback"},

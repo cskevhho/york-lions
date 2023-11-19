@@ -16,8 +16,9 @@ class User(db.Model, UserMixin):
     email: Mapped[str] = mapped_column(String, unique=True, nullable=False)
     password: Mapped[str] = mapped_column(String, nullable=False)
     is_admin: Mapped[bool] = mapped_column(Boolean, default=False)
+    is_guest: Mapped[bool] = mapped_column(Boolean, default=False)
     image_file: Mapped[str] = mapped_column(String, nullable=False, default="default.jpg")
     address_id: Mapped[int] = mapped_column(Integer, ForeignKey('addresses.id'), nullable=True)
-    address: Mapped["Address"] = relationship("Address", back_populates="users")
-    trade_ins = db.relationship('TradeIn', backref='user', lazy=True)
+    address: Mapped["Address"] = relationship("Address", back_populates="user")
+    trade_ins = relationship('TradeIn', backref='user', lazy=True)
     

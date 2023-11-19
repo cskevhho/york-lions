@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>Checkout</h1>
+
+<h2>Total: ${{ '%0.2f'|format(total|float) }}</h2>
+<br/>
+<form action="{{ url_for('cart.complete_order') }}" method="post">
+    <label for="shipping_info">Shipping Information</label>
+    <fieldset name="shipping_info" id="shipping_info">
+        <label for="fname">First name:</label>
+        <input type="text" id="fname" name="fname" /><br />
+        <label for="lname">Last name:</label>
+        <input type="text" id="lname" name="lname" /><br />
+        <label for="phone">Phone number:</label>
+        <input type="text" id="phone" name="phone" /><br />
+        <label for="street_address">Street address:</label>
+        <input type="text" id="street_address" name="street_address" /><br />
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" /><br />
+        <label for="postal_code">Postal Code:</label>
+        <input type="text" id="postal_code" name="postal_code" /><br />
+        <label for="province">Province:</label>
+        <input type="text" id="province" name="province" /><br />
+    </fieldset>
+    <br/>
+    <label for="payment_info">Payment Information</label>
+    <fieldset name="payment_info" id="payment_info">
+        <label for="cc_type">Card type:</label>
+        <select id="cc_type" name="cc_type">
+            <option value="visa">Visa</option>
+            <option value="mastercard">MasterCard</option>
+            <option value="american_express">American Express</option>
+        </select><br/>
+        <label for="cc_num">Credit card number:</label>
+        <input type="text" id="cc_num" name="cc_num" />
+        <label for="cc_cvv">CVV:</label>
+        <input type="number" id="cc_cvv" name="cc_cvv" /><br />
+        <label for="cc_name">Name on card:</label>
+        <input type="text" id="cc_name" name="cc_name" /><br />
+        <label for="cc_exp">Expiration date:</label>
+        <fieldset name="cc_exp" id="cc_exp">
+            <label for="cc_exp_month">MM:</label>
+            <input type="number" id="cc_exp_month" name="cc_exp_month" />
+            <label for="cc_exp_year">YY:</label>
+            <input type="number" id="cc_exp_year" name="cc_exp_year" />
+        </fieldset>
+    </fieldset>
+    <br/>
+    <input type="submit" value="Complete Order" />
+</form>
+
+{% endblock content %}
