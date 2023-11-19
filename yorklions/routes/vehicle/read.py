@@ -2,6 +2,9 @@ from ...models.vehicle import Vehicle
 from ...extensions import db
 from ..vehicle.utils import vehicle_json
 
+def get_vehicle(id):
+    return db.session.query(Vehicle).filter_by(id=id).first()
+
 def read_vehicles(request):
     search_type = request.form['search_type']
     search_text = request.form['search_field']
