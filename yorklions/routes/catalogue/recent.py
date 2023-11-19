@@ -1,6 +1,6 @@
 from ...models.vehicle import Vehicle
 from ...extensions import db
-from ..vehicle.utils import vehicle_json
+from ..vehicle.utils import vehicle_json, generate_image_url
 
 def get_recent_vehicles(limit=None, descending=True):
 
@@ -19,6 +19,9 @@ def get_recent_vehicles(limit=None, descending=True):
 
     if not vehicles:
         return {"message": "No vehicles found"}, 400
+    
+    for vehicle in vehicles:
+        vehicle.image_file = generate_image_url(vehicle)
 
     vehicle_data = vehicle_json(vehicles) # note this is will return that json format response thing
     return vehicle_data, 200
