@@ -15,12 +15,12 @@ def add():
 
     return view_cart()
 
-@cart_ctrl.route("/remove", methods=["GET", "POST"])
+@cart_ctrl.route("/remove", methods=["POST"])
 def remove():
-    if request.method == "POST":
-        return remove_vehicle()
+    item_id = request.form.get('item_id')
+    return remove_vehicle(item_id)
 
-    return render_template("cart.html")
+    return view_cart()
 
 @cart_ctrl.route("/cart", methods=["GET", "POST"])
 def view():
@@ -33,3 +33,8 @@ def checkout():
 @cart_ctrl.route("/complete_order", methods=["GET", "POST"])
 def complete_order():
     return submit_order()
+
+@cart_ctrl.route("/clear_cart", methods=["POST"])
+def clear_cart():
+    session['cart'] = []
+    return view_cart()

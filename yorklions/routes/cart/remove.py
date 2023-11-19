@@ -5,7 +5,7 @@ def remove_vehicle(item_id):
         cart_items = session['cart']
         # Find the index of the item to remove from the cart
         for index, item in enumerate(cart_items):
-            if item['id'] == item_id:
+            if item['id'] == int(item_id):
                 del cart_items[index]  # Remove the item from the cart
                 session['cart'] = cart_items  # Update the cart in the session
                 return {"message": "Item removed successfully"}, 200

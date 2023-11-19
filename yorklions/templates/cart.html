@@ -9,6 +9,7 @@
                 <th>Price</th>
                 <th>Discount</th>
                 <th>Subtotal</th>
+                <th>Action</th>
                 <!-- <th>Total</th> -->
             </tr>
         </thead>
@@ -19,6 +20,12 @@
                 <td>${{ '%0.2f'|format(item['price']|float) }}</td>
                 <td>-${{ '%0.2f'|format(item['discount']|float) }}</td>
                 <td>${{ '%0.2f'|format(item['total_price']|float) }}</td>
+                <td>
+                    <form action="/remove" method="POST">
+                        <input type="hidden" name="item_id" value="{{ item['id'] }}">
+                        <button type="submit">Remove from Cart</button>
+                    </form>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
@@ -29,6 +36,9 @@
     {% if current_user.is_authenticated %}
         <form action="/checkout" method="POST">
             <button type="submit">Checkout</button>
+        </form>
+        <form action="/clear_cart" method="POST">
+            <button type="submit">Clear Cart</button>
         </form>
     {% else %}
         <form action="/checkout" method="POST">
