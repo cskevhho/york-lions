@@ -18,9 +18,11 @@ def add():
 @cart_ctrl.route("/remove", methods=["POST"])
 def remove():
     item_id = request.form.get('item_id')
-    return remove_vehicle(item_id)
-
-    return view_cart()
+    if remove_vehicle(item_id):
+        flash('Item removed successfully')
+    else:
+        flash('Item not found in cart')
+    return redirect(url_for('cart.view'))
 
 @cart_ctrl.route("/cart", methods=["GET", "POST"])
 def view():
