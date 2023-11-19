@@ -1,6 +1,7 @@
 from flask import session, request, flash, redirect, url_for
 from flask_login import current_user
 from ...models.povehicle import POVehicle
+from ...models.vehicle import Vehicle
 
 from ..address.create import create_address
 from ..po.create import create_po
@@ -34,12 +35,14 @@ def submit_order():
 
     vehicles = []
     for item in cart_items:
-        new_vehicle = POVehicle(id=item["id"], price=item["total_price"])
+        vehicle = Vehicle.query.get(item["id"])
+        new_vehicle = POVehicle(price=item["total_price"])
         vehicles.append(new_vehicle)
 
     if current_user.is_anonymous:
         unique_str = f'guest_user_{uuid.uuid4().hex}'
-        user_id = create_user(username=unique_str, email="", password="", is_guest=True)[0]["new_user_id"]
+        dummy_email = f"{unique_str}@guest.com"
+        user_id = create_user(username=unique_str, email=dummy_email, password="", is_guest=True)[0]["new_user_id"]
         user = get_user(user_id)
     else:
         user = current_user
