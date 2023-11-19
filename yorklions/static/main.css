@@ -78,3 +78,12 @@ ul {
   padding: 10px;
   margin-bottom: 10px;
 }
+
+#original_price {
+  text-decoration: line-through;
+}
+
+#discounted_price {
+  color: red;
+  font-weight: bold;
+}
