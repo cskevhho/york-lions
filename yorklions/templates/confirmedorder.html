@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if title %} <!-- If title is passed in render_template use title -->
+    <title>YORK L-IONS - {{ title }}</title>
+    {% else %}
+    <title>Confirmation Page</title>
+    {% endif %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+
+<body>
+    <div id="wrapper">
+        <header>
+            <h1>Order Confirmed</h1>
+        </header>
+
+        <div>
+            {{ po.date }} <br>
+            Order# {{ po.id }} <br><br>
+            {{ po.fname }}, {{ po.lname }} <br>
+            {{ po.phone }} <br>
+            {{ po.street }} <br>
+            {{ po.province }} <br>
+            {{ po.postal_code }} <br>
+            {{ po.province }}
+            Congratulations! Your order has been confirmed. <br><br> <br>
+
+
+            Your Order: <br>
+            {% for vehicle in po.vehicles %}
+            {{ vehicle.make }} {{ vehicle.model }} {{ vehicle.year }}<br>
+            {% endfor %}
+            
+        </div>
+
+        <footer>{% block footer %}{% endblock footer%}</footer>
+    </div>
+</body>
+
+</html>

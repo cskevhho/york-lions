@@ -36,8 +36,8 @@ def submit_order():
     vehicles = []
     for item in cart_items:
         vehicle = Vehicle.query.get(item["id"])
-        new_vehicle = POVehicle(price=item["total_price"])
-        vehicles.append(new_vehicle)
+        if vehicle is not None:
+            vehicles.append(vehicle)
 
     if current_user.is_anonymous:
         unique_str = f'guest_user_{uuid.uuid4().hex}'
@@ -50,9 +50,11 @@ def submit_order():
     result = create_address(street_address, city, province, postal_code, phone, user)
     address_id = result[0]["new_address_id"]
 
-    result = create_po(fname, lname, address_id, vehicles)
-
-    session.pop("cart")
+    result, status_code = create_po(fname, lname, address_id, vehicles)
+    po_id = result["new_po_id"]
+    
+    if "cart" in session:
+        session.pop("cart")
     delete_guest_users()
-    flash(result[0]["message"], "success" if result[1] == 200 else "danger")
-    return redirect(url_for('main.main_index'))
+    # should return redirect for confirmedorder.html
+    return redirect(url_for("confirmedorder.confirmed", po_id=po_id))

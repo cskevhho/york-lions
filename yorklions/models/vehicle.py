@@ -25,7 +25,7 @@ class Vehicle(db.Model):
     is_for_sale: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
     history: Mapped[List[str]] = mapped_column(String, nullable=True)
     visit_events: Mapped[List["VisitEvent"]] = relationship()
-    product_orders: Mapped[List["POVehicle"]] = relationship()
+    purchase_orders: Mapped[List['POVehicle']] = relationship('POVehicle', back_populates='vehicle')
 
     @hybrid_property
     def discount_percentage(self):

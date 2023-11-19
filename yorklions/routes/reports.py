@@ -14,7 +14,7 @@ def generate_sales_report(descending=True):
             "lname": po.lname,
             "status": po.ststus,
             "address id": po.address_id,
-            "product orders": po.product_orders,
+            "purchase orders": po.purchase_orders,
             "date": po.date 
         }
         for po in sales
