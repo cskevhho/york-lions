@@ -1,4 +1,5 @@
 from ...models.vehicle import Vehicle
+from flask import url_for
 
 def vehicle_json(vehicles: list[Vehicle]):
     vehicle_data = [
@@ -25,3 +26,6 @@ def vehicle_json(vehicles: list[Vehicle]):
         for vehicle in vehicles
     ]
     return vehicle_data
+
+def generate_image_url(vehicle):
+    return url_for("static", filename="vehicles/" + vehicle.image_file)
