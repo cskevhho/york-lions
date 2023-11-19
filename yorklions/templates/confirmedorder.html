@@ -26,14 +26,15 @@
             {{ po.street }} <br>
             {{ po.province }} <br>
             {{ po.postal_code }} <br>
-            {{ po.province }}
-            Congratulations! Your order has been confirmed. <br><br> <br>
+            {{ po.province }} <br>
+            ==================================== <br>
+            Congratulations! Your order has been confirmed. <br>
 
 
             Your Order: <br>
-            {% for vehicle in po.vehicles %}
-            {{ vehicle.make }} {{ vehicle.model }} {{ vehicle.year }}<br>
-            {% endfor %}
+            <!-- {% for vehicle in vehicles %}-->
+            <!-- {% end for loop bit %}-->
+            <!--Fill this in with vehicle make brand trim, and price-->
             
         </div>
 
