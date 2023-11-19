@@ -36,6 +36,7 @@
                 {% if current_user.is_authenticated %} <!-- Flask session management is just :chefs_kiss: -->
                 <li><a href="{{ url_for('auth.account') }}">Account</a></li>
                 <li><a href="{{ url_for('auth.logout') }}">Sign Out</a></li>
+                <li><a href="{{ url_for('cart.view') }}">Cart </a></li>
                 {% else %}
                 <li><a href="{{ url_for('auth.login') }}">Sign In</a></li>
                 <li><a href="{{ url_for('auth.register') }}">Register</a></li>

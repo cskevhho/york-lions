@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>Shopping Cart</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Item ID</th>
+            <th>Item Name</th>
+            <th>Price</th>
+            <!-- <th>Total</th> -->
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in session['cart'] %}
+        <tr>
+            <td>{{ item['id'] }}</td>
+            <td>{{ item['name'] }}</td>
+            <td>${{ item['price'] }}</td>
+            <!-- <td>${{ item['price'] }}</td> -->
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Total: ${{ total }}</h2>
+
+<form action="/checkout" method="POST">
+    <button type="submit">Checkout</button>
+</form>
+{% endblock content %}
