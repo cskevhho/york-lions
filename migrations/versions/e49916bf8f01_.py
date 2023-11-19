@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 9cfec0008150
+Revision ID: e49916bf8f01
 Revises: 
-Create Date: 2023-11-18 16:18:42.260961
+Create Date: 2023-11-19 02:33:41.347523
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '9cfec0008150'
+revision = 'e49916bf8f01'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,7 +23,7 @@ def upgrade():
     sa.Column('street', sa.String(), nullable=False),
     sa.Column('city', sa.String(), nullable=False),
     sa.Column('province', sa.String(length=2), nullable=False),
-    sa.Column('zipcode', sa.String(length=6), nullable=False),
+    sa.Column('postal_code', sa.String(length=6), nullable=False),
     sa.Column('phone', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
@@ -52,6 +52,7 @@ def upgrade():
     sa.Column('lname', sa.String(), nullable=False),
     sa.Column('status', sa.String(), nullable=False),
     sa.Column('address_id', sa.Integer(), nullable=False),
+    sa.Column('date', sa.String(), nullable=False),
     sa.ForeignKeyConstraint(['address_id'], ['addresses.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -61,6 +62,7 @@ def upgrade():
     sa.Column('email', sa.String(), nullable=False),
     sa.Column('password', sa.String(), nullable=False),
     sa.Column('is_admin', sa.Boolean(), nullable=False),
+    sa.Column('is_guest', sa.Boolean(), nullable=False),
     sa.Column('image_file', sa.String(), nullable=False),
     sa.Column('address_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['address_id'], ['addresses.id'], ),
@@ -79,11 +81,11 @@ def upgrade():
     )
     op.create_table('purchaseorder_vehicles',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('vehicle_id', sa.Integer(), nullable=False),
     sa.Column('price', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['id'], ['purchaseorders.id'], ),
-    sa.ForeignKeyConstraint(['vehicle_id'], ['vehicles.id'], ),
-    sa.PrimaryKeyConstraint('id', 'vehicle_id')
+    sa.Column('po_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['id'], ['vehicles.id'], ),
+    sa.ForeignKeyConstraint(['po_id'], ['purchaseorders.id'], ),
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('trade_ins',
     sa.Column('id', sa.Integer(), nullable=False),

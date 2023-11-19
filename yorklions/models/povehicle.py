@@ -6,6 +6,7 @@ from typing import List
 
 class POVehicle(db.Model):
     __tablename__ = "purchaseorder_vehicles"
-    id: Mapped[int] = mapped_column(ForeignKey("purchaseorders.id"), primary_key=True)
-    vehicle_id: Mapped[int] = mapped_column(ForeignKey("vehicles.id"), primary_key=True)
+    id: Mapped[int] = mapped_column(ForeignKey("vehicles.id"), primary_key=True)
     price: Mapped[float] = mapped_column(Integer, primary_key=False)
+    po_id: Mapped[int] = mapped_column(Integer, ForeignKey('purchaseorders.id'), nullable=True)
+

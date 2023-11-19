@@ -1,30 +1,47 @@
 {% extends "layout.html" %}
 {% block content %}
 <h1>Shopping Cart</h1>
-<table>
-    <thead>
-        <tr>
-            <th>Item ID</th>
-            <th>Item Name</th>
-            <th>Price</th>
-            <!-- <th>Total</th> -->
-        </tr>
-    </thead>
-    <tbody>
-        {% for item in session['cart'] %}
-        <tr>
-            <td>{{ item['id'] }}</td>
-            <td>{{ item['name'] }}</td>
-            <td>${{ item['price'] }}</td>
-            <!-- <td>${{ item['price'] }}</td> -->
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+{% if total > 0 %}
+    <table>
+        <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Price</th>
+                <th>Discount</th>
+                <th>Subtotal</th>
+                <!-- <th>Total</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in session['cart'] %}
+            <tr>
+                <td>{{ item['name'] }}</td>
+                <td>${{ '%0.2f'|format(item['price']|float) }}</td>
+                <td>-${{ '%0.2f'|format(item['discount']|float) }}</td>
+                <td>${{ '%0.2f'|format(item['total_price']|float) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-<h2>Total: ${{ total }}</h2>
+    <h2>Total: ${{ '%0.2f'|format(total|float) }}</h2>
 
-<form action="/checkout" method="POST">
-    <button type="submit">Checkout</button>
-</form>
+    {% if current_user.is_authenticated %}
+        <form action="/checkout" method="POST">
+            <button type="submit">Checkout</button>
+        </form>
+    {% else %}
+        <form action="/checkout" method="POST">
+            <button type="submit">Checkout as Guest</button>
+        </form>
+        <form action="/login" method="POST">
+            <button type="submit">Login</button>
+        </form>
+        <form action="/register" method="POST">
+            <button type="submit">Register</button>
+        </form>
+    {% endif %}
+{% else %}
+    <p>Your shopping cart is empty</p>
+{% endif %}
 {% endblock content %}
