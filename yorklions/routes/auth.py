@@ -14,19 +14,19 @@ auth = Blueprint("auth", __name__)
 def register():
     if current_user.is_authenticated:
         return redirect(
-            url_for("main.main_index")
-        )  # Redirect to home page if user is already logged in
+                url_for("main.main_index")
+                )  # Redirect to home page if user is already logged in
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode(
-            "utf-8"
-        )
+                "utf-8"
+                )
         create_user(form.username.data, form.email.data, hashed_password)
         flash(f"Account created, please login!", "success")
         return redirect(url_for("auth.login"))
     return render_template(
-        "register.html", title="Register", form=form, errors=form.errors
-    )
+            "register.html", title="Register", form=form, errors=form.errors
+            )
 
 
 @auth.route("/login", methods=["GET", "POST"])
@@ -37,13 +37,13 @@ def login():
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get(
-                "next"
-            )  # Remember, args is a dict, get returns none if key not found
+                    "next"
+                    )  # Remember, args is a dict, get returns none if key not found
             return (
-                redirect(next_page)
-                if next_page
-                else redirect(url_for("main.main_index"))
-            )
+                    redirect(next_page)
+                    if next_page
+                    else redirect(url_for("main.main_index"))
+                    )
             return redirect(url_for("main.main_index"))
         else:
             flash("Login Unsuccessful. Please check email and password", "danger")
@@ -65,11 +65,11 @@ def account():
             pic_file = save_picture(form.profile_pic.data)
             remove_old_picture(current_user.image_file)
             current_user.image_file = pic_file
-        
+
         current_user.username = form.username.data
         current_user.email = form.email.data
         db.session.commit()
-        
+
         flash("Account updated!", "success")
         return redirect(url_for("auth.account"))
     elif request.method == "GET":  # populate form with current user info on
@@ -78,11 +78,16 @@ def account():
 
     image_file = url_for("static", filename="account/" + current_user.image_file)
     return render_template(
-        "account.html", title="Account", image_file=image_file, form=form
-    )
+            "account.html", title="Account", image_file=image_file, form=form
+            )
+
 
 def remove_old_picture(file_name):
+    if file_name == 'default.jpg':
+        return  # Do nothing if the file name is default.jpg
+
     account_static_folder = os.path.join(current_app.root_path, 'static', 'account')
     old_image_path = os.path.join(account_static_folder, file_name)
     if os.path.exists(old_image_path):
         os.remove(old_image_path)
+
