@@ -6,16 +6,16 @@ from .trade_in import create as trade_in_form
 
 main = Blueprint("main", __name__)
 
-@main.route("/home/")
+@main.route("/home")
 @main.route("/")
 def main_index():
-    response = recent.get_recent_vehicles(limit=5)
+    response = recent.get_recent_vehicles(limit=10)
     if response[1] == 200:
         recent_vehicles = response[0]
     else:
         recent_vehicles = None
 
-    response = deals.get_hot_deals(limit=5)
+    response = deals.get_hot_deals(limit=10)
     if response[1] == 200:
         hot_deals_vehicles = response[0]
     else:
@@ -23,31 +23,37 @@ def main_index():
 
     return render_template("index.html", recent_vehicles=recent_vehicles, hot_deals=hot_deals_vehicles)
 
-@main.route("/shop/")
+@main.route("/shop", methods=["GET", "POST"])
 def shop():
-    response = all_vehicles.get_all_vehicles()
+    sort = request.args.get('sort')
+    descending = request.args.get('descending')
+    min_price = request.args.get('min_price')
+    max_price = request.args.get('max_price')
+    condition = request.args.get('condition')
+    min_year = request.args.get('min_year')
+    max_year = request.args.get('max_year')
+    make = request.args.get('make')
+    model = request.args.get('model')
+    trim = request.args.get('trim')
+    colour = request.args.get('colour')
+
+    response = all_vehicles.get_all_vehicles(sort=sort, descending=descending, min_price=min_price, max_price=max_price, condition=condition, min_year=min_year, max_year=max_year, make=make, model=model, trim=trim, colour=colour)
+    models_by_make = all_vehicles.get_models_by_make()
+    colours = all_vehicles.get_colours()
+
     if response[1] == 200:
         vehicles = response[0]
     else:
         vehicles = None
 
-    return render_template("listing-view.html", title="All Vehicles", vehicles=vehicles)
+    return render_template("listing-view.html", vehicles=vehicles, models_by_make=models_by_make, colours=colours)
 
-@main.route("/new-cars/")
-def new_cars():
-    response = recent.get_recent_vehicles()
-    if response[1] == 200:
-        recent_vehicles = response[0]
-    else:
-        recent_vehicles = None
 
-    return render_template("listing-view.html", title="Recently-Added Vehicles", vehicles=recent_vehicles)
-
-@main.route("/reviews/")
+@main.route("/reviews")
 def reviews():
     return render_template("index.html")
 
-@main.route("/trade-in/", methods=["GET", "POST"])
+@main.route("/trade-in", methods=["GET", "POST"])
 def trade_in():
     if request.method == "POST":
         trade_in_form.create_trade_in()
@@ -56,17 +62,7 @@ def trade_in():
 
     return render_template("trade-in.html")
 
-@main.route("/hot-deals/")
-def hot_deals():
-    response = deals.get_hot_deals()
-    if response[1] == 200:
-        hot_deals_vehicles = response[0]
-    else:
-        hot_deals_vehicles = None
-
-    return render_template("listing-view.html", title="Hot Deals", vehicles=hot_deals_vehicles)
-
-@main.route("/admin/", methods=["GET", "POST"])
+@main.route("/admin", methods=["GET", "POST"])
 def admin_dash():
     if current_user.is_admin == False:              # can comment out, just here for testing purposes
         flash("You are not an admin!", "danger")

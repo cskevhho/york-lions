@@ -17,9 +17,9 @@
             {% for item in session['cart'] %}
             <tr>
                 <td>{{ item['name'] }}</td>
-                <td>${{ '%0.2f'|format(item['price']|float) }}</td>
-                <td>-${{ '%0.2f'|format(item['discount']|float) }}</td>
-                <td>${{ '%0.2f'|format(item['total_price']|float) }}</td>
+                <td>${{ "{:,.2f}".format(item['price']|float) }}</td>
+                <td>-${{ "{:,.2f}".format(item['discount']|float) }}</td>
+                <td>${{ "{:,.2f}".format(item['total_price']|float) }}</td>
                 <td>
                     <form action="/remove" method="POST">
                         <input type="hidden" name="item_id" value="{{ item['id'] }}">
@@ -31,7 +31,7 @@
         </tbody>
     </table>
 
-    <h2>Total: ${{ '%0.2f'|format(total|float) }}</h2>
+    <h2>Total: ${{ "{:,.2f}".format(total|float) }}</h2>
 
     {% if current_user.is_authenticated %}
         <form action="/checkout" method="POST">

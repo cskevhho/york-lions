@@ -3,6 +3,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.ext.hybrid import hybrid_property
 from ..extensions import db
 from typing import List
+from datetime import datetime
 
 # If you edit this model, update `services.vehicle_json()`
 
@@ -11,7 +12,7 @@ class Vehicle(db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     price: Mapped[float] = mapped_column(Float, primary_key=False)
     discount: Mapped[float] = mapped_column(Float, primary_key=False)
-    year: Mapped[int] = mapped_column(Integer, primary_key=False)
+    year: Mapped[int] = mapped_column(Integer, nullable=False)
     make: Mapped[str] = mapped_column(String, nullable=False)
     model: Mapped[str] = mapped_column(String, nullable=False)
     trim: Mapped[str] = mapped_column(String, nullable=False)
@@ -30,3 +31,8 @@ class Vehicle(db.Model):
     @hybrid_property
     def discount_percentage(self):
         return (100 * self.discount / self.price) if self.price != 0 else 0
+    
+    @hybrid_property
+    def total_price(self):
+        return self.price - self.discount
+    

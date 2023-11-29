@@ -1,0 +1,20 @@
+{% block content %}
+<a href="/vehicle/{{ vehicle.id }}" class="grid_item">
+    <img src="{{ vehicle.image_file }}" onerror="this.onerror=null; this.src='/static/vehicles/default.jpg'" alt="Vehicle Image"/>
+    {% if vehicle.kilometres == 0 %}
+        <p class="new_label">New</p>
+    {% else %}
+        <p class="used_label">Used</p>
+    {% endif %}
+    <h4>{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }} {{ vehicle.trim }}</h4>
+    {% if vehicle.discount > 0 %}
+        <h2><span id="discounted_price">${{ "{:,.2f}".format((vehicle.price - vehicle.discount)|float) }}</span></h2>
+        <p>
+            <span id="original_price">${{ "{:,.2f}".format(vehicle.price|float) }}</span>&emsp;
+            <b>Save {{ '%0.0f'|format(vehicle.discount_percentage|float)}}%</b>
+        </p>
+    {% else %}
+        <h2>${{ "{:,.2f}".format(vehicle.price|float) }}</h2>
+    {% endif %}
+</a>
+{% endblock content %}

@@ -29,5 +29,6 @@ app.register_blueprint(user_ctrl, url_prefix="/api/user")
 app.register_blueprint(vehicle_ctrl, url_prefix="/api/vehicle")
 app.register_blueprint(trade_in_ctrl, url_prefix="/api/trade_in")
 
-# with app.app_context():
-#     db.create_all()
+# This does not overwrite existing tables, just creates new ones if need be.
+with app.app_context():
+    db.create_all()

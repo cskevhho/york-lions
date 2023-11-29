@@ -1,51 +1,186 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<!-- TODO: Make this look nice. Probably a grid of cars? A big header image? -->
 <br />
-<h1>{{ title }}</h1>
-<table>
-    <thead>
-        <tr>
-            <th>
-                <div>Picture</div>
-            </th>
-            <th>
-                <div>Price</div>
-            </th>
-            <th>
-                <div>Discount</div>
-            </th>
-            <th>
-                <div>Year Make Model Trim</div>
-            </th>
-            <th>
-                <div>Kilometres</div>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for vehicle in vehicles %}
-        <tr>
-            <td>
-                <div><a href="/vehicle/{{ vehicle.id }}"><img src="{{ vehicle.image_file }}" alt="Vehicle Image"
-                            width="100"></div>
-            </td>
-            <td>
-                <div>${{ '%0.2f'|format(vehicle.price|float) }}</div>
-            </td>
-            <td>
-                <div>${{ '%0.2f'|format(vehicle.discount|float) }} ({{ '%0.0f'|format(vehicle.discount_percentage|float)
-                    }}%)</div>
-            </td>
-            <td>
-                <div>{{ vehicle.year }} {{ vehicle.make }} {{vehicle.model}} {{vehicle.trim}} </div>
-            </td>
-            <td>
-                <div>{{ vehicle.kilometres }} km</div>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div id="listing_container">
+    <div class="sidebar">
+        <h2>Search Filters</h2>
+        <form id="filters" onsubmit="applyFilters()">
+            <label for="sort"><h4>Sort by:</h4></label>
+            <select id="sort" name="sort">
+                <option id="hot_deals_desc" value="hot_deals" data-descending="true">🔥 Hot Deals</option>
+                <option id="date_added_desc" value="date_added" data-descending="true">↘️ Date Added</option>
+                <option id="date_added" value="date_added" data-descending="false">↗️ Date Added</option>
+                <option id="price_desc" value="price" data-descending="true">↘️ Price</option>
+                <option id="price" value="price" data-descending="false">↗️ Price</option>
+                <option id="km_desc" value="km" data-descending="true">↘️  Kilometres</option>
+                <option id="km" value="km" data-descending="false">↗️ Kilometres</option>
+                <option id="year_desc" value="year" data-descending="true">↘️ Year</option>
+                <option id="year" value="year" data-descending="false">↗️ Year</option>
+            </select>
+            <label for="price"><h4>Price:</h4></label>
+            <div id="price">
+                <label for="min_price">Min:</label>
+                <input type="number" id="min_price" name="min_price"/>
+                <label for="max_price">Max:</label>
+                <input type="number" id="max_price" name="max_price"/>
+            </div>
+            <label for="condition"><h4>Condition:</h4></label>
+            <select id="condition" name="condition">
+                <option id="condition_all" value="all">All</option>
+                <option id="condition_new" value="new">New</option>
+                <option id="condition_used" value="used">Used</option>
+            </select>
+            <label for="year"><h4>Year:</h4></label>
+            <div id="year">
+                <label for="min_year">Min:</label>
+                <input type="number" id="min_year" name="min_year"/>
+                <label for="max_year">Max:</label>
+                <input type="number" id="max_year" name="max_year"/>
+            </div>
+            <label for="make"><h4>Make:</h4></label>
+            <select id="make" name="make" onchange="didChangeMakeFilter()">
+                <option id="make_all" value="all">All</option>
+                {% for key in models_by_make.keys() %}
+                <option id="make_{{key}}" value="{{key}}">{{key}}</option>
+                {% endfor %}
+            </select>
+            <label for="model"><h4>Model:</h4></label>
+            <select id="model" name="model" onchange="didChangeModelFilter()">
+                <option id="model_all" value="all">All</option>
+            </select>
+            <label for="trim"><h4>Trim:</h4></label>
+            <select id="trim" name="trim">
+                <option id="trim_all" value="all">All</option>
+            </select>
+            <label for="colour"><h4>Colour:</h4></label>
+            <select id="colour" name="colour">
+                <option id="colour_all" value="all">All</option>
+                {% for colour in colours %}
+                <option id="colour_{{ colour[0] }}" value="{{ colour[0] }}">{{ colour[0] }}</option>
+                {% endfor %}
+            </select>
+            <button class="button" id="apply_button" onclick="applyFilters()">Apply Filters</button>
+            <div id="hidden_filters" hidden="true">
+                <input type="checkbox" id="descending" name="descending" value="true">
+            </div>
+        </form>
+    </div>
+
+    {% if not vehicles %}
+        <div id="no_vehicles_message">
+            <h1>No vehicles found</h1>
+            <h3>Try adjusting your search criteria</h3>
+        </div>
+    {% else %}
+        <div class="grid">
+            {% for vehicle in vehicles %}
+                {% include "catalogue/grid_item.html" %}
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+
+<script>
+    function didChangeMakeFilter() {
+        var parsed = JSON.parse("{{ models_by_make|safe }}".replaceAll("'", "\""))
+        var currentMake = document.getElementById("make").value;
+        
+        var modelSelectBox = document.querySelector('#model')
+        while (modelSelectBox.options.length > 1) {
+            modelSelectBox.remove(1);
+        }
+
+        if (currentMake == "all") {
+            didChangeModelFilter()
+            return
+        }
+
+        var models = Object.keys(parsed[currentMake])
+        
+        for (const model in models) {
+            var o = document.createElement("option");
+            o.value = models[model];
+            o.text = models[model];
+            o.id = "trim_" + models[model]
+            modelSelectBox.appendChild(o);
+        }
+        modelSelectBox.value = "all"
+        didChangeModelFilter()
+    }
+
+    function didChangeModelFilter() {
+        var parsed = JSON.parse("{{ models_by_make|safe }}".replaceAll("'", "\""))
+        
+        var currentMake = document.getElementById("make").value;
+        var currentModel = document.getElementById("model").value;
+
+        var trimSelectBox = document.querySelector('#trim')
+        while (trimSelectBox.options.length > 1) {
+            trimSelectBox.remove(1);
+        }
+
+        if (currentModel == "all") {
+            return
+        }
+
+        var trims = parsed[currentMake][currentModel]
+
+        for (const trim in trims) {
+            var o = document.createElement("option");
+            o.value = trims[trim];
+            o.text = trims[trim];
+            o.id = "trim_" + trims[trim];
+            trimSelectBox.appendChild(o);
+        }
+        trimSelectBox.value = "all"
+    }
+
+    function applyFilters() {
+        var sort = document.getElementById("sort");
+        var descending = sort.options[sort.selectedIndex].dataset.descending;
+        document.getElementById('descending').checked = descending == "true";
+        document.getElementById('filters').submit();
+    }
+
+    function setFilters() {
+        var searchParams = new URLSearchParams(window.location.search)
+        var sort = searchParams.get("sort") ?? "date_added";
+        var descending = searchParams.get("descending") ?? "false";
+        if (descending == "true") {
+            sort = sort + "_desc"
+        }
+        document.getElementById(sort).selected = true;
+
+        var min_price = searchParams.get("min_price") ?? "";
+        document.getElementById("min_price").value = min_price;
+
+        var max_price = searchParams.get("max_price") ?? "";
+        document.getElementById("max_price").value = max_price;
+
+        var condition = "condition_" + searchParams.get("condition") ?? "all";
+        document.getElementById(condition).selected = true;
+
+        var min_year = searchParams.get("min_year") ?? "";
+        document.getElementById("min_year").value = min_year;
+
+        var max_year = searchParams.get("max_year") ?? "";
+        document.getElementById("max_year").value = max_year;
+
+        var make = searchParams.get("make") ?? "all";
+        document.getElementById("make").value = make;
+        didChangeMakeFilter()        
+
+        var model = searchParams.get("model") ?? "all";
+        document.getElementById("model").value = model;
+        didChangeModelFilter()        
+
+        var trim = searchParams.get("trim") ?? "all";
+        document.getElementById("trim").value = trim;
+
+        var colour = searchParams.get("colour") ?? "all";
+        document.getElementById("colour").value = colour;
+    }
+    window.onload = setFilters;
+</script>
 {% endblock %}

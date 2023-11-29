@@ -13,7 +13,7 @@ def add_vehicle(vehicle_id):
             'name': f'{vehicle.year} {vehicle.make} {vehicle.model} {vehicle.trim}',  
             'price': vehicle.price,
             'discount': vehicle.discount,
-            'total_price': vehicle.price - vehicle.discount
+            'total_price': vehicle.total_price
         }
 
         if 'cart' not in session:
