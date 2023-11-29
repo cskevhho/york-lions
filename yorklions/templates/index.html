@@ -4,109 +4,35 @@
 <!-- TODO: Make this look nice. Probably a grid of cars? A big header image? -->
 {% if recent_vehicles %}
 <br />
+<div class="horizontal">
 <h1>Recently Added Vehicles</h1>
-<table>
-    <thead>
-        <tr>
-            <th>
-                <div>Picture</div>
-            </th>
-            <th>
-                <div>Price</div>
-            </th>
-            <th>
-                <div>Discount</div>
-            </th>
-            <th>
-                <div>Year Make Model Trim</div>
-            </th>
-            <th>
-                <div>Kilometres</div>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for vehicle in recent_vehicles %}
-        <tr>
-            <td>
-                <div><a href="/vehicle/{{ vehicle.id }}"><img src="{{ vehicle.image_file }}" alt="Vehicle Image"
-                            width="100"></div>
-            </td>
-            <td>
-                <div>${{ '%0.2f'|format(vehicle.price|float) }}</div>
-            </td>
-            <td>
-                <div>${{ '%0.2f'|format(vehicle.discount|float) }} ({{ '%0.0f'|format(vehicle.discount_percentage|float)
-                    }}%)</div>
-            </td>
-            <td>
-                <div>{{ vehicle.year }} {{ vehicle.make }} {{vehicle.model}} {{vehicle.trim}} </div>
-            </td>
-            <td>
-                <div>{{ vehicle.kilometres }} km</div>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-{% if not show_all %}
-<form action="{{ url_for('main.new_cars') }}" method="get">
-    <button>See All</button>
-</form>
-{% endif %}
+    <div>
+        <a class="button see_all" href="{{ url_for('main.shop') }}?sort=date_added&descending=true" method="get">
+            <p>See All</p>
+        </a>
+    </div>
+</div>
+<div class="grid homepage">
+    {% for vehicle in recent_vehicles %}
+        {% include "catalogue/grid_item.html" %}
+    {% endfor %}
+</div>
 {% endif %}
 
 {% if hot_deals %}
 <br />
-<h1>Hot Deals</h1>
-<table>
-    <thead>
-        <tr>
-            <th>
-                <div>Picture</div>
-            </th>
-            <th>
-                <div>Price</div>
-            </th>
-            <th>
-                <div>Discount</div>
-            </th>
-            <th>
-                <div>Year Make Model Trim</div>
-            </th>
-            <th>
-                <div>Kilometres</div>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for vehicle in hot_deals %}
-        <tr>
-            <td>
-                <div><a href="/vehicle/{{ vehicle.id }}"><img src="{{ vehicle.image_file }}" alt="Vehicle Image"
-                            width="100"></a></div>
-            </td>
-            <td>
-                <div>${{ '%0.2f'|format(vehicle.price|float) }}</div>
-            </td>
-            <td>
-                <div>${{ '%0.2f'|format(vehicle.discount|float) }} ({{ '%0.0f'|format(vehicle.discount_percentage|float)
-                    }}%)</div>
-            </td>
-            <td>
-                <div>{{ vehicle.year }} {{ vehicle.make }} {{vehicle.model}} {{vehicle.trim}} </div>
-            </td>
-            <td>
-                <div>{{ vehicle.kilometres }} km</div>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-{% if not show_all %}
-<form action="{{ url_for('main.hot_deals') }}" method="get">
-    <button>See All</button>
-</form>
-{% endif %}
+<div class="horizontal">
+    <h1>Hot Deals</h1>
+    <div>
+        <a class="button see_all" href="{{ url_for('main.shop') }}?sort=hot_deals&descending=true" method="get">
+            <p>See All</p>
+        </a>
+    </div>
+</div>
+<div class="grid homepage">
+    {% for vehicle in hot_deals %}
+        {% include "catalogue/grid_item.html" %}
+    {% endfor %}
+</div>
 {% endif %}
 {% endblock %}

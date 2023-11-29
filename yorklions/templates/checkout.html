@@ -2,7 +2,7 @@
 {% block content %}
 <h1>Checkout</h1>
 
-<h2>Total: ${{ '%0.2f'|format(total|float) }}</h2>
+<h2>Total: ${{ "{:,.2f}".format(total|float) }}</h2>
 <br/>
 <form action="{{ url_for('cart.complete_order') }}" method="post">
     <label for="shipping_info">Shipping Information</label>

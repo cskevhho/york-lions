@@ -7,11 +7,11 @@
     <h1>{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }} {{ vehicle.trim }}</h1>
     <img src="{{ vehicle.image_file }}"/>
     {% if vehicle.discount > 0 %}
-        <p><span id="original_price">${{ '%0.2f'|format(vehicle.price|float) }}</span>&emsp;</p>
+        <p><span id="original_price">${{ "{:,.2f}".format(vehicle.price|float) }}</span>&emsp;</p>
         <h3>-{{ '%0.0f'|format(vehicle.discount_percentage|float)}}%</h3>
-        <h2><span id="discounted_price">${{ '%0.2f'|format((vehicle.price - vehicle.discount)|float) }}</span></h2>
+        <h2><span id="discounted_price">${{ "{:,.2f}".format((vehicle.price - vehicle.discount)|float) }}</span></h2>
     {% else %}
-        <h2>${{ '%0.2f'|format(vehicle.price|float) }}</h2>
+        <h2>${{ "{:,.2f}".format(vehicle.price|float) }}</h2>
     {% endif %}
     <br/>
     <form action="{{ url_for('cart.add', vehicle_id=vehicle.id) }}" method="post">
@@ -29,5 +29,6 @@
     <p>{{ vehicle.kilometres }} km</p>
     <h3>Max Driving Range</h3>
     <p>{{ vehicle.max_range }}</p>
+    {% include "catalogue/grid_item.html" %}
 {% endif %}
 {% endblock %}

@@ -11,7 +11,7 @@ from ...models.vehicle import Vehicle
 cart_ctrl = Blueprint("cart", __name__)
 
 
-@cart_ctrl.route("/add/", methods=["GET", "POST"])
+@cart_ctrl.route("/add", methods=["GET", "POST"])
 def add():
     if request.method == "POST":
         vehicle_id = request.args.get("vehicle_id")
