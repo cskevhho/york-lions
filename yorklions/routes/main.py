@@ -27,33 +27,27 @@ def main_index():
 def shop():
     sort = request.args.get('sort')
     descending = request.args.get('descending')
+    min_price = request.args.get('min_price')
+    max_price = request.args.get('max_price')
     condition = request.args.get('condition')
     min_year = request.args.get('min_year')
     max_year = request.args.get('max_year')
     make = request.args.get('make')
     model = request.args.get('model')
     trim = request.args.get('trim')
-    min_price = request.args.get('min_price')
-    max_price = request.args.get('max_price')
+    colour = request.args.get('colour')
 
-    response = all_vehicles.get_all_vehicles(sort=sort, descending=descending, condition=condition, min_year=min_year, max_year=max_year, make=make, model=model, trim=trim, min_price=min_price, max_price=max_price)
+    response = all_vehicles.get_all_vehicles(sort=sort, descending=descending, min_price=min_price, max_price=max_price, condition=condition, min_year=min_year, max_year=max_year, make=make, model=model, trim=trim, colour=colour)
     models_by_make = all_vehicles.get_models_by_make()
+    colours = all_vehicles.get_colours()
+
     if response[1] == 200:
         vehicles = response[0]
     else:
         vehicles = None
 
-    return render_template("listing-view.html", title="All Vehicles", vehicles=vehicles, models_by_make=models_by_make)
+    return render_template("listing-view.html", vehicles=vehicles, models_by_make=models_by_make, colours=colours)
 
-@main.route("/new-cars")
-def new_cars():
-    response = recent.get_recent_vehicles()
-    if response[1] == 200:
-        recent_vehicles = response[0]
-    else:
-        recent_vehicles = None
-
-    return render_template("listing-view.html", title="Recently-Added Vehicles", vehicles=recent_vehicles)
 
 @main.route("/reviews")
 def reviews():
@@ -67,16 +61,6 @@ def trade_in():
         return redirect(url_for("main.main_index"))
 
     return render_template("trade-in.html")
-
-@main.route("/hot-deals")
-def hot_deals():
-    response = deals.get_hot_deals()
-    if response[1] == 200:
-        hot_deals_vehicles = response[0]
-    else:
-        hot_deals_vehicles = None
-
-    return render_template("listing-view.html", title="Hot Deals", vehicles=hot_deals_vehicles)
 
 @main.route("/admin", methods=["GET", "POST"])
 def admin_dash():

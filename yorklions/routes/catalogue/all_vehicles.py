@@ -2,7 +2,7 @@ from ...models.vehicle import Vehicle
 from ...extensions import db
 from ..vehicle.utils import vehicle_json, generate_image_url
 
-def get_all_vehicles(sort=None, descending="true", condition="all", min_year=None, max_year=None, make="all", model="all", trim="all", min_price=None, max_price=None, limit=None):
+def get_all_vehicles(sort=None, descending="true", min_price=None, max_price=None, condition="all", min_year=None, max_year=None, make="all", model="all", trim="all", colour="all", limit=None):
     vehicles = db.session.query(Vehicle).filter(Vehicle.is_for_sale == True)
 
     desc = descending and descending.lower() == "true"
@@ -69,6 +69,9 @@ def get_all_vehicles(sort=None, descending="true", condition="all", min_year=Non
     if trim and trim != "all" and trim != "":
         vehicles = vehicles.filter(Vehicle.trim == trim)
 
+    if colour and colour != "all" and colour != "":
+        vehicles = vehicles.filter(Vehicle.colour == colour)
+
     if limit:
         vehicles = vehicles.limit(limit).all()
     else:
@@ -100,3 +103,5 @@ def get_models_by_make():
     print(models_by_make)
     return models_by_make
 
+def get_colours():
+    return db.session.query(Vehicle.colour).distinct().order_by(Vehicle.colour).all()

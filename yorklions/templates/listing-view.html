@@ -2,22 +2,21 @@
 
 {% block content %}
 <br />
-<h1>{{ title }}</h1>
 <div id="listing_container">
     <div class="sidebar">
         <h2>Search Filters</h2>
         <form id="filters" onsubmit="applyFilters()">
             <label for="sort"><h4>Sort by:</h4></label>
             <select id="sort" name="sort">
-                <option id="date_added_desc" value="date_added" data-descending="true">Date Added (New to Old)</option>
-                <option id="date_added" value="date_added" data-descending="false">Date Added (Old to New)</option>
-                <option id="price" value="price" data-descending="false">Price (Low to High)</option>
-                <option id="price_desc" value="price" data-descending="true">Price (High to Low)</option>
-                <option id="hot_deals_desc" value="hot_deals" data-descending="true">Hot Deals</option>
-                <option id="km" value="km" data-descending="false">Kilometres (Low to High)</option>
-                <option id="km_desc" value="km" data-descending="true">Kilometres (High to Low)</option>
-                <option id="year" value="year" data-descending="false">Year (Low to High)</option>
-                <option id="year_desc" value="year" data-descending="true">Year (High to Low)</option>
+                <option id="hot_deals_desc" value="hot_deals" data-descending="true">🔥 Hot Deals</option>
+                <option id="date_added_desc" value="date_added" data-descending="true">↘️ Date Added</option>
+                <option id="date_added" value="date_added" data-descending="false">↗️ Date Added</option>
+                <option id="price_desc" value="price" data-descending="true">↘️ Price</option>
+                <option id="price" value="price" data-descending="false">↗️ Price</option>
+                <option id="km_desc" value="km" data-descending="true">↘️  Kilometres</option>
+                <option id="km" value="km" data-descending="false">↗️ Kilometres</option>
+                <option id="year_desc" value="year" data-descending="true">↘️ Year</option>
+                <option id="year" value="year" data-descending="false">↗️ Year</option>
             </select>
             <label for="price"><h4>Price:</h4></label>
             <div id="price">
@@ -54,6 +53,13 @@
             <select id="trim" name="trim">
                 <option id="trim_all" value="all">All</option>
             </select>
+            <label for="colour"><h4>Colour:</h4></label>
+            <select id="colour" name="colour">
+                <option id="colour_all" value="all">All</option>
+                {% for colour in colours %}
+                <option id="colour_{{ colour[0] }}" value="{{ colour[0] }}">{{ colour[0] }}</option>
+                {% endfor %}
+            </select>
             <button class="button" id="apply_button" onclick="applyFilters()">Apply Filters</button>
             <div id="hidden_filters" hidden="true">
                 <input type="checkbox" id="descending" name="descending" value="true">
@@ -62,7 +68,10 @@
     </div>
 
     {% if not vehicles %}
-        <h1 id="no_vehicles_message">No vehicles found.</h1>
+        <div id="no_vehicles_message">
+            <h1>No vehicles found</h1>
+            <h3>Try adjusting your search criteria</h3>
+        </div>
     {% else %}
         <div class="grid">
             {% for vehicle in vehicles %}
@@ -168,6 +177,9 @@
 
         var trim = searchParams.get("trim") ?? "all";
         document.getElementById("trim").value = trim;
+
+        var colour = searchParams.get("colour") ?? "all";
+        document.getElementById("colour").value = colour;
     }
     window.onload = setFilters;
 </script>
