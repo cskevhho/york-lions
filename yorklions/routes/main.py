@@ -62,6 +62,10 @@ def trade_in():
 
     return render_template("trade-in.html")
 
+@main.route("/compare-vehicles" , methods=["GET", "POST"])
+def compare_vehicles():
+    return render_template("compare-vehicles.html")
+
 @main.route("/admin", methods=["GET", "POST"])
 def admin_dash():
     if current_user.is_admin == False:              # can comment out, just here for testing purposes

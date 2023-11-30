@@ -17,6 +17,9 @@
     <form action="{{ url_for('cart.add', vehicle_id=vehicle.id) }}" method="post">
         <input type="submit" value="Add to Cart" />
     </form>
+    <!-- A redirect to the compare vehicles page that passes in a vehicle -->
+    <form action="{{ url_for('main.main_index', vehicle_id=vehicle.id) }}" method="post">
+        <input type="submit" value="Compare Vehicle" />
     <br/>
     <h3>Description</h3>
     <p>{{ vehicle.description }}</p>
