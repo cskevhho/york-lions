@@ -72,7 +72,27 @@ Test from compare-vehicles.html
                 });
             });
     });
+
+        function checkSelections() {
+        var allSelected = true;
+        // pass in everything :|
+        var dropdowns = ['vmake', 'vmodel', 'vyear', 'vmake2', 'vmodel2', 'vyear2'];
+
+        dropdowns.forEach(function(id) {
+            var select = document.getElementById(id);
+            if (!select.value) {
+                allSelected = false;
+            }
+        });
+
+        document.getElementById('compareButton').disabled = !allSelected;
+    }
+    // i love javascript and jquery!!!! ((((((:
+    ['vmake', 'vmodel', 'vyear', 'vmake2', 'vmodel2', 'vyear2'].forEach(function(id) {
+        document.getElementById(id).addEventListener('change', checkSelections);
+    });
 });
+
 </script>
 <!-- Present me will be happy about this, future me will not -->
 <div>
@@ -111,6 +131,8 @@ Test from compare-vehicles.html
         <option value="">Choose a year</option>
     </select>
 </div>
+
+<button id="compareButton" disabled>Compare Vehicles</button>
 
 
 {% endblock %}
