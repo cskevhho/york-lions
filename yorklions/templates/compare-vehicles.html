@@ -11,37 +11,106 @@ Test from compare-vehicles.html
 <!-- Both vehicles have been selected -->
 <!-- The compare vehicles button should be disabled by default -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('vmake').addEventListener('change', function() {
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('vmake').addEventListener('change', function() {
+            var selectedMake = this.value;
+
+            // Fetch models
+            fetch('/get-models?make=' + selectedMake)
+                .then(response => response.json())
+                .then(data => {
+                    var modelSelect = document.getElementById('vmodel');
+                    modelSelect.innerHTML = '<option value="">Choose a model</option>';
+                    data.forEach(function(model) {
+                        modelSelect.innerHTML += '<option value="' + model + '">' + model + '</option>';
+                    });
+                });
+        });
+
+        document.getElementById('vmodel').addEventListener('change', function() {
+            var selectedMake = document.getElementById('vmake').value;
+            var selectedModel = this.value;
+
+            // Fetch years
+            fetch('/get-years?make=' + selectedMake + '&model=' + selectedModel)
+                .then(response => response.json())
+                .then(data => {
+                    var yearSelect = document.getElementById('vyear');
+                    yearSelect.innerHTML = '<option value="">Choose a year</option>';
+                    data.forEach(function(year) {
+                        yearSelect.innerHTML += '<option value="' + year + '">' + year + '</option>';
+                    });
+                });
+        });
+
+            document.getElementById('vmake2').addEventListener('change', function() {
         var selectedMake = this.value;
+
 
         fetch('/get-models?make=' + selectedMake)
             .then(response => response.json())
             .then(data => {
-                var modelSelect = document.getElementById('vmodel');
+                var modelSelect = document.getElementById('vmodel2');
                 modelSelect.innerHTML = '<option value="">Choose a model</option>';
                 data.forEach(function(model) {
                     modelSelect.innerHTML += '<option value="' + model + '">' + model + '</option>';
                 });
             });
     });
+
+    document.getElementById('vmodel2').addEventListener('change', function() {
+        var selectedMake = document.getElementById('vmake2').value;
+        var selectedModel = this.value
+
+        fetch('/get-years?make=' + selectedMake + '&model=' + selectedModel)
+            .then(response => response.json())
+            .then(data => {
+                var yearSelect = document.getElementById('vyear2');
+                yearSelect.innerHTML = '<option value="">Choose a year</option>';
+                data.forEach(function(year) {
+                    yearSelect.innerHTML += '<option value="' + year + '">' + year + '</option>';
+                });
+            });
+    });
 });
 </script>
-
+<!-- Present me will be happy about this, future me will not -->
 <div>
     Add First Vehicle
     <br>
     <select name="vmake" id="vmake">
         <option value="">Choose a make</option>
         {% for make in makes %}
-            <option value="{{ make }}">{{ make }}</option>
+        <option value="{{ make }}">{{ make }}</option>
         {% endfor %}
     </select>
 
     <select name="vmodel" id="vmodel">
         <option value="">Choose a model</option>
-        <!-- This will be populated by AJAX -->
+    </select>
+    <select name="vyear" id="vyear">
+        <option value="">Choose a year</option>
     </select>
 </div>
+
+<div>
+    Add Second Vehicle
+    <br>
+    <select name="vmake2" id="vmake2">
+        <option value="">Choose a make</option>
+        {% for make in makes %}
+            <option value="{{ make }}">{{ make }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="vmodel2" id="vmodel2">
+        <option value="">Choose a model</option>
+    </select>
+
+    <select name="vyear2" id="vyear2">
+        <option value="">Choose a year</option>
+    </select>
+</div>
+
 
 {% endblock %}

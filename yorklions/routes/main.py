@@ -73,8 +73,16 @@ def compare_vehicles():
 def get_models():
     selected_make = request.args.get('make')
     models_query = Vehicle.query.with_entities(Vehicle.model).filter_by(make=selected_make).distinct()
-    model_names = [model[0] for model in models_query]  # Extracting model names from query results
+    model_names = [model[0] for model in models_query]
     return jsonify(model_names)
+
+@main.route('/get-years')
+def get_years():
+    selected_make = request.args.get('make')
+    selected_model = request.args.get('model')
+    years_query = Vehicle.query.with_entities(Vehicle.year).filter_by(make=selected_make, model=selected_model).distinct()
+    years = [year[0] for year in years_query]
+    return jsonify(years)
 
 @main.route("/admin", methods=["GET", "POST"])
 def admin_dash():
