@@ -19,7 +19,9 @@ def get_all_vehicles(sort=None, descending="true", min_price=None, max_price=Non
         elif sort == "hot_deals":
             vehicles = vehicles.filter(Vehicle.discount > 0).order_by(Vehicle.discount_percentage.desc() if desc else Vehicle.discount_percentage)
         else:
-            vehicles = vehicles.order_by(Vehicle.date_added.desc() if desc else Vehicle.date_added)
+            vehicles = vehicles.order_by(Vehicle.date_added.desc())
+    else:
+        vehicles = vehicles.order_by(Vehicle.date_added.desc())
 
     if min_price:
         try:

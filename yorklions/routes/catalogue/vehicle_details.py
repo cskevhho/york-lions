@@ -8,6 +8,8 @@ vehicle_detail_pages = Blueprint("vehicle_details", __name__)
 @vehicle_detail_pages.route("/vehicle/<id>", methods=["GET", "POST"])
 def show_detail_page(id):
     vehicle = get_vehicle(id)
+    if vehicle == None:
+        return render_template("404.html"), 404
 
     vehicle.image_file = generate_image_url(vehicle)
     return render_template("vehicle-details.html", vehicle=vehicle)

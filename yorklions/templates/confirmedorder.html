@@ -1,45 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layout.html" %}
+{% block content %}
+    <h1>Order Details</h1>
+    <div>
+        <p>Order ID: {{ po.id }}</p>
+        <p>Ordered on: {{ po.date_created }}</p>
+        <p>Status: {{ po.status }}</p>
+        <p>Last updated: {{ po.latest_update }}</p>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% if title %} <!-- If title is passed in render_template use title -->
-    <title>YORK L-IONS - {{ title }}</title>
-    {% else %}
-    <title>Confirmation Page</title>
-    {% endif %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
-</head>
-
-<body>
-    <div id="wrapper">
-        <header>
-            <h1>Order Confirmed</h1>
-        </header>
-
-        <div>
-            {{ po.date }} <br>
-            Order# {{ po.id }} <br><br>
-            {{ po.fname }}, {{ po.lname }} <br>
-            {{ po.phone }} <br>
-            {{ po.street }} <br>
-            {{ po.province }} <br>
-            {{ po.postal_code }} <br>
-            {{ po.province }} <br>
-            ==================================== <br>
-            Congratulations! Your order has been confirmed. <br>
-
-
-            Your Order: <br>
-            <!-- {% for vehicle in vehicles %}-->
-            <!-- {% end for loop bit %}-->
-            <!--Fill this in with vehicle make brand trim, and price-->
-            
+        <div id="shipping_info">
+            <h2>Shipping & Contact Information</h2>
+            <p>{{ po.fname }} {{ po.lname }}</p>
+            <p>{{ address.phone }}</p>
+            <p>{{ address.street }}</p>
+            <p>{{ address.city }}, {{ address.province }}</p>
+            <p>{{ address.postal_code }}</p>
+            <p>Canada</p>
         </div>
 
-        <footer>{% block footer %}{% endblock footer%}</footer>
-    </div>
-</body>
+        <div id="payment_method">
+            <h2>Payment Method</h2>
+            <p>{{ po.cc_type }} ending in {{ po.cc_last_4_digits }}</p>
+        </div>
 
-</html>
+        <div id="order_summary">
+            <h2>Order Summary</h2>
+            <table>
+                <tbody>
+                    <tr>
+                        <td><b>Subtotal</b></td>
+                        <td>${{ "{:,.2f}".format(po.subtotal|float) }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Discount</b></td>
+                        <td>${{ "{:,.2f}".format(po.discount|float) }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Taxes</b></td>
+                        <td>${{ "{:,.2f}".format(po.taxes|float) }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Total Paid</b></td>
+                        <td>${{ "{:,.2f}".format(po.total_paid|float) }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Payment Method</b></td>
+                        <td>{{ po.cc_type }} ending in {{ po.cc_last_4_digits }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Your Order:</p>
+        <div class="grid">
+            {% for vehicle in po.vehicles %}
+            {% include "catalogue/grid_item.html" %}
+            {% endfor %}
+        </div>
+        <!--Fill this in with vehicle make brand trim, and price-->
+        
+    </div>
+{% endblock content %}

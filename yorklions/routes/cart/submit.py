@@ -1,6 +1,5 @@
 from flask import session, request, flash, redirect, url_for
 from flask_login import current_user
-from ...models.povehicle import POVehicle
 from ...models.vehicle import Vehicle
 
 from ..address.create import create_address
@@ -47,10 +46,10 @@ def submit_order():
     else:
         user = current_user
 
-    result = create_address(street_address, city, province, postal_code, phone, user)
-    address_id = result[0]["new_address_id"]
+    result, status_code = create_address(street_address, city, province, postal_code, phone, user)
+    address_id = result["new_address_id"]
 
-    result, status_code = create_po(fname, lname, address_id, vehicles)
+    result, status_code = create_po(fname=fname, lname=lname, address_id=address_id, vehicles=vehicles, cc_type=cc_type, cc_last_4_digits=cc_num[-4:])
     po_id = result["new_po_id"]
     
     if "cart" in session:

@@ -14,7 +14,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for item in session['cart'] %}
+            {% for item in cart_items %}
             <tr>
                 <td>{{ item['name'] }}</td>
                 <td>${{ "{:,.2f}".format(item['price']|float) }}</td>

@@ -21,3 +21,7 @@ def update_vehicle(id, updated_data):
 
     db.session.commit()
     return {"message": f"Vehicle '{vehicle.id}' updated successfully"}, 200
+
+def mark_vehicle_sold(vehicle: Vehicle):
+    vehicle.is_for_sale = False
+    db.session.commit()

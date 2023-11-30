@@ -1,29 +1,32 @@
+from ...models.vehicle import Vehicle
 from ...models.po import PurchaseOrder
 from ...extensions import db
 from datetime import datetime
-from ..povehicle.create import create_povehicle
 
 
 def create_po(
-    fname,
-    lname,
-    address_id,
-    vehicles,
-    status="New",
+    fname: str,
+    lname: str,
+    address_id: int,
+    vehicles: [Vehicle],
+    cc_type: str,
+    cc_last_4_digits: str
 ):
+    now: str = datetime.now().strftime("%F-%R")
     new_po = PurchaseOrder(
         fname=fname,
         lname=lname,
         address_id=address_id,
-        status=status,
-        date=datetime.now().strftime("%F-%R"),
+        cc_type=cc_type,
+        cc_last_4_digits=cc_last_4_digits,
+        date_created=now,
+        latest_update=now
     )
     db.session.add(new_po)
     db.session.commit()
 
     for vehicle in vehicles:
-        povehicle = create_povehicle(new_po.id, vehicle.id, vehicle.price)
-        new_po.vehicles.append(povehicle)
+        new_po.vehicles.append(vehicle)
 
     db.session.commit()
 
