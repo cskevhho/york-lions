@@ -9,14 +9,6 @@ def get_vehicle_makes():
     makes = [v.make for v in Vehicle.query.with_entities(Vehicle.make).distinct()]
     return makes
 
-def get_vehicle_models(make):
-    models = [v.model for v in Vehicle.query.with_entities(Vehicle.model).filter_by(make=make).distinct()]
-    return models
-
-def get_vehicle_year(make, model):
-    years = [v.year for v in Vehicle.query.with_entities(Vehicle.year).filter_by(make=make, model=model).distinct()]
-    return years
-
 def read_vehicles(request):
     search_type = request.form['search_type']
     search_text = request.form['search_field']

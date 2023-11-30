@@ -11,23 +11,37 @@ Test from compare-vehicles.html
 <!-- Both vehicles have been selected -->
 <!-- The compare vehicles button should be disabled by default -->
 <script>
+document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('vmake').addEventListener('change', function() {
         var selectedMake = this.value;
+
+        fetch('/get-models?make=' + selectedMake)
+            .then(response => response.json())
+            .then(data => {
+                var modelSelect = document.getElementById('vmodel');
+                modelSelect.innerHTML = '<option value="">Choose a model</option>';
+                data.forEach(function(model) {
+                    modelSelect.innerHTML += '<option value="' + model + '">' + model + '</option>';
+                });
+            });
     });
+});
 </script>
 
 <div>
     Add First Vehicle
     <br>
     <select name="vmake" id="vmake">
-        <option value="0">Choose a make</option>
+        <option value="">Choose a make</option>
         {% for make in makes %}
-        <option value="{{ make }}">{{ make }}</option>
+            <option value="{{ make }}">{{ make }}</option>
         {% endfor %}
-        <!-- Should be a dropdown that says Make, body is Choose a make -->
-        <!-- Should populate dropdown with all distinct makes in vehicle table -->    
     </select>
 
+    <select name="vmodel" id="vmodel">
+        <option value="">Choose a model</option>
+        <!-- This will be populated by AJAX -->
+    </select>
 </div>
 
 {% endblock %}

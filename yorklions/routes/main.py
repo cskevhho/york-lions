@@ -1,9 +1,10 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, request
+from flask import Blueprint, render_template, flash, redirect, url_for, request, jsonify
 from flask_login import login_user, current_user, logout_user, login_required
 from ..forms import RegistrationForm, LoginForm
 from ..routes.catalogue import recent, hot_deals as deals, all_vehicles
 from .trade_in import create as trade_in_form
-from ..routes.vehicle.services import get_vehicle_makes, get_vehicle_models, get_vehicle_year
+from ..routes.vehicle.services import get_vehicle_makes
+from ..models.vehicle import Vehicle
 main = Blueprint("main", __name__)
 
 @main.route("/home")
@@ -67,6 +68,13 @@ def trade_in():
 def compare_vehicles():
     makes = get_vehicle_makes()
     return render_template("compare-vehicles.html", makes=makes)
+
+@main.route('/get-models')
+def get_models():
+    selected_make = request.args.get('make')
+    models_query = Vehicle.query.with_entities(Vehicle.model).filter_by(make=selected_make).distinct()
+    model_names = [model[0] for model in models_query]  # Extracting model names from query results
+    return jsonify(model_names)
 
 @main.route("/admin", methods=["GET", "POST"])
 def admin_dash():
