@@ -1,7 +1,6 @@
 from sqlalchemy import Integer, String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from ..extensions import db
-from typing import List
 
 
 # We're going to assume only Canadian addressses for now

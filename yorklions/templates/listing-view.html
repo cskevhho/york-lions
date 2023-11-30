@@ -146,7 +146,7 @@
     function setFilters() {
         var searchParams = new URLSearchParams(window.location.search)
         var sort = searchParams.get("sort") ?? "date_added";
-        var descending = searchParams.get("descending") ?? "false";
+        var descending = searchParams.get("descending") ?? "true";
         if (descending == "true") {
             sort = sort + "_desc"
         }

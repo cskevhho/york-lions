@@ -5,6 +5,7 @@ def vehicle_json(vehicles: list[Vehicle]):
     vehicle_data = [
         {
             "id": vehicle.id,
+            "po_id": vehicle.po_id,
             "price": vehicle.price,
             "discount": vehicle.discount,
             "year": vehicle.year,
@@ -18,9 +19,10 @@ def vehicle_json(vehicles: list[Vehicle]):
             "description": vehicle.description,
             "image_file": vehicle.image_file,
             "date_added": vehicle.date_added,
+            "is_for_sale": vehicle.is_for_sale,
+            "is_trade_in": vehicle.is_trade_in,
             "history": vehicle.history,
             "visit_events": vehicle.visit_events,
-            "purchase_orders": vehicle.purchase_orders,
             "discount_percentage": vehicle.discount_percentage,
         }
         for vehicle in vehicles
