@@ -25,28 +25,22 @@ def main_index():
 
 @main.route("/shop", methods=["GET", "POST"])
 def shop():
-    sort = request.args.get('sort')
-    descending = request.args.get('descending')
-    min_price = request.args.get('min_price')
-    max_price = request.args.get('max_price')
-    condition = request.args.get('condition')
-    min_year = request.args.get('min_year')
-    max_year = request.args.get('max_year')
-    make = request.args.get('make')
-    model = request.args.get('model')
-    trim = request.args.get('trim')
-    colour = request.args.get('colour')
+    sort = request.form.get('sort')
+    descending = request.form.get('descending')
+    min_price = request.form.get('min_price')
+    max_price = request.form.get('max_price')
+    condition = request.form.get('condition')
+    min_year = request.form.get('min_year')
+    max_year = request.form.get('max_year')
+    type = request.form.get('type')
+    make = request.form.get('make')
+    model = request.form.get('model')
+    trim = request.form.get('trim')
+    colour = request.form.get('colour')
 
-    response = all_vehicles.get_all_vehicles(sort=sort, descending=descending, min_price=min_price, max_price=max_price, condition=condition, min_year=min_year, max_year=max_year, make=make, model=model, trim=trim, colour=colour)
-    models_by_make = all_vehicles.get_models_by_make()
-    colours = all_vehicles.get_colours()
+    result, _ = all_vehicles.get_all_vehicles(sort=sort, descending=descending, min_price=min_price, max_price=max_price, condition=condition, min_year=min_year, max_year=max_year, type=type, make=make, model=model, trim=trim, colour=colour)
 
-    if response[1] == 200:
-        vehicles = response[0]
-    else:
-        vehicles = None
-
-    return render_template("listing-view.html", vehicles=vehicles, models_by_make=models_by_make, colours=colours)
+    return render_template("listing-view.html", vehicle_data=result, search_criteria=request.form)
 
 
 @main.route("/reviews")
