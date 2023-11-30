@@ -1,52 +1,33 @@
 {% extends "layout.html" %}
 {% block content %}
 Test from compare-vehicles.html
-<!-- This should be a table with 2 columns: -->
-<!--     Vehicle 1, and Vehicle 2    -->
-<!-- This page should be accessible to all users -->
-<!-- If accessed from main page, tables should have two random vehicles -->
-<!-- If accessed from expanded details page, column 1 should be the vehicle from the expanded details page -->
-<!-- and column 2 should be a random vehicle -->
-<!-- The stats to compare should be: -->
-<!--    Make, Model, Trim   -->
-<!--          Year          -->
-<!--          Price         -->
-<!--          Mileage       -->
-<!--          Max Range     -->
-<!-- More to be decided later -->
+<!-- If we access compare vehicles directly or from index  -->
+<!-- The page should have two columns, one for each vehicle -->
+<!-- Implement with header link access only from index for now -->
+<!-- The two columns should have three drop down menus each -->
+<!-- The dropdown options are: Make, Model, Year -->
+<!-- The dropdowns should be populated with the database data -->
+<!-- We only allow the compare vehicles button to be enabled when: -->
+<!-- Both vehicles have been selected -->
+<!-- The compare vehicles button should be disabled by default -->
+<script>
+    document.getElementById('vmake').addEventListener('change', function() {
+        var selectedMake = this.value;
+    });
+</script>
 
-<table>
-    <tr>
-        <th>Vehicle 1</th>
-        <th>Vehicle 2</th>
-    </tr>
-    <tr>
-        <td>Make</td>
-        <td>Make</td>
-    </tr>
-    <tr>
-        <td>Model</td>
-        <td>Model</td>
-    </tr>
-    <tr>
-        <td>Trim</td>
-        <td>Trim</td>
-    </tr>
-    <tr>
-        <td>Year</td>
-        <td>Year</td>
-    </tr>
-    <tr>
-        <td>Price</td>
-        <td>Price</td>
-    </tr>
-    <tr>
-        <td>Mileage</td>
-        <td>Mileage</td>
-    </tr>
-    <tr>
-        <td>Max Range</td>
-        <td>Max Range</td>
-    </tr>
+<div>
+    Add First Vehicle
+    <br>
+    <select name="vmake" id="vmake">
+        <option value="0">Choose a make</option>
+        {% for make in makes %}
+        <option value="{{ make }}">{{ make }}</option>
+        {% endfor %}
+        <!-- Should be a dropdown that says Make, body is Choose a make -->
+        <!-- Should populate dropdown with all distinct makes in vehicle table -->    
+    </select>
+
+</div>
 
 {% endblock %}

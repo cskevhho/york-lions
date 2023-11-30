@@ -3,7 +3,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 from ..forms import RegistrationForm, LoginForm
 from ..routes.catalogue import recent, hot_deals as deals, all_vehicles
 from .trade_in import create as trade_in_form
-
+from ..routes.vehicle.services import get_vehicle_makes, get_vehicle_models, get_vehicle_year
 main = Blueprint("main", __name__)
 
 @main.route("/home")
@@ -46,6 +46,7 @@ def shop():
     else:
         vehicles = None
 
+    makes = Vehicle.query.distinct(Vehicle.make).all()
     return render_template("listing-view.html", vehicles=vehicles, models_by_make=models_by_make, colours=colours)
 
 
@@ -64,7 +65,8 @@ def trade_in():
 
 @main.route("/compare-vehicles" , methods=["GET", "POST"])
 def compare_vehicles():
-    return render_template("compare-vehicles.html")
+    makes = get_vehicle_makes()
+    return render_template("compare-vehicles.html", makes=makes)
 
 @main.route("/admin", methods=["GET", "POST"])
 def admin_dash():

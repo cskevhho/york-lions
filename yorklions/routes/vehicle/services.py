@@ -1,6 +1,5 @@
 from .create import create_vehicle
-from .read import read_vehicles
-from .read import get_vehicle
+from .read import read_vehicles, get_vehicle, get_vehicle_makes, get_vehicle_models, get_vehicle_year
 from .update import update_vehicle
 from .delete import delete_all
 
