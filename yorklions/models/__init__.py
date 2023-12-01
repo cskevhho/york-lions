@@ -3,3 +3,5 @@ from .address import *
 from .vehicle import *
 from .po import *
 from .visitevent import *
+from .rating import *
+

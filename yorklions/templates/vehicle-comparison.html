@@ -12,6 +12,11 @@ Hell from vehicle-comparison.html
         <p>MSRP: ${{ v1.price }}</p>
         <p>Max Range: {{ v1.max_range }} km</p>
         <p>Type: {{ v1.type }}</p>
+        {% if v1rating == 0.0 %}
+        <p>Rating: No Rating </p>
+        {% else %}
+        <p>Rating:  {{ v1rating }}/5.0</p>
+        {% endif %} 
     </div>
 
     <div>
@@ -21,6 +26,11 @@ Hell from vehicle-comparison.html
         <p>MSRP: ${{ v2.price }}</p>
         <p>Max Range: {{ v2.max_range }} km</p>
         <p>Type: {{ v2.type }}</p>
+        {% if v1rating == 0.0 %}
+        <p>Rating: No Rating </p>
+        {% else %}
+        <p>Rating:  {{ v1rating }}/5.0</p>
+        {% endif %} 
     </div>
 
 </div>

@@ -3,7 +3,8 @@ from flask_login import login_user, current_user, logout_user, login_required
 from ..forms import RegistrationForm, LoginForm
 from ..routes.catalogue import recent, hot_deals as deals, all_vehicles
 from .trade_in import create as trade_in_form
-from ..routes.vehicle.services import get_vehicle_makes
+from ..routes.vehicle.services import get_vehicle_makes, get_average_rating
+
 from ..models.vehicle import Vehicle
 from ..routes.vehicle.utils import generate_image_url
 
@@ -116,12 +117,13 @@ def vehicle_comparison():
     v2 = Vehicle.query.get(v2_id)
     v1.image_file = generate_image_url(v1)
     v2.image_file = generate_image_url(v2)
-
+    v1rating = get_average_rating(v1.make, v1.model, v1.year)
+    v2rating = get_average_rating(v2.make, v2.model, v2.year)
     if not v1 or not v2:
         flash("One or both vehicles not found", "error")
         return redirect(url_for('main.compare_vehicles'))
 
-    return render_template("vehicle-comparison.html", v1=v1, v2=v2)
+    return render_template("vehicle-comparison.html", v1=v1, v2=v2, v1rating=v1rating, v2rating=v2rating)
 
 
 

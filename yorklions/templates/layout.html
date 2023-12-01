@@ -1,71 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% if title %} <!-- If title is passed in render_template use title -->
-    <title>YORK L-IONS - {{ title }}</title>
-    {% else %}
-    <title>YORK L-IONS</title>
-    {% endif %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% block head %}
+        {% if title %} <!-- If title is passed in render_template use title -->
+        <title>YORK L-IONS - {{ title }}</title>
+        {% else %}
+        <title>YORK L-IONS</title>
+        {% endif %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+        {% endblock head %}
+    </head>
 
-<body>
-    <div id="wrapper">
+    <body>
+        <div id="wrapper">
 
-        <header>
-            {% if header %}
-            {% block header %}{% endblock header %}
-            {% else %}
-            <div class="logo">
-                <a href="/">YORK L-IONS</a>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="{{ url_for('main.shop') }}">Shop Now</a></li>
-                    <li><a href="{{ url_for('main.trade_in') }}">Sell Your Car</a></li>
-                    <li><a href="{{ url_for('main.compare_vehicles') }}">Compare Vehicles</a></li>
-                    <li><a href="{{ url_for('loancalc.loan_calculator') }}">Loan Calculator</a></li>
-                </ul>
-            </nav>
-            <ul>
-                <li><a href="{{ url_for('cart.view') }}">Cart </a></li>
-                {% if current_user.is_authenticated %} <!-- Flask session management is just :chefs_kiss: -->
-                <li><a href="{{ url_for('auth.account') }}">Account</a></li>
-                <li><a href="{{ url_for('auth.logout') }}">Sign Out</a></li>
+            <header>
+                {% if header %}
+                {% block header %}{% endblock header %}
                 {% else %}
-                <li><a href="{{ url_for('auth.login') }}">Sign In</a></li>
-                <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+                <div class="logo">
+                    <a href="/">YORK L-IONS</a>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="{{ url_for('main.shop') }}">Shop Now</a></li>
+                        <li><a href="{{ url_for('main.trade_in') }}">Sell Your Car</a></li>
+                        <li><a href="{{ url_for('main.compare_vehicles') }}">Compare Vehicles</a></li>
+                        <li><a href="{{ url_for('loancalc.loan_calculator') }}">Loan Calculator</a></li>
+                    </ul>
+                </nav>
+                <ul>
+                    <li><a href="{{ url_for('cart.view') }}">Cart </a></li>
+                    {% if current_user.is_authenticated %} <!-- Flask session management is just :chefs_kiss: -->
+                    <li><a href="{{ url_for('auth.account') }}">Account</a></li>
+                    <li><a href="{{ url_for('auth.logout') }}">Sign Out</a></li>
+                    {% else %}
+                    <li><a href="{{ url_for('auth.login') }}">Sign In</a></li>
+                    <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+                    {% endif %}
+                    {% if current_user.is_authenticated and current_user.is_admin %}
+                    <li><a href="{{ url_for('main.admin_dash') }}">Admin</a></li>
+                    {% endif %}
+                </ul>
                 {% endif %}
-                {% if current_user.is_authenticated and current_user.is_admin %}
-                <li><a href="{{ url_for('main.admin_dash') }}">Admin</a></li>
-                {% endif %}
-            </ul>
-            {% endif %}
-        </header>
+            </header>
 
-        <div>
-            {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-            {% for category, message in messages %}
-            <div class="flash-message {{ category }}" role="alert">
-                {{ message }}
+            <div>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="flash-message {{ category }}" role="alert">
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+                {% block content %}
+                {% if sidebar %}
+                <!-- Sidebar HTML logic here once they clicked on catalog, etc -->
+                {% else %}
+                {% endif %}
+                {% endblock content %}
             </div>
-            {% endfor %}
-            {% endif %}
-            {% endwith %}
-            {% block content %}
-            {% if sidebar %}
-            <!-- Sidebar HTML logic here once they clicked on catalog, etc -->
-            {% else %}
-            {% endif %}
-            {% endblock content %}
-        </div>
 
-        <footer>{% block footer %}{% endblock footer%}</footer>
-    </div>
-</body>
+            <footer>{% block footer %}{% endblock footer%}</footer>
+        </div>
+    </body>
 
 </html>
