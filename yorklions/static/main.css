@@ -188,9 +188,9 @@ p.new_label {
   grid-template-columns: 225px auto;
 }
 
-#no_vehicles_message {
+#error_message {
   grid-column: 2;
-  margin-top: 20%;
+  margin: 10% auto auto auto;
   width: 100%;
   text-align: center;
 }
@@ -248,4 +248,8 @@ p.new_label {
   }
 }
 
-
+#image_404 {
+  border: 2px solid black;
+  border-radius: 2vh;
+  max-width: 25%;
+}
