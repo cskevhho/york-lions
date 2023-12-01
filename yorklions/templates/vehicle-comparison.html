@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block content %}
+Hell from vehicle-comparison.html
+
+<!-- TODO: Turn into a 2 column grid layout -->
+<div class = "wrapper">
+
+    <div>
+        <h2>Vehicle 1 Details</h2>
+        <img src="{{ v1.image_file }}"/>
+        <p><h3>{{ v1.year }} {{ v1.make }} {{ v1.model }}</h3></p>
+        <p>MSRP: ${{ v1.price }}</p>
+        <p>Max Range: {{ v1.max_range }} km</p>
+        <p>Type: {{ v1.type }}</p>
+    </div>
+
+    <div>
+        <h2>Vehicle 2 Details</h2>
+        <img src="{{ v2.image_file }}"/>
+        <p><h3>{{ v2.year }} {{ v2.make }} {{ v2.model }}</h3></p>
+        <p>MSRP: ${{ v2.price }}</p>
+        <p>Max Range: {{ v2.max_range }} km</p>
+        <p>Type: {{ v2.type }}</p>
+    </div>
+
+</div>
+{% endblock %}

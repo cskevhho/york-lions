@@ -1,100 +1,108 @@
 {% extends "layout.html" %}
 {% block content %}
-Test from compare-vehicles.html
-<!-- If we access compare vehicles directly or from index  -->
-<!-- The page should have two columns, one for each vehicle -->
-<!-- Implement with header link access only from index for now -->
-<!-- The two columns should have three drop down menus each -->
-<!-- The dropdown options are: Make, Model, Year -->
-<!-- The dropdowns should be populated with the database data -->
-<!-- We only allow the compare vehicles button to be enabled when: -->
-<!-- Both vehicles have been selected -->
-<!-- The compare vehicles button should be disabled by default -->
+
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('vmake').addEventListener('change', function() {
-            var selectedMake = this.value;
+document.addEventListener('DOMContentLoaded', function() {
 
-            // Fetch models
-            fetch('/get-models?make=' + selectedMake)
-                .then(response => response.json())
-                .then(data => {
-                    var modelSelect = document.getElementById('vmodel');
-                    modelSelect.innerHTML = '<option value="">Choose a model</option>';
-                    data.forEach(function(model) {
-                        modelSelect.innerHTML += '<option value="' + model + '">' + model + '</option>';
-                    });
-                });
-        });
-
-        document.getElementById('vmodel').addEventListener('change', function() {
-            var selectedMake = document.getElementById('vmake').value;
-            var selectedModel = this.value;
-
-            // Fetch years
-            fetch('/get-years?make=' + selectedMake + '&model=' + selectedModel)
-                .then(response => response.json())
-                .then(data => {
-                    var yearSelect = document.getElementById('vyear');
-                    yearSelect.innerHTML = '<option value="">Choose a year</option>';
-                    data.forEach(function(year) {
-                        yearSelect.innerHTML += '<option value="' + year + '">' + year + '</option>';
-                    });
-                });
-        });
-
-            document.getElementById('vmake2').addEventListener('change', function() {
-        var selectedMake = this.value;
-
-
+    // function to update the models based on make
+    function updateModels(makeId, modelId) {
+        var selectedMake = document.getElementById(makeId).value;
         fetch('/get-models?make=' + selectedMake)
             .then(response => response.json())
             .then(data => {
-                var modelSelect = document.getElementById('vmodel2');
+                var modelSelect = document.getElementById(modelId);
                 modelSelect.innerHTML = '<option value="">Choose a model</option>';
                 data.forEach(function(model) {
                     modelSelect.innerHTML += '<option value="' + model + '">' + model + '</option>';
                 });
             });
-    });
+    }
 
-    document.getElementById('vmodel2').addEventListener('change', function() {
-        var selectedMake = document.getElementById('vmake2').value;
-        var selectedModel = this.value
-
+    // function to update the years based on make and model
+    function updateYears(makeId, modelId, yearId) {
+        var selectedMake = document.getElementById(makeId).value;
+        var selectedModel = document.getElementById(modelId).value;
         fetch('/get-years?make=' + selectedMake + '&model=' + selectedModel)
             .then(response => response.json())
             .then(data => {
-                var yearSelect = document.getElementById('vyear2');
+                var yearSelect = document.getElementById(yearId);
                 yearSelect.innerHTML = '<option value="">Choose a year</option>';
                 data.forEach(function(year) {
                     yearSelect.innerHTML += '<option value="' + year + '">' + year + '</option>';
                 });
             });
+    }
+
+    // event listeners for the first vehicle
+    document.getElementById('vmake').addEventListener('change', function() {
+        updateModels('vmake', 'vmodel');
     });
 
-        function checkSelections() {
-        var allSelected = true;
-        // pass in everything :|
-        var dropdowns = ['vmake', 'vmodel', 'vyear', 'vmake2', 'vmodel2', 'vyear2'];
+    document.getElementById('vmodel').addEventListener('change', function() {
+        updateYears('vmake', 'vmodel', 'vyear');
+    });
 
+    // event listeners for the second vehicle
+    document.getElementById('vmake2').addEventListener('change', function() {
+        updateModels('vmake2', 'vmodel2');
+    });
+
+    document.getElementById('vmodel2').addEventListener('change', function() {
+        updateYears('vmake2', 'vmodel2', 'vyear2');
+    });
+
+    // check if all dropdowns have selected value
+    function checkSelections() {
+        var allSelected = true;
+        var dropdowns = ['vmake', 'vmodel', 'vyear', 'vmake2', 'vmodel2', 'vyear2'];
         dropdowns.forEach(function(id) {
             var select = document.getElementById(id);
             if (!select.value) {
                 allSelected = false;
             }
         });
-
         document.getElementById('compareButton').disabled = !allSelected;
     }
-    // i love javascript and jquery!!!! ((((((:
+
+    // event listener for dropdowns
     ['vmake', 'vmodel', 'vyear', 'vmake2', 'vmodel2', 'vyear2'].forEach(function(id) {
         document.getElementById(id).addEventListener('change', checkSelections);
     });
-});
 
+    function compareVehicles() {
+    var make1 = document.getElementById('vmake').value;
+    var model1 = document.getElementById('vmodel').value;
+    var year1 = document.getElementById('vyear').value;
+    var make2 = document.getElementById('vmake2').value;
+    var model2 = document.getElementById('vmodel2').value;
+    var year2 = document.getElementById('vyear2').value;
+
+    // Fetch vehicle IDs based on make, model, and year
+    Promise.all([
+        fetch(`/get-vehicle-id?make=${make1}&model=${model1}&year=${year1}`).then(response => response.json()),
+        fetch(`/get-vehicle-id?make=${make2}&model=${model2}&year=${year2}`).then(response => response.json())
+    ]).then(([vehicle1, vehicle2]) => {
+        if (vehicle1.id && vehicle2.id) {
+            var url = `/vehicle-comparison?vid1=${vehicle1.id}&vid2=${vehicle2.id}`;
+            window.location.href = url;
+        } else {
+            alert('Could not find one or both vehicles');
+        }
+    }).catch((error) => {
+        console.error('Error fetching vehicle data:', error);
+        alert('Error fetching vehicle data');
+    });
+}
+
+// Attach the compareVehicles function to the compare button
+document.getElementById('compareButton').onclick = compareVehicles;
+
+});
 </script>
-<!-- Present me will be happy about this, future me will not -->
+
+<!-- Future me, I am sorry about the javascript mess above, will move to a separate file later -->
+<!-- Love and kisses, Kevin -->
+
 <div>
     Add First Vehicle
     <br>
@@ -119,7 +127,7 @@ Test from compare-vehicles.html
     <select name="vmake2" id="vmake2">
         <option value="">Choose a make</option>
         {% for make in makes %}
-            <option value="{{ make }}">{{ make }}</option>
+        <option value="{{ make }}">{{ make }}</option>
         {% endfor %}
     </select>
 
