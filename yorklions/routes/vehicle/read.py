@@ -1,9 +1,27 @@
 from ...models.vehicle import Vehicle
+from ...models.rating import Rating
 from ...extensions import db
 from ..vehicle.utils import vehicle_json
+from sqlalchemy import func
 
 def get_vehicle(id):
     return db.session.query(Vehicle).filter_by(id=id).first()
+
+def get_vehicle_makes():
+    makes = [v.make for v in Vehicle.query.with_entities(Vehicle.make).distinct()]
+    return makes
+
+def get_average_rating(selected_make, selected_model, selected_year):
+    average_rating = db.session.query(func.avg(Rating.rating)).filter(
+        Rating.make == selected_make,
+        Rating.model == selected_model,
+        Rating.year == selected_year
+    ).scalar()
+
+    average_rating = float(average_rating) if average_rating is not None else 0.0
+    average_rating = max(0.0, min(average_rating, 5.0))
+
+    return average_rating
 
 def read_vehicles(request):
     search_type = request.form['search_type']

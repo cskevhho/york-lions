@@ -1,8 +1,13 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, request
+from flask import Blueprint, render_template, flash, redirect, url_for, request, jsonify
 from flask_login import login_user, current_user, logout_user, login_required
 from ..forms import RegistrationForm, LoginForm
 from ..routes.catalogue import recent, hot_deals as deals, all_vehicles
 from .trade_in import create as trade_in_form
+from ..routes.vehicle.services import get_vehicle_makes, get_average_rating
+
+from ..models.vehicle import Vehicle
+from ..routes.vehicle.utils import generate_image_url
+
 
 main = Blueprint("main", __name__)
 
@@ -62,3 +67,61 @@ def admin_dash():
         flash("You are not an admin!", "danger")
         return redirect(url_for("main.main_index"))
     return render_template("admin.html")
+
+# TODO: Move below routes to a separate file, very much low priority for time
+@main.route("/compare-vehicles" , methods=["GET", "POST"])
+def compare_vehicles():
+    makes = get_vehicle_makes()
+    return render_template("compare-vehicles.html", makes=makes)
+
+# AJAX stuff
+@main.route('/get-models')
+def get_models():
+    selected_make = request.args.get('make')
+    models_query = Vehicle.query.with_entities(Vehicle.model).filter_by(make=selected_make).distinct()
+    model_names = [model[0] for model in models_query]
+    return jsonify(model_names)
+
+# AJAX stuff
+@main.route('/get-years')
+def get_years():
+    selected_make = request.args.get('make')
+    selected_model = request.args.get('model')
+    years_query = Vehicle.query.with_entities(Vehicle.year).filter_by(make=selected_make, model=selected_model).distinct()
+    years = [year[0] for year in years_query]
+    return jsonify(years)
+
+@main.route('/get-vehicle-id')
+def get_vehicle_id():
+    make = request.args.get('make')
+    model = request.args.get('model')
+    year = int(request.args.get('year'))
+    vehicle = Vehicle.query.filter_by(make=make, model=model, year=year).first()
+    if vehicle:
+        return jsonify({'id': vehicle.id})
+    return jsonify({'id': None})
+
+@main.route("/vehicle-comparison")
+def vehicle_comparison():
+    v1_id = request.args.get('vid1')
+    v2_id = request.args.get('vid2')
+
+    v1 = Vehicle.query.get(v1_id)
+    v2 = Vehicle.query.get(v2_id)
+    v1.image_file = generate_image_url(v1)
+    v2.image_file = generate_image_url(v2)
+    v1rating = get_average_rating(v1.make, v1.model, v1.year)
+    v2rating = get_average_rating(v2.make, v2.model, v2.year)
+    if not v1 or not v2:
+        flash("One or both vehicles not found", "error")
+        return redirect(url_for('main.compare_vehicles'))
+
+    return render_template("vehicle-comparison.html", v1=v1, v2=v2, v1rating=v1rating, v2rating=v2rating)
+
+
+
+
+
+
+
+

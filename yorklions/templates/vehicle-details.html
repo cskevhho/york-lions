@@ -2,21 +2,29 @@
 
 {% block content %}
 {% if not vehicle %}
-    <h1>404 - Vehicle not found</h1>
+<h1>404 - Vehicle not found</h1>
 {% else %}
-    <h1>{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }} {{ vehicle.trim }}</h1>
-    <img src="{{ vehicle.image_file }}"/>
-    {% if vehicle.discount > 0 %}
-        <p><span id="original_price">${{ "{:,.2f}".format(vehicle.price|float) }}</span>&emsp;</p>
-        <h3>-{{ '%0.0f'|format(vehicle.discount_percentage|float)}}%</h3>
-        <h2><span id="discounted_price">${{ "{:,.2f}".format((vehicle.price - vehicle.discount)|float) }}</span></h2>
-    {% else %}
-        <h2>${{ "{:,.2f}".format(vehicle.price|float) }}</h2>
-    {% endif %}
-    <br/>
-    <form action="{{ url_for('cart.add', vehicle_id=vehicle.id) }}" method="post">
-        <input type="submit" value="Add to Cart" />
-    </form>
+<h1>{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }} {{ vehicle.trim }}</h1>
+<img src="{{ vehicle.image_file }}"/>
+{% if vehicle.discount > 0 %}
+<p><span id="original_price">${{ "{:,.2f}".format(vehicle.price|float) }}</span>&emsp;</p>
+<h3>-{{ '%0.0f'|format(vehicle.discount_percentage|float)}}%</h3>
+<h2><span id="discounted_price">${{ "{:,.2f}".format((vehicle.price - vehicle.discount)|float) }}</span></h2>
+{% else %}
+<h2>${{ "{:,.2f}".format(vehicle.price|float) }}</h2>
+{% endif %}
+<br/>
+<form action="{{ url_for('cart.add', vehicle_id=vehicle.id) }}" method="post">
+    <input type="submit" value="Add to Cart" />
+</form>
+<!-- A redirect to the compare vehicles page that passes in a vehicle -->
+<form action="{{ url_for('main.main_index', vehicle_id=vehicle.id) }}" method="post">
+    <input type="submit" value="Compare Vehicle" />
+</form>
+<!-- Add a review -->
+<form action="{{ url_for('main.main_index', vehicle_id=vehicle.id) }}" method="post">
+    <input type="submit" value="Add a Review" />
+</form>
     <br/>
     <h3>Description</h3>
     <p>{{ vehicle.description }}</p>
@@ -29,6 +37,12 @@
     <p>{{ vehicle.kilometres }} km</p>
     <h3>Max Driving Range</h3>
     <p>{{ vehicle.max_range }}</p>
-    {% include "catalogue/grid_item.html" %}
-{% endif %}
-{% endblock %}
+    <h3>Rating</h3>
+    {% if rating == 0.0 %}
+    <p>Rating: No Rating </p>
+    {% else %}
+    <p>Rating:  {{ rating }}/5.0</p>
+    {% endif %} 
+    <!-- {% include "catalogue/grid_item.html" %} not sure why this is here?  -->
+    {% endif %}
+    {% endblock %}
