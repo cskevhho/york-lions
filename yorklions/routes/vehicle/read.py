@@ -5,6 +5,10 @@ from ..vehicle.utils import vehicle_json
 def get_vehicle(id):
     return db.session.query(Vehicle).filter_by(id=id).first()
 
+def get_vehicle_makes():
+    makes = [v.make for v in Vehicle.query.with_entities(Vehicle.make).distinct()]
+    return makes
+
 def read_vehicles(request):
     search_type = request.form['search_type']
     search_text = request.form['search_field']
