@@ -5,9 +5,9 @@
 <div id="listing_container">
     <div class="sidebar">
         <h2>Search Filters</h2>
-        <form id="filters" onsubmit="applyFilters()">
+        <form id="filters" onsubmit="applyFilters()" method="POST">
             <label for="sort"><h4>Sort by:</h4></label>
-            <select id="sort" name="sort">
+            <select id="sort" name="sort" onchange="applyFilters()">
                 <option id="hot_deals_desc" value="hot_deals" data-descending="true">🔥 Hot Deals</option>
                 <option id="date_added_desc" value="date_added" data-descending="true">↘️ Date Added</option>
                 <option id="date_added" value="date_added" data-descending="false">↗️ Date Added</option>
@@ -21,12 +21,12 @@
             <label for="price"><h4>Price:</h4></label>
             <div id="price">
                 <label for="min_price">Min:</label>
-                <input type="number" id="min_price" name="min_price"/>
+                <input type="number" id="min_price" name="min_price" onfocusout="applyFilters()"/>
                 <label for="max_price">Max:</label>
-                <input type="number" id="max_price" name="max_price"/>
+                <input type="number" id="max_price" name="max_price" onfocusout="applyFilters()"/>
             </div>
             <label for="condition"><h4>Condition:</h4></label>
-            <select id="condition" name="condition">
+            <select id="condition" name="condition" onchange="applyFilters()">
                 <option id="condition_all" value="all">All</option>
                 <option id="condition_new" value="new">New</option>
                 <option id="condition_used" value="used">Used</option>
@@ -34,47 +34,60 @@
             <label for="year"><h4>Year:</h4></label>
             <div id="year">
                 <label for="min_year">Min:</label>
-                <input type="number" id="min_year" name="min_year"/>
+                <input type="number" id="min_year" name="min_year" onfocusout="applyFilters()"/>
                 <label for="max_year">Max:</label>
-                <input type="number" id="max_year" name="max_year"/>
+                <input type="number" id="max_year" name="max_year" onfocusout="applyFilters()"/>
             </div>
+            <label for="type"><h4>Type:</h4></label>
+            <select id="type" name="type" onchange="applyFilters()">
+                <option id="type_all" value="all">All</option>
+                {% for type in vehicle_data.types %}
+                <option id="type_{{ type[0] }}" value="{{ type[0] }}">{{ type[0] }}</option>
+                {% endfor %}
+            </select>
             <label for="make"><h4>Make:</h4></label>
-            <select id="make" name="make" onchange="didChangeMakeFilter()">
+            <select id="make" name="make" onchange="didChangeMake()">
                 <option id="make_all" value="all">All</option>
-                {% for key in models_by_make.keys() %}
-                <option id="make_{{key}}" value="{{key}}">{{key}}</option>
+                {% for make in vehicle_data.makes %}
+                <option id="make_{{ make[0] }}" value="{{ make[0] }}">{{ make[0] }}</option>
                 {% endfor %}
             </select>
             <label for="model"><h4>Model:</h4></label>
-            <select id="model" name="model" onchange="didChangeModelFilter()">
+            <select id="model" name="model" onchange="didChangeModel()">
                 <option id="model_all" value="all">All</option>
+                {% for model in vehicle_data.models %}
+                <option id="model_{{ model[0] }}" value="{{ model[0] }}">{{ model[0] }}</option>
+                {% endfor %}
             </select>
             <label for="trim"><h4>Trim:</h4></label>
-            <select id="trim" name="trim">
+            <select id="trim" name="trim" onchange="applyFilters()">
                 <option id="trim_all" value="all">All</option>
+                {% for trim in vehicle_data.trims %}
+                <option id="trim_{{ trim[0] }}" value="{{ trim[0] }}">{{ trim[0] }}</option>
+                {% endfor %}
             </select>
             <label for="colour"><h4>Colour:</h4></label>
             <select id="colour" name="colour">
                 <option id="colour_all" value="all">All</option>
-                {% for colour in colours %}
+                {% for colour in vehicle_data.colours %}
                 <option id="colour_{{ colour[0] }}" value="{{ colour[0] }}">{{ colour[0] }}</option>
                 {% endfor %}
             </select>
-            <button class="button" id="apply_button" onclick="applyFilters()">Apply Filters</button>
+            <input type="submit" class="button" id="apply_button" value="Apply Filters"/>
             <div id="hidden_filters" hidden="true">
                 <input type="checkbox" id="descending" name="descending" value="true">
             </div>
         </form>
     </div>
 
-    {% if not vehicles %}
-        <div id="no_vehicles_message">
+    {% if not vehicle_data.vehicles %}
+        <div id="error_message">
             <h1>No vehicles found</h1>
             <h3>Try adjusting your search criteria</h3>
         </div>
     {% else %}
         <div class="grid">
-            {% for vehicle in vehicles %}
+            {% for vehicle in vehicle_data.vehicles %}
                 {% include "catalogue/grid_item.html" %}
             {% endfor %}
         </div>
@@ -82,58 +95,15 @@
 </div>
 
 <script>
-    function didChangeMakeFilter() {
-        var parsed = JSON.parse("{{ models_by_make|safe }}".replaceAll("'", "\""))
-        var currentMake = document.getElementById("make").value;
-        
-        var modelSelectBox = document.querySelector('#model')
-        while (modelSelectBox.options.length > 1) {
-            modelSelectBox.remove(1);
-        }
-
-        if (currentMake == "all") {
-            didChangeModelFilter()
-            return
-        }
-
-        var models = Object.keys(parsed[currentMake])
-        
-        for (const model in models) {
-            var o = document.createElement("option");
-            o.value = models[model];
-            o.text = models[model];
-            o.id = "trim_" + models[model]
-            modelSelectBox.appendChild(o);
-        }
-        modelSelectBox.value = "all"
-        didChangeModelFilter()
+    function didChangeMake() {
+        document.getElementById("model").value = "all";
+        document.getElementById("trim").value = "all";
+        applyFilters();
     }
-
-    function didChangeModelFilter() {
-        var parsed = JSON.parse("{{ models_by_make|safe }}".replaceAll("'", "\""))
-        
-        var currentMake = document.getElementById("make").value;
-        var currentModel = document.getElementById("model").value;
-
-        var trimSelectBox = document.querySelector('#trim')
-        while (trimSelectBox.options.length > 1) {
-            trimSelectBox.remove(1);
-        }
-
-        if (currentModel == "all") {
-            return
-        }
-
-        var trims = parsed[currentMake][currentModel]
-
-        for (const trim in trims) {
-            var o = document.createElement("option");
-            o.value = trims[trim];
-            o.text = trims[trim];
-            o.id = "trim_" + trims[trim];
-            trimSelectBox.appendChild(o);
-        }
-        trimSelectBox.value = "all"
+    function didChangeModel() {
+        document.getElementById("type").value = "all";
+        document.getElementById("trim").value = "all";
+        applyFilters();
     }
 
     function applyFilters() {
@@ -145,42 +115,40 @@
 
     function setFilters() {
         var searchParams = new URLSearchParams(window.location.search)
-        var sort = searchParams.get("sort") ?? "date_added";
-        var descending = searchParams.get("descending") ?? "true";
+        var sort = "{{ search_criteria.get('sort') or 'date_added' }}";
+        var descending = "{{ search_criteria.get('descending') or 'true' }}";
         if (descending == "true") {
             sort = sort + "_desc"
         }
         document.getElementById(sort).selected = true;
 
-        var min_price = searchParams.get("min_price") ?? "";
-        document.getElementById("min_price").value = min_price;
+        document.getElementById("min_price").value = "{{ search_criteria.get('min_price') or '' }}";
+        document.getElementById("max_price").value = "{{ search_criteria.get('max_price') or '' }}";
 
-        var max_price = searchParams.get("max_price") ?? "";
-        document.getElementById("max_price").value = max_price;
-
-        var condition = "condition_" + searchParams.get("condition") ?? "all";
+        var condition = "condition_" + "{{ search_criteria.get('condition') or 'all' }}";
         document.getElementById(condition).selected = true;
 
-        var min_year = searchParams.get("min_year") ?? "";
-        document.getElementById("min_year").value = min_year;
+        document.getElementById("min_year").value = "{{ search_criteria.get('min_year') or '' }}";
+        document.getElementById("max_year").value = "{{ search_criteria.get('max_year') or '' }}";
+        
+        document.getElementById("type").value = "{{ search_criteria.get('type') or 'all' }}";
+        document.getElementById("make").value = "{{ search_criteria.get('make') or 'all' }}";
+        document.getElementById("model").value = "{{ search_criteria.get('model') or 'all' }}";
+        document.getElementById("trim").value = "{{ search_criteria.get('trim') or 'all' }}";
+        document.getElementById("colour").value = "{{ search_criteria.get('colour') or 'all' }}";
 
-        var max_year = searchParams.get("max_year") ?? "";
-        document.getElementById("max_year").value = max_year;
+        var selects = document.getElementsByTagName("select");
+        for (select in selects) {
+            select.addEventListener("change", applyFilters);
+        }
 
-        var make = searchParams.get("make") ?? "all";
-        document.getElementById("make").value = make;
-        didChangeMakeFilter()        
-
-        var model = searchParams.get("model") ?? "all";
-        document.getElementById("model").value = model;
-        didChangeModelFilter()        
-
-        var trim = searchParams.get("trim") ?? "all";
-        document.getElementById("trim").value = trim;
-
-        var colour = searchParams.get("colour") ?? "all";
-        document.getElementById("colour").value = colour;
+        var inputs = document.getElementsByTagName("input");
+        for (input in inputs) {
+            input.addEventListener("submit", applyFilters);
+            input.addEventListener("focusout", applyFilters);
+        }
     }
+
     window.onload = setFilters;
 </script>
 {% endblock %}

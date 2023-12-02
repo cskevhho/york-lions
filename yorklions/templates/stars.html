@@ -1,0 +1,18 @@
+<p><span class="stars filled">★★★★★</span><span class="stars empty">★★★★★</span></p>
+<style>
+    .stars {
+        display: inline-block;
+        height: 36px;
+        overflow: hidden;
+        font-size: x-large;
+    }
+    .filled {
+        width: {{ "{:,.0f}".format(105 * num_stars / 5) }}px;
+        color: orange;
+    }
+    .empty {
+        direction: rtl;
+        width: {{ "{:,.0f}".format(105 - (105 * num_stars / 5)) }}px;
+        color: lightgrey;
+    }
+</style>

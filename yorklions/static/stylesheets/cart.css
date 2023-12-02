@@ -1,0 +1,62 @@
+h1 {
+    text-align: center;
+    margin: 20px 0px 0px 0px;
+}
+
+.money {
+    text-align: right;
+}
+
+.invoice {
+    margin: 20px auto 10px auto;
+    border: none;
+    font-size: large;
+    > th, td {
+        border: none;
+        padding: 0px 10px;
+        text-align: right;
+    }
+}
+
+#cart {
+    > table, th, td {
+        border: none;
+        padding: 10px;
+        text-align: center;
+    }
+    
+    > table {
+        width: 100%;
+        border-spacing: 0px 10px;
+        padding: 0px;
+    }
+}
+
+.floating_box {
+    margin-bottom: 10px;
+}
+
+.button.remove {
+    width: 100%;
+}
+
+.centred_form {
+    width: 275px;
+    position: relative;
+    height: 40px;
+    /* background-color: green; */
+    margin: auto;
+}
+
+.button.centred {
+    margin-top: 5px;
+    position: absolute;
+    left: 50%;
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    width: 100%;
+}
+
+.button.centred.clear_cart {
+    width: fit-content;
+}

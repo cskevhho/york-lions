@@ -5,12 +5,12 @@
 {% if recent_vehicles %}
 <br />
 <div class="horizontal">
-<h1>Recently-Added Vehicles</h1>
-    <div>
-        <a class="button see_all" href="{{ url_for('main.shop') }}?sort=date_added&descending=true" method="get">
-            <p>See All</p>
-        </a>
-    </div>
+    <h1>Recently-Added Vehicles</h1>
+    <form action="{{ url_for('main.shop') }}" method="POST">
+        <input type="hidden" name="sort" value="date_added" />
+        <input type="hidden" name="descending" value="true" />
+        <input type="submit" class="button see_all" value="See All" />
+    </form>
 </div>
 <div class="grid homepage">
     {% for vehicle in recent_vehicles %}
@@ -23,11 +23,11 @@
 <br />
 <div class="horizontal">
     <h1>Hot Deals</h1>
-    <div>
-        <a class="button see_all" href="{{ url_for('main.shop') }}?sort=hot_deals&descending=true" method="get">
-            <p>See All</p>
-        </a>
-    </div>
+    <form action="{{ url_for('main.shop') }}" method="POST">
+        <input type="hidden" name="sort" value="hot_deals"/>
+        <input type="hidden" name="descending" value="true"/>
+        <input type="submit" class="button see_all" value="See All"/>
+    </form>
 </div>
 <div class="grid homepage">
     {% for vehicle in hot_deals %}

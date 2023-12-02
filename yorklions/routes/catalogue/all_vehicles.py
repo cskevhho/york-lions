@@ -2,7 +2,7 @@ from ...models.vehicle import Vehicle
 from ...extensions import db
 from ..vehicle.utils import vehicle_json, generate_image_url
 
-def get_all_vehicles(sort=None, descending="true", min_price=None, max_price=None, condition="all", min_year=None, max_year=None, make="all", model="all", trim="all", colour="all", limit=None):
+def get_all_vehicles(sort=None, descending="true", min_price=None, max_price=None, condition="all", min_year=None, max_year=None, type="all", make="all", model="all", trim="all", colour="all", limit=None):
     vehicles = db.session.query(Vehicle).filter(Vehicle.is_for_sale == True)
 
     desc = descending and descending.lower() == "true"
@@ -64,6 +64,9 @@ def get_all_vehicles(sort=None, descending="true", min_price=None, max_price=Non
             if max_year > 0:
                 vehicles = vehicles.filter(Vehicle.year <= max_year)
 
+    if type and type != "all" and type != "":
+        vehicles = vehicles.filter(Vehicle.type == type)
+
     if make and make != "all" and make != "":
         vehicles = vehicles.filter(Vehicle.make == make)
     if model and model != "all" and model != "":
@@ -75,35 +78,28 @@ def get_all_vehicles(sort=None, descending="true", min_price=None, max_price=Non
         vehicles = vehicles.filter(Vehicle.colour == colour)
 
     if limit:
-        vehicles = vehicles.limit(limit).all()
+        vehicles = vehicles.limit(limit)
     else:
-        vehicles = vehicles.all()
+        vehicles = vehicles
     # TODO: .paginate(page=page, per_page=per_page, error_out=error_out, max_per_page=max_per_page)
 
-    if not vehicles:
-        return {"message": "No vehicles found"}, 400
+    types = db.session.query(Vehicle.type).distinct().order_by(Vehicle.type)
+    makes = db.session.query(Vehicle.make).distinct().order_by(Vehicle.make)
+    models = db.session.query(Vehicle.model).distinct().filter(Vehicle.make == make).order_by(Vehicle.model)
+    trims = models.with_entities(Vehicle.trim).distinct().filter(Vehicle.model == model).order_by(Vehicle.trim)
+    colours = db.session.query(Vehicle.colour).distinct().order_by(Vehicle.colour)
+
+    vehicles = vehicles.all()
     
     for vehicle in vehicles:
         vehicle.image_file = generate_image_url(vehicle)
 
-    vehicle_data = vehicle_json(vehicles) # note this is will return that json format response thing
-    return vehicle_data, 200
-
-def get_models_by_make():
-    models_by_make = {} 
-    makes = db.session.query(Vehicle.make).distinct().order_by(Vehicle.make)
-    for make in makes:
-        models = db.session.query(Vehicle.model).filter_by(make=make[0]).distinct().order_by(Vehicle.model).all()
-        trims_by_model = {}
-        for model in models:
-            trims = db.session.query(Vehicle.trim).filter_by(model=model[0]).distinct().order_by(Vehicle.trim).all()
-            trims_for_this_model = []
-            for trim in trims:
-                trims_for_this_model.append(trim[0])
-            trims_by_model[model[0]] = trims_for_this_model
-        models_by_make[make[0]] = trims_by_model
-    print(models_by_make)
-    return models_by_make
-
-def get_colours():
-    return db.session.query(Vehicle.colour).distinct().order_by(Vehicle.colour).all()
+    result = {
+        "vehicles": vehicle_json(vehicles),
+        "types": types.all(),
+        "makes": makes.all(),
+        "models": models.all(),
+        "trims": trims.all(),
+        "colours": colours.all()
+    }
+    return result, 200
