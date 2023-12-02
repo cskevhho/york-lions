@@ -5,7 +5,7 @@ from .routes.vehicle.controller import vehicle_ctrl
 from .routes.trade_in.controller import trade_in_ctrl
 from .routes.catalogue.vehicle_details import vehicle_detail_pages
 from .routes.auth import auth
-from .routes.main import main
+from .routes.main import main, handle_error
 from .routes.loancalc import loancalc
 from .routes.cart.controller import cart_ctrl
 from .routes.confirmedorder import confirmed_order
@@ -28,6 +28,8 @@ app.register_blueprint(confirmed_order)
 app.register_blueprint(user_ctrl, url_prefix="/api/user")
 app.register_blueprint(vehicle_ctrl, url_prefix="/api/vehicle")
 app.register_blueprint(trade_in_ctrl, url_prefix="/api/trade_in")
+app.register_error_handler(403, handle_error)
+app.register_error_handler(404, handle_error)
 
 # This does not overwrite existing tables, just creates new ones if need be.
 with app.app_context():

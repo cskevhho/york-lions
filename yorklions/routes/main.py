@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request, jsonify
-from flask_login import login_user, current_user, logout_user, login_required
+from flask_login import login_user, current_user, logout_user, login_required, AnonymousUserMixin
 from ..forms import RegistrationForm, LoginForm
 from ..routes.catalogue import recent, hot_deals as deals, all_vehicles
 from .trade_in import create as trade_in_form
@@ -63,9 +63,8 @@ def trade_in():
 
 @main.route("/admin", methods=["GET", "POST"])
 def admin_dash():
-    if current_user.is_admin == False:              # can comment out, just here for testing purposes
-        flash("You are not an admin!", "danger")
-        return redirect(url_for("main.main_index"))
+    if isinstance(current_user, AnonymousUserMixin) or not current_user.is_admin:
+        return render_template("error/403.html"), 403
     return render_template("admin.html")
 
 # TODO: Move below routes to a separate file, very much low priority for time
@@ -118,10 +117,5 @@ def vehicle_comparison():
 
     return render_template("vehicle-comparison.html", v1=v1, v2=v2, v1rating=v1rating, v2rating=v2rating)
 
-
-
-
-
-
-
-
+def handle_error(error):
+    return render_template(f'error/{error.code}.html'), error.code

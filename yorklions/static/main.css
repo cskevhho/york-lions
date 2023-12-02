@@ -255,10 +255,16 @@ p.new_label {
   }
 }
 
-#image_404 {
-  border-radius: 25px;
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+#image_404 {-webkit-filter: drop-shadow(0px 2px 10px rgba(0, 0, 0, 0.3));
+  filter: drop-shadow(0px 2px 10px rgba(0, 0, 0, 0.3));
   max-width: 25%;
+  margin-bottom: 10px;
+}
+
+#image_403 {
+  -webkit-filter: drop-shadow(0px 2px 10px rgba(0, 0, 0, 0.3));
+  filter: drop-shadow(0px 2px 10px rgba(0, 0, 0, 0.3));
+  max-width: 15%;
   margin-bottom: 10px;
 }
 

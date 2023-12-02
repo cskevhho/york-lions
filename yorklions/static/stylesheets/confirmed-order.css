@@ -1,0 +1,34 @@
+h1 {
+    text-align: center;
+    margin: 20px 0px 20px 0px;
+}
+
+h2 {
+    text-align: center;
+}
+
+.floating_box {
+    width: fit-content;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+table, tr, th, td {
+    border: none;
+    border-spacing: 15px 10px;
+    margin: 0px -15px;
+}
+
+td {
+    text-align: right;
+}
+
+th {
+    text-align: left;
+}
+
+.centred {
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+}
