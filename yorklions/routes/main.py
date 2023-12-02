@@ -56,7 +56,7 @@ def reviews():
 def trade_in():
     if request.method == "POST":
         trade_in_form.create_trade_in()
-        flash("Trade-in request submitted!", "success")
+        flash("Trade-in request submitted! You will recieve an email shortly with details.", "success")
         return redirect(url_for("main.main_index"))
 
     return render_template("trade-in.html")

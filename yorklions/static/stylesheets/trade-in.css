@@ -1,0 +1,74 @@
+#sign_in_message {
+    text-align: center;
+    margin: 40px;
+}
+
+#title {
+    text-align: center;
+    margin: 20px 0px 20px 0px;
+}
+
+#form_title {
+    text-align: center;
+    margin: 10px 0px 20px 0px;
+}
+
+h2 {
+    margin: 20px 0px 5px 0px;
+}
+
+p, ol {
+    text-align: justify;
+    hyphens: manual;
+}
+
+input, select {
+    padding: 5px;
+    width: 100%;
+    margin: 5px;
+}
+
+#form_grid {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    margin: auto 10px 10px -30px;
+
+    > label {
+        text-align: right;
+        margin: 5px;
+        /* background-color: red; */
+    }
+}
+
+#text_areas {
+    width: 100%;
+    margin: 45px 10px 10px 10px;
+
+    > textarea {
+        width: 98%;
+        resize: vertical;
+    }
+}
+
+.button.image_upload {
+    margin-top: 5px;
+    position: absolute;
+    left: 50%;
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    width: fit-content;
+}
+
+.button.submit {
+    margin-top: 5px;
+    position: absolute;
+    left: 50%;
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    width: fit-content;
+}
+
+.floating_box {
+    margin: 40px 0px;
+    padding-bottom: 50px;
+}

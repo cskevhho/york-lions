@@ -256,9 +256,10 @@ p.new_label {
 }
 
 #image_404 {
-  border: 2px solid black;
-  border-radius: 2vh;
+  border-radius: 25px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
   max-width: 25%;
+  margin-bottom: 10px;
 }
 
 .image_container {

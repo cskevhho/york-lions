@@ -22,6 +22,8 @@ h1 {
 .description {
     width: 100%;
     margin-left: 20px;
+    text-align: justify;
+    hyphens: manual;
 }
 
 .price_box {

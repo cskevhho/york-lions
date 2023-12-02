@@ -1,63 +1,97 @@
 {% extends "layout.html" %}
 
+{% block stylesheet  %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/trade-in.css') }}">
+{% endblock stylesheet %}
+
 {% block content %}
 <!-- TODO: Make this look nice, add some text above explaining the process. -->
 
-{% if current_user.is_authenticated %} <!-- Flask session management is just :chefs_kiss: -->
-    <form action="{{ url_for('main.trade_in') }}" method="post">
-        <fieldset>
-            <legend>
-                <h2>Vehicle Details</h2>
-            </legend>
-            <label for="year">Year:</label><br/>
-            <input type="number" id="year" name="year"/><br/>
-            <label for="make">Make:</label><br/>
-            <input type="text" id="make" name="make"/><br/>
-            <label for="model">Model:</label><br/>
-            <input type="text" id="model" name="model"/><br/>
-            <label for="trim">Trim Level:</label><br/>
-            <input type="text" id="trim" name="trim"/><br/>
-            <label for="colour">Colour:</label><br/>
-            <select id="colour" name="colour">
-                <option value="black">Black</option>
-                <option value="white">White</option>
-                <option value="grey">Grey</option>
-                <option value="red">Red</option>
-                <option value="orange">Orange</option>
-                <option value="yellow">Yellow</option>
-                <option value="green">Green</option>
-                <option value="blue">Blue</option>
-                <option value="purple">Purple</option>
-                <option value="pink">Pink</option>
-                <option value="beige">Beige</option>
-                <option value="brown">Brown</option>
-            </select><br/>
-            <label for="type">Vehicle Type:</label><br/>
-            <select id="type" name="type">
-                <option value="sedan">Sedan</option>
-                <option value="coupe">Coupe</option>
-                <option value="sports_car">Sports Car</option>
-                <option value="station_wagon">Station Wagon</option>
-                <option value="coupe">Hatchback</option>
-                <option value="coupe">Convertible</option>
-                <option value="coupe">Pickup Truck</option>
-                <option value="coupe">Minivan</option>
-                <option value="coupe">SUV</option>
-            </select><br/>
-            <label for="kilometres">Kilometres:</label><br/>
-            <input type="number" id="kilometres" name="kilometres"/><br/>
-            <label for="max_range">Max Range:</label><br/>
-            <input type="number" id="max_range" name="max_range"/><br/>
-            <label for="accidents">Describe any accidents or repairs:</label><br/>
-            <textarea id="accidents" name="accidents" rows="4" cols="50"></textarea><br/>
-            <label for="details">Describe any other details (e.g. add-ons, packages, etc.):</label><br/>
-            <textarea id="details" name="details" rows="4" cols="50"></textarea><br/>
-            <input type="submit" value="Submit">
-        </fieldset>
-    </form>
-{% else %}
-    <h3><a href="{{ url_for('auth.login') }}">Sign In</a> or <a href="{{ url_for('auth.register') }}">Register</a> to sell your car today!</h3>
-{% endif %}
+<div class="centred_content_wrapper">
+    <div id="title">
+        <h1>Turn Your Wheels into Deals</h1>
+        <h1>Sell Your Car to Us!</h1>
+    </div>
+
+    <p>Ready to part ways with your trusty vehicle? We're here to turn that process into a seamless and rewarding experience. At YORK L-IONS, we specialize in buying used cars, and we're eager to add your vehicle to our inventory of quality pre-owned automobiles.</p>
+    
+    <h2>Why Sell to Us?</h2>
+    <ol>
+        <li><strong>Fair and Transparent Valuation:</strong> Wondering what your car is worth? Our team utilizes cutting-edge valuation tools to ensure you receive a fair and competitive offer. We're committed to transparency throughout the process, explaining each step so you can sell with confidence.</li>
+        <li><strong>Effortless Selling Process:</strong> Selling your car shouldn't be a hassle. With YORK L-IONS, it's a breeze. Our user-friendly online platform allows you to submit details about your vehicle effortlessly. No need for lengthy negotiations – we aim to make the process swift and straightforward.</li>
+        <li><strong>Get Paid Quickly:</strong> Time is money, and we value both. Once we've agreed on a price, expect prompt payment. No delays, no excuses – just quick and hassle-free transactions.</li>
+    </ol>
+    
+    <h2>How It Works:</h2>
+    <ol>
+        <li><strong>Submit Your Vehicle Details:</strong> Start by filling out our simple online form. Provide us with the essential details about your car, including make, model, year, and current condition. Don't forget to add any special features or noteworthy upgrades!</li>
+        <li><strong>Receive Your Offer:</strong> Our team will swiftly evaluate your information and provide you with a competitive offer. Expect a fair assessment that reflects the true value of your vehicle.</li>
+        <li><strong>Accept the Offer:</strong> Happy with our offer? Great! Accept it, and we'll move forward with the process. Prepare your vehicle for inspection – we'll take care of the rest.</li>
+        <li><strong>Vehicle Inspection:</strong> Our experts will conduct a thorough but efficient inspection of your car. As long as the details match your submission, consider the hard part done.</li>
+        <li><strong>Get Paid and Hand Over the Keys:</strong> Once the inspection is complete, and everything checks out, you'll receive your payment promptly. Hand over the keys, and you're free to move on with the satisfaction of a successful sale!</li>
+    </ol>
+    
+    <h2>Why Wait? Sell Your Car Today!</h2>
+    
+    <p>Don't let your car gather dust when it could be turning into cash. Experience a hassle-free and rewarding selling process with YORK L-IONS. Submit your vehicle details now, and let's get the wheels turning on your next adventure!</p>
+    
+    {% if current_user.is_authenticated %} <!-- Flask session management is just :chefs_kiss: -->
+        <form action="{{ url_for('main.trade_in') }}" method="post" class="floating_box">
+            <h2 id="form_title">Vehicle Details</h2>
+            <div id="form_grid">
+                <label for="year">Year:</label>
+                <input type="number" id="year" name="year"/>
+                <label for="make">Make:</label>
+                <input type="text" id="make" name="make"/>
+                <label for="model">Model:</label>
+                <input type="text" id="model" name="model"/>
+                <label for="trim">Trim Level:</label>
+                <input type="text" id="trim" name="trim"/>
+                <label for="colour">Colour:</label>
+                <select id="colour" name="colour">
+                    <option value="black">Black</option>
+                    <option value="white">White</option>
+                    <option value="grey">Grey</option>
+                    <option value="red">Red</option>
+                    <option value="orange">Orange</option>
+                    <option value="yellow">Yellow</option>
+                    <option value="green">Green</option>
+                    <option value="blue">Blue</option>
+                    <option value="purple">Purple</option>
+                    <option value="pink">Pink</option>
+                    <option value="beige">Beige</option>
+                    <option value="brown">Brown</option>
+                </select>
+                <label for="type">Vehicle Type:</label>
+                <select id="type" name="type">
+                    <option value="sedan">Sedan</option>
+                    <option value="coupe">Coupe</option>
+                    <option value="sports_car">Sports Car</option>
+                    <option value="station_wagon">Station Wagon</option>
+                    <option value="coupe">Hatchback</option>
+                    <option value="coupe">Convertible</option>
+                    <option value="coupe">Pickup Truck</option>
+                    <option value="coupe">Minivan</option>
+                    <option value="coupe">SUV</option>
+                </select>
+                <label for="kilometres">Kilometres:</label>
+                <input type="number" id="kilometres" name="kilometres"/>
+                <label for="max_range">Max Range:</label>
+                <input type="number" id="max_range" name="max_range"/>
+            </div>
+            <button class="button image_upload">Upload Image</button>
+            <div id="text_areas">
+                <label for="accidents">Describe any accidents or repairs:</label><br/>
+                <textarea id="accidents" name="accidents" rows="4" cols="50"></textarea><br />
+                <label for="details">Describe any other details (e.g. add-ons, packages, etc.):</label><br />
+                <textarea id="details" name="details" rows="4" cols="50"></textarea>
+            </div>
+            <input type="submit" value="Submit" class="button submit">
+        </form>
+    {% else %}
+        <h2 id="sign_in_message"><a href="{{ url_for('auth.login') }}">Sign In</a> or <a href="{{ url_for('auth.register') }}">Register</a> to sell your car today!</h2>
+    {% endif %}
+</div>
 
 
 {% endblock %}
