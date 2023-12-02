@@ -22,7 +22,7 @@ class CreateRatingForm(FlaskForm):
             "Last Initial", validators=[Length(min=0, max=1)]
             )
     rating = FloatField(
-            "Rating (1=5)", validators=[DataRequired(), NumberRange(min=1, max=5)]
+            "Rating (0-5)", validators=[DataRequired(), NumberRange(min=0, max=5)]
             )
     review_body = TextAreaField(
             "Review Body (max 280 char)", validators=[Length(min=0, max=280)] # tweet tweet
