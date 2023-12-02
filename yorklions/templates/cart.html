@@ -1,57 +1,80 @@
 {% extends "layout.html" %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/cart.css') }}">
+{% endblock stylesheet %}
+
 {% block content %}
+<div class="centred_content_wrapper">
 <h1>Shopping Cart</h1>
+<!-- A redirect to the compare vehicles page that passes in a vehicle -->
+<form action="/clear_cart" method="post" class="centred_form">
+    <input type="submit" value="Clear Cart" class="button centred clear_cart" />
+</form>
 {% if total > 0 %}
-    <table>
-        <thead>
-            <tr>
-                <th>Item Name</th>
-                <th>Price</th>
-                <th>Discount</th>
-                <th>Subtotal</th>
-                <th>Action</th>
-                <!-- <th>Total</th> -->
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in cart_items %}
-            <tr>
-                <td>{{ item['name'] }}</td>
-                <td>${{ "{:,.2f}".format(item['price']|float) }}</td>
-                <td>-${{ "{:,.2f}".format(item['discount']|float) }}</td>
-                <td>${{ "{:,.2f}".format(item['total_price']|float) }}</td>
-                <td>
-                    <form action="/remove" method="POST">
-                        <input type="hidden" name="item_id" value="{{ item['id'] }}">
-                        <button type="submit">Remove from Cart</button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
+    <div id="cart">
+        <table>
+            <thead>
+                <tr class="floating_box">
+                    <th>Item Name</th>
+                    <th>Price</th>
+                    <th>Discount</th>
+                    <th>Item Total</th>
+                    <th>Action</th>
+                    <!-- <th>Total</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr class="floating_box">
+                    <td><a href="/vehicle/{{ item['id'] }}">{{ item['name'] }}</a></td>
+                    <td>${{ "{:,.2f}".format(item['price']|float) }}</td>
+                    <td>-${{ "{:,.2f}".format(item['discount']|float) }}</td>
+                    <td>${{ "{:,.2f}".format(item['total_price']|float) }}</td>
+                    <td>
+                        <form action="/remove" method="POST">
+                            <input type="hidden" name="item_id" value="{{ item['id'] }}">
+                            <button type="submit" class="button remove">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <table class="invoice">
+        <tr>
+            <td>Subtotal:</td>
+            <td class="money">${{ "{:,.2f}".format(total|float) }}</td>
+        </tr>
+        <tr>
+            <td>Tax:</td>
+            <td class="money">${{ "{:,.2f}".format((total|float) * 0.13) }}</td>
+        </tr>
+        <tr>
+            <td><b>Total:</b></td>
+            <td class="money"><b>${{ "{:,.2f}".format((total|float) * 1.13) }}</b></td>
+        </tr>
     </table>
-
-    <h2>Total: ${{ "{:,.2f}".format(total|float) }}</h2>
-
+    
     {% if current_user.is_authenticated %}
-        <form action="/checkout" method="POST">
-            <button type="submit">Checkout</button>
-        </form>
-        <form action="/clear_cart" method="POST">
-            <button type="submit">Clear Cart</button>
-        </form>
+    <form action="/checkout" method="POST" class="centred_form">
+        <button type="submit" class="button centred">Checkout</button>
+    </form>
     {% else %}
-        <form action="/checkout" method="POST">
-            <button type="submit">Checkout as Guest</button>
-        </form>
-        <form action="/login" method="POST">
-            <button type="submit">Login</button>
-        </form>
-        <form action="/register" method="POST">
-            <button type="submit">Register</button>
-        </form>
+    <form action="/checkout" method="POST" class="centred_form">
+        <button type="submit" class="button centred">Checkout as Guest</button>
+    </form>
+    <form action="/login" method="POST" class="centred_form">
+        <button type="submit" class="button centred">Login</button>
+    </form>
+    <form action="/register" method="POST" class="centred_form">
+        <button type="submit" class="button centred">Register</button>
+    </form>
     {% endif %}
 {% else %}
     <p>Your shopping cart is empty</p>
 {% endif %}
+</div>
 {% endblock content %}

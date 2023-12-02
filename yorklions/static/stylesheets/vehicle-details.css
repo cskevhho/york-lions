@@ -1,9 +1,3 @@
-.vehicle_details_wrapper {
-    margin: auto;
-    width: fit-content;
-    max-width: 760px;
-}
-
 .image_container {
     width: 540px;
     height: 360px;
@@ -18,15 +12,7 @@
 
 h1 {
     text-align: center;
-    margin: 20px 0px 00px 0px;
-}
-
-.floating_box {
-    border-radius: 25px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
-    padding: 15px;
-    margin-bottom: 10px;
-    max-width: 100%;
+    margin: 20px 0px 0px 0px;
 }
 
 .description, .price_box, .image_container, .vehicle_details {
