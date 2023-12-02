@@ -16,10 +16,10 @@ class CreateRatingForm(FlaskForm):
         - a timestamp for when the rating was created, which will be automatically generated
     """
     f_name = StringField(
-            "First Name", validators=[Length(min=2, max=20)]
+            "First Name", validators=[Length(min=0, max=20)]
             )
     l_initial = StringField(
-            "Last Initial", validators=[Length(min=1, max=1)]
+            "Last Initial", validators=[Length(min=0, max=1)]
             )
     rating = FloatField(
             "Rating (1=5)", validators=[DataRequired(), NumberRange(min=1, max=5)]
