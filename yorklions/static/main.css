@@ -80,6 +80,7 @@ table, th, td {
 
 #original_price {
   text-decoration: line-through;
+  color: grey;
 }
 
 #discounted_price {
@@ -150,6 +151,7 @@ table, th, td {
   outline: 2px solid red;
   color: white;
   cursor: pointer;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 .button:hover {
@@ -252,4 +254,12 @@ p.new_label {
   border: 2px solid black;
   border-radius: 2vh;
   max-width: 25%;
+}
+
+.image_container {
+  overflow: hidden;
+
+  >img {
+    object-fit: cover;
+  }
 }

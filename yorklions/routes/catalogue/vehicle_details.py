@@ -2,6 +2,7 @@ import random
 from flask import Blueprint, render_template
 from ..vehicle.services import get_vehicle, get_average_rating
 from ..vehicle.utils import generate_image_url
+from ..rating.read import get_ratings
 
 vehicle_detail_pages = Blueprint("vehicle_details", __name__)
 
@@ -17,5 +18,8 @@ def show_detail_page(id):
 
     average_rating = get_average_rating(make, model, year)
     vehicle.image_file = generate_image_url(vehicle)
-    return render_template("vehicle-details.html", vehicle=vehicle, rating=average_rating)
+
+    reviews = get_ratings(vehicle)
+
+    return render_template("vehicle-details.html", vehicle=vehicle, average_rating=average_rating, reviews=reviews)
 
