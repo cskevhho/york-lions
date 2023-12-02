@@ -30,7 +30,13 @@ header {
   align-items: center;
 }
 
+h1 {
+  text-align: center;
+  margin: 20px 0px 0px 0px;
+}
+
 .horizontal h1 {
+  text-align: left;
   margin: 0px 10px 0px 20px;
 }
 

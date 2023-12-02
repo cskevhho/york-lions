@@ -1,0 +1,39 @@
+.field {
+    display: flex;
+    flex-direction: column;
+}
+
+.form_grid {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap: 10px 10px;
+}
+
+input, select {
+    padding: 5px;
+    width: 100%;
+}
+
+.button {
+    width: fit-content;
+    margin: 20px auto 40px auto;
+}
+
+#cc_exp_label {
+    margin-top: 10px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    margin-right: -10px;
+}
+
+h3 {
+    text-align: center;
+}
+
+.floating_box {
+    margin-top: 20px;
+    padding: 20px 30px 20px 20px;
+}
