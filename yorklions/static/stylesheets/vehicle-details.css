@@ -1,7 +1,7 @@
 .vehicle_details_wrapper {
     margin: auto;
     width: fit-content;
-    max-width: 810px;
+    max-width: 760px;
 }
 
 .image_container {
@@ -40,6 +40,7 @@ h1 {
 
 .price_box {
     margin-left: 0px;
+    height: fit-content;
 }
 
 .rating_box {
