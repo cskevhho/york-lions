@@ -1,0 +1,33 @@
+h2 {
+    text-align: center;
+}
+
+input, select {
+    padding: 5px;
+    width: 100%;
+}
+
+.button {
+    width: fit-content;
+    margin: 20px auto 40px auto;
+}
+
+.form_grid {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap: 10px 10px;
+}
+
+.wide {
+    display: flex;
+    flex-direction: column;
+}
+
+.floating_box {
+    padding: 20px 30px 20px 20px;
+    margin-top: 20px;
+}
+
+.centred_content_wrapper {
+    width: 480px;
+}

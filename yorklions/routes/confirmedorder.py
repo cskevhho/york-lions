@@ -24,4 +24,4 @@ def confirmed(po_id):
     if request.method == "POST":
         flash("Order confirmed! Bookmark this page to watch its status.", "success")
 
-    return render_template("confirmedorder.html", po=po, address=address)
+    return render_template("confirmed-order.html", po=po, address=address)
