@@ -52,9 +52,9 @@ def admin_create():
 @rating_ctrl.route("/api/rating/read", methods=["GET", "POST"])
 def read():
     if request.method == "POST":
-        return read_user(request)
+        return admin_get_ratings(request)
 
-    return render_template("user/read.html")
+    return render_template("rating/read.html")
 
 
 @rating_ctrl.route("/api/rating/update", methods=["GET", "POST"])
