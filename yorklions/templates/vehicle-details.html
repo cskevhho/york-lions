@@ -5,9 +5,6 @@
 {% endblock stylesheet %}
 
 {% block content %}
-    {% if not vehicle %}
-        {% include "404.html" %}
-    {% else %}
     <h1>{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }} {{ vehicle.trim }}</h1>
     <!-- A redirect to the compare vehicles page that passes in a vehicle -->
     <form action="{{ url_for('main.main_index', vehicle_id=vehicle.id) }}" method="post" class="compare_vehicle_form">
@@ -46,9 +43,11 @@
                 {% else %}
                 <h2>${{ "{:,.2f}".format(vehicle.price|float) }}</h2>
                 {% endif %}
+                {% if vehicle.is_for_sale %}
                 <form action="{{ url_for('cart.add', vehicle_id=vehicle.id) }}" method="post">
                     <input type="submit" value="Add to Cart" class="button add_to_cart" />
                 </form>
+                {% endif %}
             </div>
             <div class="floating_box description">
                 <h3>Description</h3>
@@ -83,5 +82,4 @@
             {% endfor %}
         </div>
     </div>
-    {% endif %}
 {% endblock %}

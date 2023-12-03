@@ -15,6 +15,8 @@
                 <option id="price" value="price" data-descending="false">↗️ Price</option>
                 <option id="km_desc" value="km" data-descending="true">↘️  Kilometres</option>
                 <option id="km" value="km" data-descending="false">↗️ Kilometres</option>
+                <option id="range_desc" value="range" data-descending="true">↘️  Max Driving Range</option>
+                <option id="range" value="range" data-descending="false">↗️ Max Driving Range</option>
                 <option id="year_desc" value="year" data-descending="true">↘️ Year</option>
                 <option id="year" value="year" data-descending="false">↗️ Year</option>
             </select>
@@ -25,12 +27,20 @@
                 <label for="max_price">Max:</label>
                 <input type="number" id="max_price" name="max_price" onfocusout="applyFilters()"/>
             </div>
-            <label for="condition"><h4>Condition:</h4></label>
-            <select id="condition" name="condition" onchange="applyFilters()">
-                <option id="condition_all" value="all">All</option>
-                <option id="condition_new" value="new">New</option>
-                <option id="condition_used" value="used">Used</option>
-            </select>
+            <label for="kilometres"><h4>Kilometres:</h4></label>
+            <div id="kilometres">
+                <label for="min_kilometres">Min:</label>
+                <input type="number" id="min_kilometres" name="min_kilometres" onfocusout="applyFilters()"/>
+                <label for="max_kilometres">Max:</label>
+                <input type="number" id="max_kilometres" name="max_kilometres" onfocusout="applyFilters()"/>
+            </div>
+            <label for="range"><h4>Max Driving Range:</h4></label>
+            <div id="range">
+                <label for="min_range">Min:</label>
+                <input type="number" id="min_range" name="min_range" onfocusout="applyFilters()"/>
+                <label for="max_range">Max:</label>
+                <input type="number" id="max_range" name="max_range" onfocusout="applyFilters()"/>
+            </div>
             <label for="year"><h4>Year:</h4></label>
             <div id="year">
                 <label for="min_year">Min:</label>
@@ -38,6 +48,12 @@
                 <label for="max_year">Max:</label>
                 <input type="number" id="max_year" name="max_year" onfocusout="applyFilters()"/>
             </div>
+            <label for="condition"><h4>Condition:</h4></label>
+            <select id="condition" name="condition" onchange="applyFilters()">
+                <option id="condition_all" value="all">All</option>
+                <option id="condition_new" value="new">New</option>
+                <option id="condition_used" value="used">Used</option>
+            </select>
             <label for="type"><h4>Type:</h4></label>
             <select id="type" name="type" onchange="applyFilters()">
                 <option id="type_all" value="all">All</option>
@@ -114,9 +130,8 @@
     }
 
     function setFilters() {
-        var searchParams = new URLSearchParams(window.location.search)
         var sort = "{{ search_criteria.get('sort') or 'date_added' }}";
-        var descending = "{{ search_criteria.get('descending') or 'true' }}";
+        var descending = "{{ search_criteria.get('descending')}}";
         if (descending == "true") {
             sort = sort + "_desc"
         }
@@ -130,6 +145,12 @@
 
         document.getElementById("min_year").value = "{{ search_criteria.get('min_year') or '' }}";
         document.getElementById("max_year").value = "{{ search_criteria.get('max_year') or '' }}";
+
+        document.getElementById("min_range").value = "{{ search_criteria.get('min_range') or '' }}";
+        document.getElementById("max_range").value = "{{ search_criteria.get('max_range') or '' }}";
+
+        document.getElementById("min_kilometres").value = "{{ search_criteria.get('min_kilometres') or '' }}";
+        document.getElementById("max_kilometres").value = "{{ search_criteria.get('max_kilometres') or '' }}";
         
         document.getElementById("type").value = "{{ search_criteria.get('type') or 'all' }}";
         document.getElementById("make").value = "{{ search_criteria.get('make') or 'all' }}";

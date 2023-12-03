@@ -1,6 +1,8 @@
 import random
-from flask import Blueprint, render_template, flash
+from flask import Blueprint, render_template, flash, request
+from flask_login import current_user
 from .po.read import get_po
+from .user.read import get_user
 from .address.read import get_address
 from .vehicle.update import mark_vehicle_sold
 
@@ -10,10 +12,16 @@ confirmed_order = Blueprint("confirmedorder", __name__)
 def confirmed(po_id):
     po = get_po(po_id)
     if po == None:
-        return render_template("404.html")
+        return render_template("error/404.html"), 404
+    
+    if current_user != po.user:
+        return render_template("error/403.html"), 403
+
     address = get_address(po.address_id)
     for vehicle in po.vehicles:
         mark_vehicle_sold(vehicle=vehicle)
     
-    flash("Order confirmed! Bookmark this page to watch its status.", "success")
-    return render_template("confirmedorder.html", po=po, address=address)
+    if request.method == "POST":
+        flash("Order confirmed! Bookmark this page to watch its status.", "success")
+
+    return render_template("confirmed-order.html", po=po, address=address)

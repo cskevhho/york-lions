@@ -21,4 +21,5 @@ class User(db.Model, UserMixin):
     address_id: Mapped[int] = mapped_column(Integer, ForeignKey('addresses.id'), nullable=True)
     address: Mapped["Address"] = relationship("Address", back_populates="user")
     trade_ins = relationship('TradeIn', backref='user', lazy=True)
+    orders: Mapped[List['PurchaseOrder']] = relationship('PurchaseOrder', back_populates='user')
     

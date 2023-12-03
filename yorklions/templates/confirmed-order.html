@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/confirmed-order.css') }}">
+{% endblock stylesheet %}
+
+{% block content %}
+    <div class="centred_content_wrapper">
+        <h1>Order Details</h1>
+        <h2>Order #{{ po.id }}</h2>
+        <div class="floating_box order_details centred">
+            <p>Placed: {{ po.date_created }}</p>
+            <p>Status: {{ po.status }}</p>
+            <p>Last updated: {{ po.latest_update }}</p>
+        </div>
+        <h2>Shipping & Contact Information</h2>
+        <div class="floating_box shipping_info centred">
+            <div class="centred">
+                <p>{{ po.fname }} {{ po.lname }}</p>
+                <p>{{ po.user.email }}</p>
+                <p>{{ address.phone }}</p>
+                <p>{{ address.street }}</p>
+                <p>{{ address.city }}, {{ address.province }}</p>
+                <p>{{ address.postal_code }}</p>
+                <p>Canada</p>
+            </div>
+        </div>
+
+        <h2>Payment Summary</h2>
+        <div class="floating_box order_summary centred">
+            <div class="centred">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Subtotal</th>
+                            <td>${{ "{:,.2f}".format(po.subtotal|float) }}</td>
+                        </tr>
+                        <tr>
+                            <th>Discount</th>
+                            <td>${{ "{:,.2f}".format(po.discount|float) }}</td>
+                        </tr>
+                        <tr>
+                            <th>Taxes</th>
+                            <td>${{ "{:,.2f}".format(po.taxes|float) }}</td>
+                        </tr>
+                        <tr>
+                            <th>Total Paid</th>
+                            <td>${{ "{:,.2f}".format(po.total_paid|float) }}</td>
+                        </tr>
+                        <tr>
+                            <th>Payment Method</th>
+                            <td>{{ po.cc_type }} ending in {{ po.cc_last_4_digits }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <h2>Your Order:</h2>
+        <div class="grid">
+            {% for vehicle in po.vehicles %}
+            {% include "catalogue/grid_item.html" %}
+            {% endfor %}
+        </div>
+        <!--Fill this in with vehicle make brand trim, and price-->
+        
+    </div>
+{% endblock content %}

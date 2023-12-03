@@ -1,52 +1,87 @@
 {% extends "layout.html" %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/checkout.css') }}">
+{% endblock stylesheet %}
+
 {% block content %}
-<h1>Checkout</h1>
+<div class="centred_content_wrapper">
+    <h1 class="title">Checkout</h1>
 
-<h2>Total: ${{ "{:,.2f}".format(total|float) }}</h2>
-<br/>
-<form action="{{ url_for('cart.complete_order') }}" method="post">
-    <label for="shipping_info">Shipping Information</label>
-    <fieldset name="shipping_info" id="shipping_info">
-        <label for="fname">First name:</label>
-        <input type="text" id="fname" name="fname" /><br />
-        <label for="lname">Last name:</label>
-        <input type="text" id="lname" name="lname" /><br />
-        <label for="phone">Phone number:</label>
-        <input type="text" id="phone" name="phone" /><br />
-        <label for="street_address">Street address:</label>
-        <input type="text" id="street_address" name="street_address" /><br />
-        <label for="city">City:</label>
-        <input type="text" id="city" name="city" /><br />
-        <label for="postal_code">Postal Code:</label>
-        <input type="text" id="postal_code" name="postal_code" /><br />
-        <label for="province">Province:</label>
-        <input type="text" id="province" name="province" /><br />
-    </fieldset>
-    <br/>
-    <label for="payment_info">Payment Information</label>
-    <fieldset name="payment_info" id="payment_info">
-        <label for="cc_type">Card type:</label>
-        <select id="cc_type" name="cc_type">
-            <option value="Visa">Visa</option>
-            <option value="MasterCard">MasterCard</option>
-            <option value="American Express">American Express</option>
-        </select><br/>
-        <label for="cc_num">Credit card number:</label>
-        <input type="text" id="cc_num" name="cc_num" />
-        <label for="cc_cvv">CVV:</label>
-        <input type="number" id="cc_cvv" name="cc_cvv" /><br />
-        <label for="cc_name">Name on card:</label>
-        <input type="text" id="cc_name" name="cc_name" /><br />
-        <label for="cc_exp">Expiration date:</label>
-        <fieldset name="cc_exp" id="cc_exp">
-            <label for="cc_exp_month">MM:</label>
-            <input type="number" id="cc_exp_month" name="cc_exp_month" />
-            <label for="cc_exp_year">YY:</label>
-            <input type="number" id="cc_exp_year" name="cc_exp_year" />
-        </fieldset>
-    </fieldset>
-    <br/>
-    <input type="submit" value="Complete Order" />
-</form>
-
+    <h3>Total: ${{ "{:,.2f}".format((total|float) * 1.13) }}</h3>
+    <form action="{{ url_for('cart.complete_order') }}" method="post">
+        <div class="floating_box">
+            <h2>Shipping Information</h2>
+            <div class="form_grid">
+                <div class="field">
+                    <label for="fname">First name:</label>
+                    <input type="text" id="fname" name="fname" />
+                </div>
+                <div class="field">
+                    <label for="lname">Last name:</label>
+                    <input type="text" id="lname" name="lname" />
+                </div>
+                <div class="field">
+                    <label for="phone">Phone number:</label>
+                    <input type="text" id="phone" name="phone" />
+                </div>
+                <div class="field">
+                    <label for="street_address">Street address:</label>
+                    <input type="text" id="street_address" name="street_address" />
+                </div>
+                <div class="field">
+                    <label for="city">City:</label>
+                    <input type="text" id="city" name="city" />
+                </div>
+                <div class="field">
+                    <label for="postal_code">Postal Code:</label>
+                    <input type="text" id="postal_code" name="postal_code" />
+                </div>
+                <div class="field">
+                    <label for="province">Province:</label>
+                    <input type="text" id="province" name="province" />
+                </div>
+            </div>
+        </div>
+        <div class="floating_box">
+            <h2>Payment Information</h2>
+            <div class="form_grid">
+                <div class=field>
+                    <label for="cc_type">Card type:</label>
+                    <select id="cc_type" name="cc_type">
+                        <option value="Visa">Visa</option>
+                        <option value="MasterCard">MasterCard</option>
+                        <option value="American Express">American Express</option>
+                    </select>
+                </div>
+                <div class=field>
+                    <label for="cc_num">Credit card number:</label>
+                    <input type="text" id="cc_num" name="cc_num" />
+                </div>
+                <div class=field>
+                    <label for="cc_cvv">CVV:</label>
+                    <input type="number" id="cc_cvv" name="cc_cvv" />
+                </div>
+                <div class=field>
+                    <label for="cc_name">Name on card:</label>
+                    <input type="text" id="cc_name" name="cc_name" />
+                </div>
+            </div>
+            <p id="cc_exp_label">Expiration date:</p>
+            <div id="cc_exp" class=form_grid>
+                <div class="field">
+                    <label for="cc_exp_month">MM:</label>
+                    <input type="number" id="cc_exp_month" name="cc_exp_month" />
+                </div>
+                <div class="field">
+                    <label for="cc_exp_year">YY:</label>
+                    <input type="number" id="cc_exp_year" name="cc_exp_year" />
+                </div>
+            </div>
+        </div>
+        <div class=field>
+            <input type="submit" value="Complete Order" class="button"/>
+        </div>
+    </form>
+</div>
 {% endblock content %}

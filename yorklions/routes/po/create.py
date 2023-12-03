@@ -2,6 +2,7 @@ from ...models.vehicle import Vehicle
 from ...models.po import PurchaseOrder
 from ...extensions import db
 from datetime import datetime
+from flask_login import current_user
 
 
 def create_po(
@@ -22,6 +23,7 @@ def create_po(
         date_created=now,
         latest_update=now
     )
+    new_po.user=current_user
     db.session.add(new_po)
     db.session.commit()
 
