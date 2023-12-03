@@ -6,3 +6,4 @@ def configure_app(app):
     h = hashlib.new('sha256')
     h.update(b"1234")
     app.config["SECRET_KEY"] = h.digest()
+    return app
