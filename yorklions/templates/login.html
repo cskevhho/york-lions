@@ -1,13 +1,20 @@
 {% extends "layout.html" %}
+
+{% block stylesheet %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/login.css') }}">
+{% endblock stylesheet %}
+
 {% block content %}
-<div class="content-section">
-    <form action="" method="post">
-        {{ form.hidden_tag() }}
-        <fieldset>
-            <legend>Login</legend>
+<div class="centred_content_wrapper">
+    <h1>Login</h1>
+    <div class="floating_box">
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
             <div>
-                {{ form.email.label() }}
-                {{ form.email() }}
+                <div class="form_grid">
+                    {{ form.email.label() }}
+                    {{ form.email() }}
+                </div>
                 {% if form.email.errors %}
                     {% for error in form.email.errors %}
                         <p style="color: red;">{{ error }}</p>
@@ -15,24 +22,28 @@
                 {% endif %}
             </div>
             <div>
-                {{ form.password.label() }}
-                {{ form.password() }}
+                <div class="form_grid">
+                    {{ form.password.label() }}
+                    {{ form.password() }}
+                </div>
                 {% if form.password.errors %}
                     {% for error in form.password.errors %}
                         <p style="color: red;">{{ error }}</p>
                     {% endfor %}
                 {% endif %}
             </div>
-        </fieldset>
-        <div class>
-            {{ form.remember()}}
-            {{ form.remember.label() }}
+            <div class="wide">
+                <div class="centred">
+                    {{ form.remember(id="remember_me_checkbox") }}
+                    {{ form.remember.label(id="remember_me_label") }}
+                </div>
+                {{ form.submit(class="button") }}
+            </div>
+        </form>
+        <div class="wide">
+            <p class="centred"><a href="TODO">Forgot Password?</a></p>
+            <p class="centred">No account? <a href="{{ url_for('auth.register') }}">Register now!</a></p>
         </div>
-        <div>
-            {{ form.submit() }}
-        </div>
-    </form>
-    <div><a href="TODO">Forgot Password?</a></div>
+    </div>
 </div>
-<div>No account? <a href="{{ url_for('auth.register') }}">Register now!</a></div>
 {% endblock content %}

@@ -13,10 +13,18 @@ body {
 
 a {
   text-decoration: none;
-  color: black;
+  color: red;
 }
 
 a:hover {
+  color: maroon;
+}
+
+header a {
+  color: black;
+}
+
+header a:hover {
   color: red;
 }
 
@@ -28,6 +36,10 @@ header {
   padding: 10px;
   margin: 20px;
   align-items: center;
+}
+
+.logo {
+  margin-left: 20px;
 }
 
 h1 {
@@ -62,6 +74,11 @@ ul {
   display: flex;
   justify-content: center;
   gap: 20px;
+}
+
+.quick_actions {
+  justify-content: right;
+  margin-right: 20px;
 }
 
 table, th, td {
@@ -114,6 +131,7 @@ table, th, td {
 
   > h1, h2, h3, h4, h5, h6, p {
       margin: 0px 0px 10px 10px;
+      color: black;
     }
 
   > h4 {
