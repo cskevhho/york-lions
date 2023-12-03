@@ -59,11 +59,11 @@
     </table>
     
     {% if current_user.is_authenticated %}
-    <form action="/checkout" method="POST" class="centred_form">
+    <form action="{{ url_for('cart.checkout') }}" method="POST" class="centred_form">
         <button type="submit" class="button centred">Checkout</button>
     </form>
     {% else %}
-    <form action="/checkout" method="POST" class="centred_form">
+    <form action="{{ url_for('cart.checkout') }}" method="POST" class="centred_form">
         <button type="submit" class="button centred">Checkout as Guest</button>
     </form>
     <form action="/login" method="POST" class="centred_form">

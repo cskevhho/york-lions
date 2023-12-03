@@ -32,7 +32,6 @@ def create_trade_in():
             max_range=max_range,
             description="Trade-In",
             is_for_sale=False,
-            is_trade_in=True
         )[0]["message"].split('\'')[1])
 
         try:

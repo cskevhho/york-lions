@@ -45,6 +45,9 @@ def checkout():
 
 @cart_ctrl.route("/complete_order", methods=["GET", "POST"])
 def complete_order():
+    if not session.get("cart"):
+        flash("Cannot complete checkout - your cart is empty!", "danger")
+        return redirect(url_for("cart.view"))
     return submit_order()
 
 

@@ -25,7 +25,6 @@ class Vehicle(db.Model):
     image_file: Mapped[str] = mapped_column(String, nullable=False, default="default.jpg")
     date_added: Mapped[str] = mapped_column(String, nullable=False)
     is_for_sale: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
-    is_trade_in: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     history: Mapped[List[str]] = mapped_column(String, nullable=True)
     visit_events: Mapped[List["VisitEvent"]] = relationship()
     purchase_order: Mapped['PurchaseOrder'] = relationship('PurchaseOrder', back_populates='vehicles')
