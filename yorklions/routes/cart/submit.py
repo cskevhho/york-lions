@@ -49,11 +49,11 @@ def submit_order():
     result, status_code = create_address(street_address, city, province, postal_code, phone, user)
     address_id = result["new_address_id"]
 
-    result, status_code = create_po(fname=fname, lname=lname, address_id=address_id, vehicles=vehicles, cc_type=cc_type, cc_last_4_digits=cc_num[-4:])
+    result, status_code = create_po(fname=fname, lname=lname, address_id=address_id, vehicles=vehicles, cc_type=cc_type, cc_last_4_digits=cc_num[-4:], user=user)
     po_id = result["new_po_id"]
     
     if "cart" in session:
         session.pop("cart")
     delete_guest_users()
     # should return redirect for confirmed-order.html
-    return redirect(url_for("confirmedorder.confirmed", po_id=po_id))
+    return redirect(url_for("confirmedorder.confirmed", po_id=po_id), code=307)

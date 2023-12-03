@@ -85,25 +85,26 @@ table, th, td {
   border: 1px solid black;
 }
 
-.flash-message.success {
+.flash-message {
   color: white;
-  background-color: green;
   padding: 10px;
   margin-bottom: 10px;
+
+  > p {
+    text-align: center;
+  }
+}
+
+.flash-message.success {
+  background-color: green;
 }
 
 .flash-message.danger {
-  color: white;
   background-color: red;
-  padding: 10px;
-  margin-bottom: 10px;
 }
 
 .flash-message.info {
-  color: white;
   background-color: blue;
-  padding: 10px;
-  margin-bottom: 10px;
 }
 
 #original_price {

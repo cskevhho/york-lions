@@ -14,14 +14,14 @@ def confirmed(po_id):
     if po == None:
         return render_template("error/404.html"), 404
     
-    if current_user != po.user:
+    if request.method == "POST":
+        flash("Order confirmed! Bookmark this page to watch its status.", "success")
+    elif current_user != po.user:
         return render_template("error/403.html"), 403
 
     address = get_address(po.address_id)
     for vehicle in po.vehicles:
         mark_vehicle_sold(vehicle=vehicle)
     
-    if request.method == "POST":
-        flash("Order confirmed! Bookmark this page to watch its status.", "success")
 
     return render_template("confirmed-order.html", po=po, address=address)

@@ -9,7 +9,7 @@
     <h1 class="title">Checkout</h1>
 
     <h3>Total: ${{ "{:,.2f}".format((total|float) * 1.13) }}</h3>
-    <form action="{{ url_for('cart.complete_order') }}" method="post">
+    <form action="{{ url_for('cart.complete_order') }}" method="POST">
         <div class="floating_box">
             <h2>Shipping Information</h2>
             <div class="form_grid">

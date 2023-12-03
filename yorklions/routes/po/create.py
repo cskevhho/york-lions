@@ -1,5 +1,6 @@
 from ...models.vehicle import Vehicle
 from ...models.po import PurchaseOrder
+from ...models.user import User
 from ...extensions import db
 from datetime import datetime
 from flask_login import current_user
@@ -11,7 +12,8 @@ def create_po(
     address_id: int,
     vehicles: [Vehicle],
     cc_type: str,
-    cc_last_4_digits: str
+    cc_last_4_digits: str,
+    user: User = None
 ):
     now: str = datetime.now().strftime("%F-%R")
     new_po = PurchaseOrder(
@@ -23,7 +25,7 @@ def create_po(
         date_created=now,
         latest_update=now
     )
-    new_po.user=current_user
+    new_po.user = (user if user else current_user)
     db.session.add(new_po)
     db.session.commit()
 
