@@ -1,37 +1,54 @@
 {% extends "layout.html" %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/vehicle-comparison.css') }}">
+{% endblock stylesheet %}
+
 {% block content %}
-Hell from vehicle-comparison.html
 
-<!-- TODO: Turn into a 2 column grid layout -->
-<div class = "wrapper">
-
-    <div>
-        <h2>Vehicle 1 Details</h2>
-        <img src="{{ v1.image_file }}"/>
-        <p><h3>{{ v1.year }} {{ v1.make }} {{ v1.model }}</h3></p>
-        <p>MSRP: ${{ v1.price }}</p>
-        <p>Max Range: {{ v1.max_range }} km</p>
-        <p>Type: {{ v1.type }}</p>
-        {% if v1rating == 0.0 %}
-        <p>Rating: No Rating </p>
-        {% else %}
-        <p>Rating:  {{ v1rating }}/5.0</p>
-        {% endif %} 
-    </div>
-
-    <div>
-        <h2>Vehicle 2 Details</h2>
-        <img src="{{ v2.image_file }}"/>
-        <p><h3>{{ v2.year }} {{ v2.make }} {{ v2.model }}</h3></p>
-        <p>MSRP: ${{ v2.price }}</p>
-        <p>Max Range: {{ v2.max_range }} km</p>
-        <p>Type: {{ v2.type }}</p>
-        {% if v1rating == 0.0 %}
-        <p>Rating: No Rating </p>
-        {% else %}
-        <p>Rating:  {{ v1rating }}/5.0</p>
-        {% endif %} 
-    </div>
-
+<div class="wide">
+    <h1>Compare Vehicles</h1>
+    {% if vehicles %}
+    <form method="POST">
+        <input type="hidden" name="clear_compare" value="true"/>
+        <input type="submit" value="Clear" class="button"/>
+    </form>
+    <table>
+        <tr>
+            <th id="image_title">Image</th>
+            <th>Details</th>
+            <th>Condition</th>
+            <th>Year</th>
+            <th>Make</th>
+            <th>Model</th>
+            <th>Trim</th>
+            <th>Current Price</th>
+            <th>Kilometres</th>
+            <th>Max Driving Range</th>
+            <th>Vehicle Type</th>
+            <th>Colour</th>
+        </tr>
+        {% for vehicle in vehicles %}
+        <tr class="floating_box">
+            <td><div class="image_container">
+                <a href="/vehicle/{{ vehicle.id }}"><img src="{{ url_for('static', filename='vehicles/' + vehicle.image_file) }}" /></a>
+            </div></td>
+            <td><a href="/vehicle/{{ vehicle.id }}">Details</a></td>
+            <td>{% if vehicle.kilometres > 0 %}Used{% else %}New{% endif %}</td>
+            <td>{{ vehicle.year }}</td>
+            <td>{{ vehicle.make }}</td>
+            <td>{{ vehicle.model }}</td>
+            <td>{{ vehicle.trim }}</td>
+            <td>${{ "{:,.2f}".format((vehicle.price - vehicle.discount)|float) }}</td>
+            <td>{{ vehicle.kilometres }} km</td>
+            <td>{{ vehicle.max_range }} km</td>
+            <td>{{ vehicle.type }}</td>
+            <td>{{ vehicle.colour }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <h2 class="error_message">No vehicles to compare</h2>
+    {% endif %}
 </div>
 {% endblock %}

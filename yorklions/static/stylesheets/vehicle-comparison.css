@@ -1,0 +1,67 @@
+table {
+    display: table;
+    margin: auto;
+    padding: 20px 185px 40px 20px;
+}
+
+table tr {
+    display: table-cell;
+}
+
+table tr td, table tr th {
+    display: block;
+}
+
+td, th {
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    text-align: right;
+    width: 165px;
+}
+
+table, tr, td, th {
+    border: none;
+    border-spacing: 10px;
+}
+
+.image_container {
+    height: 100px;
+    width: 150px;
+    overflow: hide;
+    border-radius: 20px;
+}
+
+img {
+    width: 100%;
+    object-fit: cover;
+}
+
+.floating_box {
+    padding: 0px;
+}
+
+#image_title {
+    padding-top: 52px;
+    height: 129px;
+}
+
+.wide {
+    width: 100%;
+    overflow: scroll;
+}
+
+form {
+    width: 100%;
+    position: relative;
+    height: 25px;
+}
+
+.button {
+    position: absolute;
+    left: 50%;
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
