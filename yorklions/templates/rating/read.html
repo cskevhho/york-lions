@@ -1,0 +1,28 @@
+
+{% extends "admin_layout.html" %}
+
+{% block content %}
+<script type="text/javascript">
+    function enableDisableSearchField() {
+        if (document.getElementById("display_all").checked) {
+            document.getElementById("search_field").style.display = "none"
+        } else {
+            document.getElementById("search_field").style.display = "inline-block"
+        }
+    }
+</script>
+
+<form action="{{ url_for('rating.read') }}" method="post">
+    <input type="radio" onclick="javascript:enableDisableSearchField();" name="search_type" id="user_id" value="user_id" checked="checked">
+    <label for="user_id">Search by User ID</label><br/>
+    <input type="radio" onclick="javascript:enableDisableSearchField();" name="search_type" id="username" value="username">
+    <label for="username">Search by Username</label><br />
+    <input type="radio" onclick="javascript:enableDisableSearchField();" name="search_type" id="email" value="email">
+    <label for="email">Search by Email</label><br />
+    <input type="radio" onclick="javascript:enableDisableSearchField();" name="search_type" id="display_all" value="display_all">
+    <label for="display_all">Display All Users</label><br />
+
+    <input type="text" value="" id="search_field" name="search_field">
+    <input type="submit" value="Search">
+</form>
+{% endblock %}

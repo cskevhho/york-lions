@@ -11,7 +11,7 @@ class CreateRatingForm(FlaskForm):
         - make, model, and year to be passed to the review page with details filled in
         - f_name
         - l_initial (optional name fields can be malicious, but we're not binding to user anyway
-        - rating (from 1 to 5)
+        - rating (out of 5)
         - an optional body of text for a review
         - a timestamp for when the rating was created, which will be automatically generated
     """
@@ -21,7 +21,7 @@ class CreateRatingForm(FlaskForm):
     l_initial = StringField(
             "Last Initial", validators=[Length(min=0, max=1)]
             )
-    rating = FloatField(
+    rating = FloatField( # set 0-5 so the rating of a vehicle can go below 1
             "Rating (0-5)", validators=[DataRequired(), NumberRange(min=0, max=5)]
             )
     review_body = TextAreaField(

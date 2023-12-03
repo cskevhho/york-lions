@@ -57,5 +57,5 @@ def delete():
     if request.method == "POST":
         return delete_all()
 
-    return render_template("user/delete.html")
+    return render_template("rating/delete.html")
 
