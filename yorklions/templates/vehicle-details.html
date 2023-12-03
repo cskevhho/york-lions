@@ -5,9 +5,10 @@
 {% endblock stylesheet %}
 
 {% block content %}
-    <h1>{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }} {{ vehicle.trim }}</h1>
+    <h1>{% if vehicle.kilometres > 0 %}Used{% else %}New{% endif %} {{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }} {{ vehicle.trim }}</h1>
     <!-- A redirect to the compare vehicles page that passes in a vehicle -->
-    <form action="{{ url_for('main.main_index', vehicle_id=vehicle.id) }}" method="post" class="compare_vehicle_form">
+    <form action="{{ url_for('main.compare_vehicles') }}" method="post" class="compare_vehicle_form">
+        <input type="hidden" name="vehicle_id" value="{{ vehicle.id }}"/>
         <input type="submit" value="Compare Vehicle" class="button compare_vehicle"/>
     </form>
     <div class="centred_content_wrapper">
