@@ -1,10 +1,10 @@
 .centred_content_wrapper {
-    width: 300px;
+    width: fit-content;
 }
 
 .form_grid {
     display: grid;
-    grid-template-columns: 25% 70%;
+    grid-template-columns: auto 195px;
     gap: 10px 10px;
 }
 
