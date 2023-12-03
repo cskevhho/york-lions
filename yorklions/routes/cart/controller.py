@@ -51,4 +51,4 @@ def complete_order():
 @cart_ctrl.route("/clear_cart", methods=["POST"])
 def clear_cart():
     session["cart"] = []
-    return view_cart()
+    return redirect(url_for("cart.view"))

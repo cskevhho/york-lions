@@ -8,6 +8,7 @@ from typing import List
 class PurchaseOrder(db.Model):
     __tablename__ = "purchaseorders"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'), nullable=True)
     fname: Mapped[str] = mapped_column(String, nullable=False)
     lname: Mapped[str] = mapped_column(String, nullable=False)
     status: Mapped[str] = mapped_column(String, nullable=False, default="Pending")
@@ -17,6 +18,7 @@ class PurchaseOrder(db.Model):
     cc_last_4_digits: Mapped[str] = mapped_column(String, nullable=False)
     date_created: Mapped[str] = mapped_column(String, nullable=False)
     latest_update: Mapped[str] = mapped_column(String, nullable=False)
+    user: Mapped['User'] = relationship('User', back_populates='orders')
 
     @hybrid_property
     def subtotal(self):

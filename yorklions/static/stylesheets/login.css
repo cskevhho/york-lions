@@ -1,0 +1,43 @@
+.centred_content_wrapper {
+    width: fit-content;
+}
+
+.form_grid {
+    display: grid;
+    grid-template-columns: auto 195px;
+    gap: 10px 10px;
+}
+
+input {
+    padding: 5px;
+    width: 100%;
+    margin: 5px 0px;
+}
+
+label {
+    text-align: right;
+    margin: 5px 0px;
+}
+
+.wide {
+    display: flex;
+    flex-direction: column;
+}
+
+#remember_me_checkbox, #remember_me_label {
+    padding: 0px;
+    width: fit-content;
+}
+
+.centred {
+    margin: auto;
+}
+
+.button {
+    margin: 20px auto;
+    width: fit-content;
+}
+
+.floating_box {
+    margin-top: 20px;
+}

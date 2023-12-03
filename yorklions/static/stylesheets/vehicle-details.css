@@ -10,11 +10,6 @@
     margin-left: 20px;
 }
 
-h1 {
-    text-align: center;
-    margin: 20px 0px 0px 0px;
-}
-
 .description, .price_box, .image_container, .vehicle_details {
     margin-bottom: 30px;
 }
@@ -22,6 +17,8 @@ h1 {
 .description {
     width: 100%;
     margin-left: 20px;
+    text-align: justify;
+    hyphens: manual;
 }
 
 .price_box {

@@ -10,7 +10,7 @@ vehicle_detail_pages = Blueprint("vehicle_details", __name__)
 def show_detail_page(id):
     vehicle = get_vehicle(id)
     if vehicle is None:
-        return render_template("404.html"), 404
+        return render_template("error/404.html"), 404
 
     make = vehicle.make
     model = vehicle.model

@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request, jsonify
-from flask_login import login_user, current_user, logout_user, login_required
+from flask_login import login_user, current_user, logout_user, login_required, AnonymousUserMixin
 from ..forms import RegistrationForm, LoginForm
 from ..routes.catalogue import recent, hot_deals as deals, all_vehicles
 from .trade_in import create as trade_in_form
@@ -37,13 +37,17 @@ def shop():
     condition = request.form.get('condition')
     min_year = request.form.get('min_year')
     max_year = request.form.get('max_year')
+    min_range = request.form.get('min_range')
+    max_range = request.form.get('max_range')
+    min_kilometres = request.form.get('min_kilometres')
+    max_kilometres = request.form.get('max_kilometres')
     type = request.form.get('type')
     make = request.form.get('make')
     model = request.form.get('model')
     trim = request.form.get('trim')
     colour = request.form.get('colour')
 
-    result, _ = all_vehicles.get_all_vehicles(sort=sort, descending=descending, min_price=min_price, max_price=max_price, condition=condition, min_year=min_year, max_year=max_year, type=type, make=make, model=model, trim=trim, colour=colour)
+    result, _ = all_vehicles.get_all_vehicles(sort=sort, descending=descending, min_price=min_price, max_price=max_price, condition=condition, min_year=min_year, max_year=max_year, min_range=min_range, max_range=max_range, min_kilometres=min_kilometres, max_kilometres=max_kilometres, type=type, make=make, model=model, trim=trim, colour=colour)
 
     return render_template("listing-view.html", vehicle_data=result, search_criteria=request.form)
 
@@ -56,16 +60,15 @@ def reviews():
 def trade_in():
     if request.method == "POST":
         trade_in_form.create_trade_in()
-        flash("Trade-in request submitted!", "success")
+        flash("Trade-in request submitted! You will recieve an email shortly with details.", "success")
         return redirect(url_for("main.main_index"))
 
     return render_template("trade-in.html")
 
 @main.route("/admin", methods=["GET", "POST"])
 def admin_dash():
-    if current_user.is_admin == False:              # can comment out, just here for testing purposes
-        flash("You are not an admin!", "danger")
-        return redirect(url_for("main.main_index"))
+    if isinstance(current_user, AnonymousUserMixin) or not current_user.is_admin:
+        return render_template("error/403.html"), 403
     return render_template("admin.html")
 
 # TODO: Move below routes to a separate file, very much low priority for time
@@ -118,10 +121,5 @@ def vehicle_comparison():
 
     return render_template("vehicle-comparison.html", v1=v1, v2=v2, v1rating=v1rating, v2rating=v2rating)
 
-
-
-
-
-
-
-
+def handle_error(error):
+    return render_template(f'error/{error.code}.html'), error.code

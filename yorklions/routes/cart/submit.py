@@ -55,5 +55,5 @@ def submit_order():
     if "cart" in session:
         session.pop("cart")
     delete_guest_users()
-    # should return redirect for confirmedorder.html
+    # should return redirect for confirmed-order.html
     return redirect(url_for("confirmedorder.confirmed", po_id=po_id))
