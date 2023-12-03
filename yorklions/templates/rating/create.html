@@ -1,0 +1,57 @@
+{% extends "admin_layout.html" %}
+{% block content %}
+<form action="{{ url_for('rating_ctrl.admin_create') }}" method="post">
+    <p>Not to be misused. To replace accidentally deleted reviews by user. </p>
+    {{ form.hidden_tag() }}
+    <p>
+    {{ form.make.label }}<br>
+    {{ form.make(size=32) }}<br>
+    {% for error in form.make.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    </p>
+    <p>
+    {{ form.model.label }}<br>
+    {{ form.model(size=32) }}<br>
+    {% for error in form.model.errors %}}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    </p>
+    <p>
+    {{ form.year.label }}<br>
+    {{ form.year(size=32) }}<br>
+    {% for error in form.year.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    </p>
+    <p>
+    {{ form.f_name.label }}<br>
+    {{ form.f_name(size=32) }}<br>
+    {% for error in form.f_name.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    </p>
+    <p>
+    {{ form.l_initial.label }}<br>
+    {{ form.l_initial(size=32) }}<br>
+    {% for error in form.l_initial.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    </p>
+    <p>
+    {{ form.rating.label }}<br>
+    {{ form.rating(size=32) }}<br>
+    {% for error in form.rating.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    </p>
+    <p>
+    {{ form.review_body.label }}<br>
+    {{ form.review_body(size=32) }}<br>
+    {% for error in form.review_body.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    <p>{{ form.submit() }}</p>
+</form>
+{% endblock content %}
+

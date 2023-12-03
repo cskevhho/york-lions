@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from .services import *
 from ...models.rating import Rating
 from ...extensions import db
-from ...wtform.rating_forms import CreateRatingForm
+from ...wtform.rating_forms import CreateRatingForm, CreateRatingFormAdmin
 
 rating_ctrl = Blueprint("rating_ctrl", __name__)
 
@@ -27,6 +27,27 @@ def create(v_make, v_model, v_year):
         return redirect(url_for('main.main_index'))
 
     return render_template("create_review.html", form=form, make=v_make, model=v_model, year=v_year)
+
+@rating_ctrl.route("/api/rating/create", methods=["GET", "POST"])
+def admin_create():
+    form = CreateRatingFormAdmin()
+    if form.validate_on_submit():
+        new_rating = Rating(
+            make=form.make.data,
+            model=form.model.data,
+            year=form.year.data,
+            f_name=form.f_name.data,
+            l_initial=form.l_initial.data,
+            rating=form.rating.data,
+            review_body=form.review_body.data
+        )
+        db.session.add(new_rating)
+        db.session.commit()
+        flash("Review successfully added", "success")
+        return redirect(url_for('main.main_index'))
+    # redirects to admin dashboard
+    return render_template("rating/create.html", form=form)
+
 
 @rating_ctrl.route("/api/rating/read", methods=["GET", "POST"])
 def read():
