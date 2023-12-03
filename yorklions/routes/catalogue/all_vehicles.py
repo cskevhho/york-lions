@@ -2,7 +2,7 @@ from ...models.vehicle import Vehicle
 from ...extensions import db
 from ..vehicle.utils import vehicle_json, generate_image_url
 
-def get_all_vehicles(sort=None, descending="true", min_price=None, max_price=None, condition="all", min_year=None, max_year=None, type="all", make="all", model="all", trim="all", colour="all", limit=None):
+def get_all_vehicles(sort=None, descending="true", min_price=None, max_price=None, condition="all", min_year=None, max_year=None, min_range=None, max_range=None, min_kilometres=None, max_kilometres=None, type="all", make="all", model="all", trim="all", colour="all", limit=None):
     vehicles = db.session.query(Vehicle).filter(Vehicle.is_for_sale == True)
 
     desc = descending and descending.lower() == "true"
@@ -14,6 +14,8 @@ def get_all_vehicles(sort=None, descending="true", min_price=None, max_price=Non
             vehicles = vehicles.order_by(Vehicle.total_price.desc() if desc else Vehicle.total_price)
         elif sort == "km":
             vehicles = vehicles.order_by(Vehicle.kilometres.desc() if desc else Vehicle.kilometres)
+        elif sort == "range":
+            vehicles = vehicles.order_by(Vehicle.max_range.desc() if desc else Vehicle.max_range)
         elif sort == "year":
             vehicles = vehicles.order_by(Vehicle.year.desc() if desc else Vehicle.year)
         elif sort == "hot_deals":
@@ -54,7 +56,6 @@ def get_all_vehicles(sort=None, descending="true", min_price=None, max_price=Non
         finally:
             if min_year > 0:
                 vehicles = vehicles.filter(Vehicle.year >= min_year)
-
     if max_year:
         try:
             max_year = int(max_year)
@@ -63,6 +64,40 @@ def get_all_vehicles(sort=None, descending="true", min_price=None, max_price=Non
         finally:
             if max_year > 0:
                 vehicles = vehicles.filter(Vehicle.year <= max_year)
+
+    if min_range:
+        try:
+            min_range = int(min_range)
+        except:
+            min_range = -1
+        finally:
+            if min_range > 0:
+                vehicles = vehicles.filter(Vehicle.max_range >= min_range)
+    if max_range:
+        try:
+            max_range = int(max_range)
+        except:
+            max_range = -1
+        finally:
+            if max_range > 0:
+                vehicles = vehicles.filter(Vehicle.max_range <= max_range)
+
+    if min_kilometres:
+        try:
+            min_kilometres = int(min_kilometres)
+        except:
+            min_kilometres = -1
+        finally:
+            if min_kilometres > 0:
+                vehicles = vehicles.filter(Vehicle.kilometres >= min_kilometres)
+    if max_kilometres:
+        try:
+            max_kilometres = int(max_kilometres)
+        except:
+            max_kilometres = -1
+        finally:
+            if max_kilometres > 0:
+                vehicles = vehicles.filter(Vehicle.kilometres <= max_kilometres)
 
     if type and type != "all" and type != "":
         vehicles = vehicles.filter(Vehicle.type == type)

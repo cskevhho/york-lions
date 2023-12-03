@@ -37,13 +37,17 @@ def shop():
     condition = request.form.get('condition')
     min_year = request.form.get('min_year')
     max_year = request.form.get('max_year')
+    min_range = request.form.get('min_range')
+    max_range = request.form.get('max_range')
+    min_kilometres = request.form.get('min_kilometres')
+    max_kilometres = request.form.get('max_kilometres')
     type = request.form.get('type')
     make = request.form.get('make')
     model = request.form.get('model')
     trim = request.form.get('trim')
     colour = request.form.get('colour')
 
-    result, _ = all_vehicles.get_all_vehicles(sort=sort, descending=descending, min_price=min_price, max_price=max_price, condition=condition, min_year=min_year, max_year=max_year, type=type, make=make, model=model, trim=trim, colour=colour)
+    result, _ = all_vehicles.get_all_vehicles(sort=sort, descending=descending, min_price=min_price, max_price=max_price, condition=condition, min_year=min_year, max_year=max_year, min_range=min_range, max_range=max_range, min_kilometres=min_kilometres, max_kilometres=max_kilometres, type=type, make=make, model=model, trim=trim, colour=colour)
 
     return render_template("listing-view.html", vehicle_data=result, search_criteria=request.form)
 

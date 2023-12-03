@@ -262,7 +262,7 @@ p.new_label {
         padding: 10px;
         width: 100%;
       }
-    > #year, #price {
+    > #year, #price, #range, #kilometres {
         display: grid;
         > label {
             padding: 5px;
