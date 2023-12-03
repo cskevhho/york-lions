@@ -1,50 +1,90 @@
 {% extends "layout.html" %}
-{% block content %}
 
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/login.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/account.css') }}">
+{% endblock stylesheet %}
+
+{% block content %}
 <div class="centred_content_wrapper">
-    <div class="content-media">
-        <div class="media-body">
-            <img src="{{ image_file }}" alt="Profile Photo">
-            <h2>Welcome, {{ current_user.username }}!</h2>
-            <p>{{ current_user.email }}</p>
-            <p>Account Type: {{ 'Admin' if current_user.is_admin else 'User' }}</p>
-        </div>
+    <div class="account_info">
+        <img src="{{ image_file }}" alt="Profile Photo">
+        <h2>Welcome, {{ current_user.username }}!</h2>
+        <p>{{ current_user.email }}</p>
+        <p>Account Type: {{ 'Admin' if current_user.is_admin else 'User' }}</p>
     </div>
-    <div class="account-content">
+    <div class="update_account floating_box">
         <form action="" method="post" enctype="multipart/form-data" novalidate>
             {{ form.hidden_tag() }}
-            <legend>Update Account</legend>
-            <div>
-                {{ form.username.label() }}
-                {{ form.username() }}
+            <h3>Update Account Info</h3>
+                        <div>
+                <div class="form_grid">
+                    {{ form.username.label() }}
+                    {{ form.username() }}
+                </div>
                 {% if form.username.errors %}
-                {% for error in form.username.errors %}
-                <p style="color: red;">{{ error }}</p>
-                {% endfor %}
+                    {% for error in form.username.errors %}
+                        <p style="color: red;">{{ error }}</p>
+                    {% endfor %}
                 {% endif %}
             </div>
             <div>
-                {{ form.email.label() }}
-                {{ form.email() }}
+                <div class="form_grid">
+                    {{ form.email.label() }}
+                    {{ form.email() }}
+                </div>
                 {% if form.email.errors %}
-                {% for error in form.email.errors %}
-                <p style="color: red;">{{ error }}</p>
-                {% endfor %}
+                    {% for error in form.email.errors %}
+                        <p style="color: red;">{{ error }}</p>
+                    {% endfor %}
                 {% endif %}
             </div>
             <div>
-                {{ form.profile_pic.label() }}
-                {{ form.profile_pic() }}
+                <div class="form_grid">
+                    {{ form.profile_pic.label() }}
+                    {{ form.profile_pic() }}
+                </div>
                 {% if form.profile_pic.errors %}
-                {% for error in form.profile_pic.errors %}
-                <p style="color: red;">{{ error }}</p><br>
-                {% endfor %}
+                    {% for error in form.profile_pic.errors %}
+                        <p style="color: red;">{{ error }}</p><br>
+                    {% endfor %}
                 {% endif %}
             </div>
-            <div>
-                {{ form.submit() }}
+            <div class="wide">
+                {{ form.submit(class="button") }}
             </div>
         </form>
+    </div>
+    <div class="orders">
+        <h2>Your Orders:</h2>
+        {% if not current_user.orders %}
+            <h3>You haven't submitted any orders yet.</h3>
+        {% endif %}
+        <table>
+            {% for order in current_user.orders|reverse %}
+            <tr class="floating_box">
+                <td class="order_cell"><a href="/order/{{ order.id }}">Order #{{ order.id }}</a></td>
+                <td class="order_cell">{{ order.date_created }}</td>
+                <td class="order_cell">{{ order.vehicles | count }} item{% if (order.vehicles|count) != 1 %}s{% endif %}</td>
+                <td class="order_cell">{{ order.status }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="trade_ins">
+        <h2>Your Trade-Ins:</h2>
+        {% if not current_user.trade_ins %}
+            <h3>You haven't submitted any trade-in requests yet.</h3>
+        {% endif %}
+        <table>
+            {% for trade_in in current_user.trade_ins|reverse %}
+            <tr class="floating_box">
+                <td class="order_cell"><a href="/trade_in/{{ trade_in.id }}">Trade-In #{{ trade_in.id }}</a></td>
+                <td class="order_cell">{{ trade_in.status }}</td>
+                <td class="order_cell">Last updated: {{ trade_in.date_updated }}</td>
+            </tr>
+            {% endfor %}
+        </table>
     </div>
 </div>
 {% endblock content %}

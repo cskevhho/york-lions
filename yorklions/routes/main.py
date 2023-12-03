@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request, jsonify
-from flask_login import login_user, current_user, logout_user, login_required, AnonymousUserMixin
+from flask_login import login_user, current_user, logout_user, login_required
 from ..forms import RegistrationForm, LoginForm
 from ..routes.catalogue import recent, hot_deals as deals, all_vehicles
 from .trade_in import create as trade_in_form
@@ -66,8 +66,9 @@ def trade_in():
     return render_template("trade-in.html")
 
 @main.route("/admin", methods=["GET", "POST"])
+@login_required
 def admin_dash():
-    if isinstance(current_user, AnonymousUserMixin) or not current_user.is_admin:
+    if not current_user.is_admin:
         return render_template("error/403.html"), 403
     return render_template("admin.html")
 

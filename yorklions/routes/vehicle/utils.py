@@ -20,7 +20,6 @@ def vehicle_json(vehicles: list[Vehicle]):
             "image_file": vehicle.image_file,
             "date_added": vehicle.date_added,
             "is_for_sale": vehicle.is_for_sale,
-            "is_trade_in": vehicle.is_trade_in,
             "history": vehicle.history,
             "visit_events": vehicle.visit_events,
             "discount_percentage": vehicle.discount_percentage,

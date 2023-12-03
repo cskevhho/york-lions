@@ -1,0 +1,41 @@
+img {
+    max-width: 128px;
+}
+
+.centred_content_wrapper {
+    width: fit-content;
+    margin-top: 20px;
+}
+
+.floating_box {
+    margin: 30px auto;
+    width: fit-content;
+}
+
+.account_info {
+    text-align: center;
+}
+
+h2, h3 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.button {
+    margin: 10px auto 0px auto;
+}
+
+table, td, tr {
+    border: none;
+    border-spacing: 15px 10px;
+    margin: auto;
+}
+
+.order_cell {
+    padding: 15px;
+    text-align: center;
+}
+
+.trade_ins {
+    margin-top: 20px;
+}
