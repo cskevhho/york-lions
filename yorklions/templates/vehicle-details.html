@@ -1,85 +1,84 @@
 {% extends "layout.html" %}
 
 {% block stylesheet %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/vehicle-details.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/vehicle-details.css') }}">
 {% endblock stylesheet %}
 
 {% block content %}
-    <h1>{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }} {{ vehicle.trim }}</h1>
-    <!-- A redirect to the compare vehicles page that passes in a vehicle -->
-    <form action="{{ url_for('main.main_index', vehicle_id=vehicle.id) }}" method="post" class="compare_vehicle_form">
-        <input type="submit" value="Compare Vehicle" class="button compare_vehicle"/>
-    </form>
-    <div class="centred_content_wrapper">
-        <div class="horizontal">
-            <div class="image_container">
-                <img src="{{ vehicle.image_file }}"/>
-            </div>
-            <div class="vehicle_details">
-                <div class="floating_box">
-                    <h3>Colour</h3>
-                    <p>{{ vehicle.colour }}</p>
-                </div>
-                <div class="floating_box">
-                    <h3>Vehicle Type</h3>
-                    <p>{{ vehicle.type }}</p>
-                </div>
-                <div class="floating_box">
-                    <h3>Kilometres</h3>
-                    <p>{{ vehicle.kilometres }} km</p>
-                </div>
-                <div class="floating_box">
-                    <h3>Max Driving Range</h3>
-                    <p>{{ vehicle.max_range }} km</p>
-                </div>
-            </div>
+<h1>{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }} {{ vehicle.trim }}</h1>
+<!-- A redirect to the compare vehicles page that passes in a vehicle -->
+<form action="{{ url_for('main.main_index', vehicle_id=vehicle.id) }}" method="post" class="compare_vehicle_form">
+    <input type="submit" value="Compare Vehicle" class="button compare_vehicle"/>
+</form>
+<div class="centred_content_wrapper">
+    <div class="horizontal">
+        <div class="image_container">
+            <img src="{{ vehicle.image_file }}"/>
         </div>
-        <div class="horizontal">
-            <div class="floating_box price_box">
-                {% if vehicle.discount > 0 %}
-                <p><span id="original_price">${{ "{:,.2f}".format(vehicle.price|float) }}</span>&emsp;</p>
-                <h3>-{{ '%0.0f'|format(vehicle.discount_percentage|float)}}%</h3>
-                <h2><span id="discounted_price">${{ "{:,.2f}".format((vehicle.price - vehicle.discount)|float) }}</span></h2>
-                {% else %}
-                <h2>${{ "{:,.2f}".format(vehicle.price|float) }}</h2>
-                {% endif %}
-                {% if vehicle.is_for_sale %}
-                <form action="{{ url_for('cart.add', vehicle_id=vehicle.id) }}" method="post">
-                    <input type="submit" value="Add to Cart" class="button add_to_cart" />
-                </form>
-                {% endif %}
-            </div>
-            <div class="floating_box description">
-                <h3>Description</h3>
-                <p>{{ vehicle.description }}</p>
-            </div>
-        </div>
-        <div class="rating_box">
+        <div class="vehicle_details">
             <div class="floating_box">
-                <h3>{{ reviews|length }} Reviews for all {{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }} vehicles</h3>
-                {% if not reviews %}
-                <p>There are no reviews yet for this vehicle.</p>
-                {% else %}
-                <p>Average Rating: <span class="average_rating">{{ "{:,.1f}".format(average_rating) }}</span> / 5</p>
-                {% with num_stars=average_rating %}
-                    {% include "stars.html" %}
-                {% endwith %}
-                {% endif %}
-                <!-- Add a review -->
-                <form action="{{ url_for('main.main_index', vehicle_id=vehicle.id) }}" method="post">
-                    <input type="submit" value="Add a Review" class="button" />
-                </form>
+                <h3>Colour</h3>
+                <p>{{ vehicle.colour }}</p>
             </div>
-            {% for review in reviews %}
-            <div class="floating_box review">
-                <h4>{{ review.f_name }} {{ review.l_initial }}</h4>
-                {% with num_stars=review.rating %}
-                {% include "stars.html" %}
-                {% endwith %}
-                <h5>{{ review.date }}</h5>
-                <p>{{ review.body }}</p>
+            <div class="floating_box">
+                <h3>Vehicle Type</h3>
+                <p>{{ vehicle.type }}</p>
             </div>
-            {% endfor %}
+            <div class="floating_box">
+                <h3>Kilometres</h3>
+                <p>{{ vehicle.kilometres }} km</p>
+            </div>
+            <div class="floating_box">
+                <h3>Max Driving Range</h3>
+                <p>{{ vehicle.max_range }} km</p>
+            </div>
         </div>
     </div>
+    <div class="horizontal">
+        <div class="floating_box price_box">
+            {% if vehicle.discount > 0 %}
+            <p><span id="original_price">${{ "{:,.2f}".format(vehicle.price|float) }}</span>&emsp;</p>
+            <h3>-{{ '%0.0f'|format(vehicle.discount_percentage|float)}}%</h3>
+            <h2><span id="discounted_price">${{ "{:,.2f}".format((vehicle.price - vehicle.discount)|float) }}</span></h2>
+            {% else %}
+            <h2>${{ "{:,.2f}".format(vehicle.price|float) }}</h2>
+            {% endif %}
+            {% if vehicle.is_for_sale %}
+            <form action="{{ url_for('cart.add', vehicle_id=vehicle.id) }}" method="post">
+                <input type="submit" value="Add to Cart" class="button add_to_cart" />
+            </form>
+            {% endif %}
+        </div>
+        <div class="floating_box description">
+            <h3>Description</h3>
+            <p>{{ vehicle.description }}</p>
+        </div>
+    </div>
+    <div class="rating_box">
+        <div class="floating_box">
+            <h3>{{ reviews|length }} Reviews for all {{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }} vehicles</h3>
+            {% if not reviews %}
+            <p>There are no reviews yet for this vehicle.</p>
+            {% else %}
+            <p>Average Rating: <span class="average_rating">{{ "{:,.1f}".format(average_rating) }}</span> / 5</p>
+            {% with num_stars=average_rating %}
+            {% include "stars.html" %}
+            {% endwith %}
+            {% endif %}
+            <!-- Add a review -->
+            <form action="{{ url_for('rating_ctrl.create', v_make=vehicle.make, v_model=vehicle.model, v_year=vehicle.year) }}" method="post">
+                <input type="submit" value="Add a Review" class="button" />
+        </div>
+        {% for review in reviews %}
+        <div class="floating_box review">
+            <h4>{{ review.f_name }} {{ review.l_initial }}</h4>
+            {% with num_stars=review.rating %}
+            {% include "stars.html" %}
+            {% endwith %}
+            <h5>{{ review.date }}</h5>
+            <p>{{ review.body }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

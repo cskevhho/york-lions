@@ -1,9 +1,10 @@
 {% extends "layout.html" %}
 
 {% block content %}
-
+<!-- User Facing Review Creation -->
 <!-- Below should be the form for creating a review defined in wtform/rating_forms.py-->
 <div>
+    <h2>{{ make }} {{ model }} {{ year }}</h2>
     <form action="" method="post" name="create_review">
         {{ form.hidden_tag() }}
         <p>
