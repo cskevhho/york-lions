@@ -42,6 +42,12 @@ header {
   margin-left: 20px;
 }
 
+.index-header img {
+  width: 100%; /* Adjust as necessary */
+  height: auto;
+}
+
+
 h1 {
   text-align: center;
   margin: 20px 0px 0px 0px;
@@ -62,6 +68,9 @@ nav {
   flex-direction: column;
   justify-content: flex-start;
   min-height: 100vh;
+  margin-left: 84px;
+  margin-right: 84px;
+  margin-top: 12px;
 }
 
 .centred_content_wrapper {

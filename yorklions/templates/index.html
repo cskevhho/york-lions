@@ -1,9 +1,11 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<!-- TODO: Make this look nice. Probably a grid of cars? A big header image? -->
 {% if recent_vehicles %}
 <br />
+<div class="index-header">
+<img src="{{ url_for('static', filename='yorklionsbanner.png') }}" alt="York Lions Logo" />    
+</div>
 <div class="horizontal">
     <h1>Recently-Added Vehicles</h1>
     <form action="{{ url_for('main.shop') }}" method="POST">
