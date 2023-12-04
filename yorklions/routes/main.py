@@ -70,21 +70,20 @@ def admin_dash():
 @main.route("/trade-in", methods=["GET", "POST"])
 def trade_in():
     form = CreateTradeInForm()
-    print("A")
     if form.validate_on_submit():
-        print("B")
-        trade_in_form.create_trade_in(form)
+        trade_in_id = trade_in_form.create_trade_in(form)[0][0]["id"]
         flash("Trade-in request submitted! You will recieve an email shortly with details.", "success")
-        return redirect(url_for("main.main_index"))
-    print("C")
+        return redirect(url_for("main.trade_in_status", trade_in_id=trade_in_id))
     return render_template("trade-in.html", form=form)
 
 @main.route("/trade-in/<trade_in_id>", methods=["GET", "POST"])
 @login_required
 def trade_in_status(trade_in_id):
     trade_in=get_trade_in(trade_in_id)
+    if not trade_in:
+        return render_template("error/404.html"), 404
     if trade_in.user_id != current_user.id:
-        return handle_error(403)
+        return render_template("error/403.html"), 403
     vehicle=get_vehicle(trade_in.vehicle_id)
     return render_template("vehicle-details.html", vehicle=vehicle, trade_in=trade_in)
 
