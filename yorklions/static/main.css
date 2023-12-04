@@ -220,7 +220,7 @@ p.new_label {
   grid-template-columns: 225px auto;
 }
 
-#error_message {
+.error_message {
   grid-column: 2;
   margin: 10% auto auto auto;
   width: 100%;

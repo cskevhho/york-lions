@@ -1,9 +1,10 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, request, jsonify
+from flask import Blueprint, render_template, flash, redirect, url_for, request, jsonify, session
 from flask_login import login_user, current_user, logout_user, login_required
 from ..forms import RegistrationForm, LoginForm
 from ..routes.catalogue import recent, hot_deals as deals, all_vehicles
 from .trade_in import create as trade_in_form
 from ..routes.vehicle.services import get_vehicle_makes, get_average_rating
+from ..routes.catalogue.compare import add_vehicle_to_compare
 
 from ..models.vehicle import Vehicle
 from ..routes.vehicle.utils import generate_image_url
@@ -75,8 +76,13 @@ def admin_dash():
 # TODO: Move below routes to a separate file, very much low priority for time
 @main.route("/compare-vehicles" , methods=["GET", "POST"])
 def compare_vehicles():
-    makes = get_vehicle_makes()
-    return render_template("compare-vehicles.html", makes=makes)
+    if request.method == "POST":
+        if request.form.get("clear_compare") == "true":
+            session.pop("compare")
+        else:
+            add_vehicle_to_compare(request.form.get("vehicle_id"))
+
+    return render_template("vehicle-comparison.html", vehicles=session.get('compare'))
 
 # AJAX stuff
 @main.route('/get-models')
