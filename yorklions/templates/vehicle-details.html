@@ -55,11 +55,11 @@
                     </form>
                     {% endif %}
                 {% else %}
-                    <h3>Status</h3>
+                    <h4>Status</h4>
                     <p>{{ trade_in.status }}</p>
-                    <h3>Current Quote</h3>
-                    <p>${{ "{:,.2f}".format(vehicle.price|float) }}</p>
-                    <h3>Last Updated</h3>
+                    <h4>Current Quote</h4>
+                    <p>${{ "{:,.2f}".format(trade_in.quote|float) }}</p>
+                    <h4>Last Updated</h4>
                     <p>{{ trade_in.date_updated }}</p>
                 {% endif %}
             </div>
