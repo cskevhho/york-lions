@@ -3,6 +3,7 @@ from .extensions import db, migrate, bcrypt, login_manager
 from .routes.user.controller import user_ctrl
 from .routes.vehicle.controller import vehicle_ctrl
 from .routes.trade_in.controller import trade_in_ctrl
+from .routes.rating.controller import rating_ctrl
 from .routes.catalogue.vehicle_details import vehicle_detail_pages
 from .routes.auth import auth
 from .routes.main import main, handle_error
@@ -25,6 +26,7 @@ app.register_blueprint(loancalc)
 app.register_blueprint(cart_ctrl)
 app.register_blueprint(vehicle_detail_pages)
 app.register_blueprint(confirmed_order)
+app.register_blueprint(rating_ctrl)
 app.register_blueprint(user_ctrl, url_prefix="/api/user")
 app.register_blueprint(vehicle_ctrl, url_prefix="/api/vehicle")
 app.register_blueprint(trade_in_ctrl, url_prefix="/api/trade_in")

@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<!-- User Facing Review Creation -->
+<!-- Below should be the form for creating a review defined in wtform/rating_forms.py-->
+<div>
+    <h2>{{ make }} {{ model }} {{ year }}</h2>
+    <form action="" method="post" name="create_review">
+        {{ form.hidden_tag() }}
+        <p>
+        <h2> Create a Review </h2>
+        {{ form.f_name.label }}<br>
+        {{ form.f_name(size=32) }}
+        </p>
+        <p>
+        {{ form.l_initial.label }}<br>
+        {{ form.l_initial(size=32) }}
+        </p>
+        <p>
+        {{ form.rating.label }}<br>
+        {{ form.rating(size=32) }}
+        </p>
+        <p>
+        {{ form.review_body.label }}<br>
+        {{ form.review_body(size=32) }}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+</div>
+
+{% endblock %}

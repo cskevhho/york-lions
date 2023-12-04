@@ -1,0 +1,22 @@
+
+{% extends "admin_layout.html" %}
+
+{% block content %}
+<script type="text/javascript">
+    function enableDisableSearchField() {
+        if (document.getElementById("display_all").checked) {
+            document.getElementById("search_field").style.display = "none"
+        } else {
+            document.getElementById("search_field").style.display = "inline-block"
+        }
+    }
+</script>
+
+<form action="{{ url_for('rating_ctrl.read') }}" method="post">
+    <input type="radio" onclick="javascript:enableDisableSearchField();" name="search_type" id="display_all" value="display_all">
+    <label for="display_all">Display All Ratings</label><br />
+
+
+    <input type="submit" value="Search">
+</form>
+{% endblock %}

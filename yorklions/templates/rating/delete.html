@@ -1,0 +1,9 @@
+
+{% extends "admin_layout.html" %}
+
+{% block content %}
+<p>Are you sure you want to delete all?</p>
+<form action="{{ url_for('rating_ctrl.delete') }}" method="post">
+    <input type="submit" value="Yes, delete all">
+</form>
+{% endblock %}
