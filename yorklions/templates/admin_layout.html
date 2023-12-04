@@ -33,9 +33,21 @@
 
         <footer>{% block footer %}{% endblock footer%}</footer>
     </div>
-    <script type="text/javascript" charset="utf-8">
-
-        fetch('/../../instance/db.sqlite3')
+    <form id="sale">
+        <input type="hidden" name="sort" value="date_added" />
+        <input type="hidden" name="descending" value="true" />
+        <input type="submit" class="See Sale Report" value="See Sales" />
+    </form>
+    <form id="usage" >
+        <input type="hidden" name="sort" value="date_added" />
+        <input type="hidden" name="descending" value="true" />
+        <input type="submit" class="See Usage Report" value="See Usage" />
+    </form>
+    <script id="Usage" type="text/javascript" charset="utf-8">
+        document.getElementById("usage").onclick = function() {usageReport()};
+        document.getElementById("sale").onclick = function() {saleReport()};
+        function usageReport() {
+             fetch('/../../instance/db.sqlite3')
             .then(function (response) {
                 return response.json();
             }).then(function (apiJsonData) {
@@ -52,6 +64,14 @@
                 })
                 mytable.appendChild(newRow);
             });
+        }
+        function saleReport() { 
+            fetch('/../../instance/db.sqlite3')
+            .then(function (response) {
+                return response.json();
+            }).then(function (apiJsonData) {
+                console.log(apiJsonData);
+            })
         function renderDataInTheSaleTable(purchaseOrder) {
             const mytable = document.getElementById("sale-table");
             todos.forEach(purchaseOrder => {
