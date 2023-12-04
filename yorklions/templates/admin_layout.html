@@ -33,6 +33,38 @@
 
         <footer>{% block footer %}{% endblock footer%}</footer>
     </div>
+    <script type="text/javascript" charset="utf-8">
+
+        fetch('/../../instance/db.sqlite3')
+            .then(function (response) {
+                return response.json();
+            }).then(function (apiJsonData) {
+                console.log(apiJsonData);
+            })
+        function renderDataInTheUsageTable(eventReport) {
+            const mytable = document.getElementById("usage-table");
+            todos.forEach(eventReport => {
+                let newRow = document.createElement("tr");
+                Object.values(todo).forEach((value) => {
+                    let cell = document.createElement("td");
+                    cell.innerText = value;
+                    newRow.appendChild(cell);
+                })
+                mytable.appendChild(newRow);
+            });
+        function renderDataInTheSaleTable(purchaseOrder) {
+            const mytable = document.getElementById("sale-table");
+            todos.forEach(purchaseOrder => {
+                let newRow = document.createElement("tr");
+                Object.values(todo).forEach((value) => {
+                    let cell = document.createElement("td");
+                    cell.innerText = value;
+                    newRow.appendChild(cell);
+                })
+                mytable.appendChild(newRow);
+            });
+        }
+    </script>
 </body>
 
 </html>
