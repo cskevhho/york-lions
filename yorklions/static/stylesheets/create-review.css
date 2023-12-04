@@ -1,0 +1,49 @@
+h2 {
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+form {
+    width: 300px;
+    margin: auto;
+    /* background-color: green; */
+}
+
+.floating_box {
+    width: fit-content;
+    margin: 20px auto 40px auto;
+}
+
+.button {
+    margin: 5px auto 5px auto;
+}
+
+input, textarea {
+    padding: 5px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.star {
+    background-color: transparent;
+    border: none;
+    font-size: large;
+    padding-bottom: 10px;
+}
+
+.star:hover {
+    filter: brightness(75%);
+}
+
+.star.enabled {
+    color: orange;
+}
+
+.star.disabled {
+    color: lightgrey;
+}

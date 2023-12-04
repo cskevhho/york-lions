@@ -1,31 +1,63 @@
 {% extends "layout.html" %}
 
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/create-review.css') }}">
+{% endblock stylesheet %}
+
 {% block content %}
 <!-- User Facing Review Creation -->
 <!-- Below should be the form for creating a review defined in wtform/rating_forms.py-->
-<div>
-    <h2>{{ make }} {{ model }} {{ year }}</h2>
-    <form action="" method="post" name="create_review">
-        {{ form.hidden_tag() }}
-        <p>
-        <h2> Create a Review </h2>
-        {{ form.f_name.label }}<br>
-        {{ form.f_name(size=32) }}
-        </p>
-        <p>
-        {{ form.l_initial.label }}<br>
-        {{ form.l_initial(size=32) }}
-        </p>
-        <p>
-        {{ form.rating.label }}<br>
-        {{ form.rating(size=32) }}
-        </p>
-        <p>
-        {{ form.review_body.label }}<br>
-        {{ form.review_body(size=32) }}
-        </p>
-        <p>{{ form.submit() }}</p>
-    </form>
+<div class="centred_content_wrapper">
+    <h1>{{ year }} {{ make }} {{ model }}</h1>
+    <div class="floating_box">
+        <form action="" method="post" name="create_review">
+            {{ form.hidden_tag() }}
+            <p>
+            <h2> Create a Review </h2>
+            {{ form.f_name.label }}<br>
+            {{ form.f_name(size=32) }}
+            </p>
+            <p>
+            {{ form.l_initial.label }}<br>
+            {{ form.l_initial(size=32) }}
+            </p>
+            <p>
+            {{ form.rating.label }}<br>
+            <div class="horizontal">
+                <button id="star1" class="star enabled" onclick="setStars(1)">★</button>
+                <button id="star2" class="star enabled" onclick="setStars(2)">★</button>
+                <button id="star3" class="star enabled" onclick="setStars(3)">★</button>
+                <button id="star4" class="star enabled" onclick="setStars(4)">★</button>
+                <button id="star5" class="star enabled" onclick="setStars(5)">★</button>
+            </div>
+            {{ form.rating(size=32, hidden="true") }}
+            </p>
+            <p>
+            {{ form.review_body.label }}<br>
+            {{ form.review_body(size=32) }}
+            </p>
+            <p>{{ form.submit(class="button") }}</p>
+        </form>
+    </div>
 </div>
+
+<script>
+    function setStars(num_stars) {
+        event.preventDefault();
+        for (let i = 1; i <= 5; i++) {
+            if (i <= num_stars) {
+                document.getElementById("star" + i).className = "star enabled";
+            } else {
+                document.getElementById("star" + i).className = "star disabled";
+            }
+        }
+        responseField = document.querySelector('input[name="rating"]').value = num_stars;
+    }
+
+    window.addEventListener('load', 
+        function() { 
+            setStars(5);
+        }, false);
+</script>
 
 {% endblock %}

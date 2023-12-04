@@ -7,18 +7,18 @@ from ..models.rating import Rating
 
 class CreateRatingForm(FlaskForm):
     f_name = StringField(
-            "First Name", validators=[Length(min=0, max=20)]
+            "First Name", validators=[DataRequired(), Length(min=0, max=20)]
             )
     l_initial = StringField(
-            "Last Initial", validators=[Length(min=0, max=1)]
+            "Last Initial", validators=[DataRequired(), Length(min=0, max=1)]
             )
     rating = FloatField( # set 0-5 so the rating of a vehicle can go below 1
-                        "Rating (0-5)", validators=[DataRequired(), NumberRange(min=0, max=5)]
+                        "Rating", validators=[DataRequired(), NumberRange(min=0, max=5)]
                         )
     review_body = TextAreaField(
             "Review Body (max 280 char)", validators=[Length(min=0, max=280)] # tweet tweet
             )
-    submit = SubmitField("Submit Rating")
+    submit = SubmitField("Submit Review")
 
 class CreateRatingFormAdmin(FlaskForm):
      make = StringField(
