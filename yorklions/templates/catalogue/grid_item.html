@@ -1,6 +1,8 @@
 {% block content %}
 <a href="/vehicle/{{ vehicle.id }}" class="grid_item">
-    <img src="{{ vehicle.image_file }}" onerror="this.onerror=null; this.src='/static/vehicles/default.jpg'" alt="Vehicle Image"/>
+    <div class="image_container">
+        <img src="{{ vehicle.image_file }}" onerror="this.onerror=null; this.src='/static/vehicles/default.jpg'" alt="Vehicle Image"/>
+    </div>
     {% if vehicle.kilometres == 0 %}
         <p class="new_label">New</p>
     {% else %}

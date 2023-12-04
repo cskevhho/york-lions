@@ -17,7 +17,7 @@
         <form action="" method="post" enctype="multipart/form-data" novalidate>
             {{ form.hidden_tag() }}
             <h3>Update Account Info</h3>
-                        <div>
+            <div>
                 <div class="form_grid">
                     {{ form.username.label() }}
                     {{ form.username() }}
@@ -79,7 +79,7 @@
         <table>
             {% for trade_in in current_user.trade_ins|reverse %}
             <tr class="floating_box">
-                <td class="order_cell"><a href="/trade_in/{{ trade_in.id }}">Trade-In #{{ trade_in.id }}</a></td>
+                <td class="order_cell"><a href="/trade-in/{{ trade_in.id }}">Trade-In #{{ trade_in.id }}</a></td>
                 <td class="order_cell">{{ trade_in.status }}</td>
                 <td class="order_cell">Last updated: {{ trade_in.date_updated }}</td>
             </tr>

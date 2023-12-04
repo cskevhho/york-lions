@@ -7,10 +7,14 @@
 {% block content %}
     <h1>{% if vehicle.kilometres > 0 %}Used{% else %}New{% endif %} {{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }} {{ vehicle.trim }}</h1>
     <!-- A redirect to the compare vehicles page that passes in a vehicle -->
+    {% if not trade_in %}
     <form action="{{ url_for('main.compare_vehicles') }}" method="post" class="compare_vehicle_form">
         <input type="hidden" name="vehicle_id" value="{{ vehicle.id }}"/>
         <input type="submit" value="Compare Vehicle" class="button compare_vehicle"/>
     </form>
+    {% else %}
+    <br/>
+    {% endif %}
     <div class="centred_content_wrapper">
         <div class="horizontal">
             <div class="image_container">
@@ -37,24 +41,41 @@
         </div>
         <div class="horizontal">
             <div class="floating_box price_box">
-                {% if vehicle.discount > 0 %}
-                <p><span id="original_price">${{ "{:,.2f}".format(vehicle.price|float) }}</span>&emsp;</p>
-                <h3>-{{ '%0.0f'|format(vehicle.discount_percentage|float)}}%</h3>
-                <h2><span id="discounted_price">${{ "{:,.2f}".format((vehicle.price - vehicle.discount)|float) }}</span></h2>
+                {% if not trade_in %}
+                    {% if vehicle.discount > 0 %}
+                    <p><span id="original_price">${{ "{:,.2f}".format(vehicle.price|float) }}</span>&emsp;</p>
+                    <h3>-{{ '%0.0f'|format(vehicle.discount_percentage|float)}}%</h3>
+                    <h2><span id="discounted_price">${{ "{:,.2f}".format((vehicle.price - vehicle.discount)|float) }}</span></h2>
+                    {% else %}
+                    <h2>${{ "{:,.2f}".format(vehicle.price|float) }}</h2>
+                    {% endif %}
+                    {% if vehicle.is_for_sale %}
+                    <form action="{{ url_for('cart.add', vehicle_id=vehicle.id) }}" method="post">
+                        <input type="submit" value="Add to Cart" class="button add_to_cart" />
+                    </form>
+                    {% endif %}
                 {% else %}
-                <h2>${{ "{:,.2f}".format(vehicle.price|float) }}</h2>
-                {% endif %}
-                {% if vehicle.is_for_sale %}
-                <form action="{{ url_for('cart.add', vehicle_id=vehicle.id) }}" method="post">
-                    <input type="submit" value="Add to Cart" class="button add_to_cart" />
-                </form>
+                    <h3>Status</h3>
+                    <p>{{ trade_in.status }}</p>
+                    <h3>Current Quote</h3>
+                    <p>${{ "{:,.2f}".format(vehicle.price|float) }}</p>
+                    <h3>Last Updated</h3>
+                    <p>{{ trade_in.date_updated }}</p>
                 {% endif %}
             </div>
             <div class="floating_box description">
+                {% if not trade_in %}
                 <h3>Description</h3>
                 <p>{{ vehicle.description }}</p>
+                {% else %}
+                <h3>Accidents and Repairs</h3>
+                <p>{{ trade_in.accidents }}</p>
+                <h3>Other Details</h3>
+                <p>{{ trade_in.details }}</p>
+                {% endif %}
             </div>
         </div>
+        {% if not trade_in %}
         <div class="rating_box">
             <div class="floating_box">
                 <h3>{{ reviews|length }} Review{% if reviews|length != 1 %}s{% endif %} for all {{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }} vehicles</h3>
@@ -84,6 +105,7 @@
             </div>
             {% endfor %}
         </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
