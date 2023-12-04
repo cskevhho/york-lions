@@ -1,10 +1,12 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request, jsonify, session
 from flask_login import login_user, current_user, logout_user, login_required
-from ..forms import RegistrationForm, LoginForm
+from ..wtform.vehicle_forms import CreateTradeInForm
 from ..routes.catalogue import recent, hot_deals as deals, all_vehicles
 from .trade_in import create as trade_in_form
-from ..routes.vehicle.services import get_vehicle_makes, get_average_rating
+from ..routes.vehicle.services import get_average_rating
 from ..routes.catalogue.compare import add_vehicle_to_compare
+from ..routes.trade_in.read import get_trade_in
+from ..routes.vehicle.read import get_vehicle
 
 from ..models.vehicle import Vehicle
 from ..routes.vehicle.utils import generate_image_url
@@ -57,15 +59,6 @@ def shop():
 def reviews():
     return render_template("index.html")
 
-@main.route("/trade-in", methods=["GET", "POST"])
-def trade_in():
-    if request.method == "POST":
-        trade_in_form.create_trade_in()
-        flash("Trade-in request submitted! You will recieve an email shortly with details.", "success")
-        return redirect(url_for("main.main_index"))
-
-    return render_template("trade-in.html")
-
 @main.route("/admin", methods=["GET", "POST"])
 @login_required
 def admin_dash():
@@ -74,6 +67,27 @@ def admin_dash():
     return render_template("admin.html")
 
 # TODO: Move below routes to a separate file, very much low priority for time
+@main.route("/trade-in", methods=["GET", "POST"])
+def trade_in():
+    form = CreateTradeInForm()
+    print("A")
+    if form.validate_on_submit():
+        print("B")
+        trade_in_form.create_trade_in(form)
+        flash("Trade-in request submitted! You will recieve an email shortly with details.", "success")
+        return redirect(url_for("main.main_index"))
+    print("C")
+    return render_template("trade-in.html", form=form)
+
+@main.route("/trade-in/<trade_in_id>", methods=["GET", "POST"])
+@login_required
+def trade_in_status(trade_in_id):
+    trade_in=get_trade_in(trade_in_id)
+    if trade_in.user_id != current_user.id:
+        return handle_error(403)
+    vehicle=get_vehicle(trade_in.vehicle_id)
+    return render_template("vehicle-details.html", vehicle=vehicle, trade_in=trade_in)
+
 @main.route("/compare-vehicles" , methods=["GET", "POST"])
 def compare_vehicles():
     if request.method == "POST":

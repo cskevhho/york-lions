@@ -41,4 +41,4 @@ def create_vehicle(
     )
     db.session.add(new_vehicle)
     db.session.commit()
-    return {"message": f"Vehicle '{new_vehicle.id}' created successfully"}, 200
+    return {"message": f"Vehicle '{new_vehicle.id}' created successfully", "new_vehicle_id": new_vehicle.id}, 200

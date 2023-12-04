@@ -53,7 +53,7 @@ input, select {
     }
 }
 
-.button.image_upload {
+.image_upload {
     margin-top: 5px;
     position: absolute;
     left: 50%;

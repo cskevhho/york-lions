@@ -16,3 +16,6 @@ def read_trade_ins(request):
 
     trade_in_data = trade_in_json(trade_ins) # note this is will return that json format response thing
     return {"trade_ins": trade_in_data}, 200
+
+def get_trade_in(id):
+    return db.session.query(TradeIn).filter_by(id=id).first()
