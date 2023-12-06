@@ -72,9 +72,18 @@
     <p style="color: red;"><b>{{ message }}</b></p>
     {% endif %}
 
+    <form action="/get-sales-report" method="POST">
+        <input type="checkbox" id="descending" name="descending" value="true" />
+        <label for="descending">Sort by decending order?</label><br><br>
+        <input type="submit" class="See Sale Report" value="See Sales" />
+    </form>
+    <form action="/get-usage-report" method="POST">
+        <input type="submit" class="See Usage Report" value="See Usage" />
+    </form>
+
     {% if salesReport %}
     <h1>Website sale report</h1>
-    <table>
+    <table id="sale-table">
         <thead>
             <tr>
                 <th><div>Purchase ID</div></th>
@@ -104,7 +113,7 @@
 
     {% if eventReport %}
     <h1>Website usage report</h1>
-    <table>
+    <table id="usage-table">
         <thead>
             <tr>
                 <th><div>Event ID</div></th>
