@@ -21,8 +21,3 @@ Everytime we add new models to the schema or edit existing ones, delete your `in
 3. `flask db upgrade`
 
 Or, simply use `reinit_db.sh`.
-
-## Other things
-
-1. Use `sqlite3 instance/db.sqlite3` to access db schema and tables with `.schema` and `.tables`.
-2. User is just a demo/example model to base our model prototyping off of.
