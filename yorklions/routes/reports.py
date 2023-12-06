@@ -5,7 +5,7 @@ from flask import Flask, request, render_template, session
 
 @app.route('/get-sales-report', methods=['GET', 'POST'])
 def generate_sales_report():
-    if descending:
+    if descending == "true":
         sales = db.session.query(PurchaseOrder).order_by(PurchaseOrder.date.desc()).all()
     else:
         sales = db.session.query(PurchaseOrder).order_by(PurchaseOrder.date).all()
