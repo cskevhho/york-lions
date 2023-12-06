@@ -1,6 +1,8 @@
 from ...models.visitevent import VisitEvent
 from ...models.po import PurchaseOrder
 from ...extensions import db
+from flask import render_template, session
+from flask_login import current_user
 
 def generate_sales_report(descending=True):
     if descending:
@@ -19,8 +21,7 @@ def generate_sales_report(descending=True):
         }
         for po in sales
     ]
-    return salesReport, 200
-    #I'll figure out the spreadsheet thing later
+    return render_template('admin.html', sales=sales), 200
 
 def generate_app_usage():
     events = db.session.query(VisitEvent).order_by(VisitEvent.date.desc()).all()
@@ -34,4 +35,4 @@ def generate_app_usage():
         }
         for visitevents in events
     ] #add the listeners
-    return eventReport, 200
+    return render_template('admin.html', eventReport=eventReport), 200
