@@ -21,7 +21,7 @@ def generate_sales_report(descending=True):
         }
         for po in sales
     ]
-    return render_template('admin.html', sales=sales), 200
+    return render_template('admin.html', salesReport=salesReport), 200
 
 def generate_app_usage():
     events = db.session.query(VisitEvent).order_by(VisitEvent.date.desc()).all()
