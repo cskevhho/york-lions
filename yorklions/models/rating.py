@@ -11,7 +11,7 @@ class Rating(db.Model):
     year: Mapped[int] = mapped_column(Integer, nullable=False)
     f_name: Mapped[str] = mapped_column(String, nullable=True)  # Allow nullable if anonymous ratings are possible
     l_initial: Mapped[str] = mapped_column(String, nullable=True)  # Allow nullable if anonymous ratings are possible
-    rating: Mapped[float] = mapped_column(Float, nullable=False)
+    rating: Mapped[int] = mapped_column(Integer, nullable=False)
     review_body: Mapped[str] = mapped_column(String, nullable=True)
     review_date: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)  # Use DateTime type
 

@@ -59,3 +59,20 @@
 .rating_box {
     margin-bottom: 30px;
 }
+
+.stars {
+    display: inline-block;
+    height: 36px;
+    overflow: hidden;
+    font-size: x-large;
+}
+
+.stars.orange {
+    color: orange;
+    margin-right: -5px;
+}
+
+.stars.grey {
+    color: lightgray;
+    margin-right: -5px;
+}
