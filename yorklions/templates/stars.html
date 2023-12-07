@@ -1,18 +1,15 @@
-<p><span class="stars filled">★★★★★</span><span class="stars empty">★★★★★</span></p>
-<style>
-    .stars {
-        display: inline-block;
-        height: 36px;
-        overflow: hidden;
-        font-size: x-large;
-    }
-    .filled {
-        width: {{ "{:,.0f}".format(105 * num_stars / 5) }}px;
-        color: orange;
-    }
-    .empty {
-        direction: rtl;
-        width: {{ "{:,.0f}".format(105 - (105 * num_stars / 5)) }}px;
-        color: lightgrey;
-    }
-</style>
+<div class="star_container">
+    {% for i in range(5) %}
+        {% if i <= num_stars - 1 %}
+            <div class="stars orange">★</div>
+        {% elif num_stars-1 > i - 1 %}
+            <div class="stars orange" style="width: {{ "{0:.2f}".format(20 * (num_stars - i)) }}%;">★</div>
+        {% endif %}
+    {% endfor %}
+    <div class="empty_star_container">
+        {% for i in range(5) %}
+            <div class="stars grey">★</div>
+        {% endfor %}
+    </div>
+    <p class="despacer">.</p>
+</div>

@@ -1,27 +1,18 @@
 import random
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from .services import create_vehicle, read_vehicles, update_vehicle, delete_all
+from .create import create_vehicle_from_form
+from ...wtform.vehicle_forms import CreateVehicleForm
+
 
 vehicle_ctrl = Blueprint("vehicle", __name__)
 
 @vehicle_ctrl.route("/create", methods=["GET", "POST"])
 def create():
-    if request.method == "POST":
-        price = request.form["price"]
-        discount = request.form["discount"]
-        year = request.form["year"]
-        make = request.form["make"]
-        model = request.form["model"]
-        trim = request.form["trim"]
-        colour = request.form["colour"]
-        type = request.form["type"]
-        kilometres = request.form["kilometres"]
-        max_range = request.form["max_range"]
-        description = request.form["description"]
-        
-        return create_vehicle(price, discount, year, make, model, trim, colour, type, kilometres, max_range, description)
-
-    return render_template("vehicle/create.html")
+    form = CreateVehicleForm()
+    if form.validate_on_submit():
+        return create_vehicle_from_form(form)
+    return render_template("vehicle/create.html", form=form)
 
 
 @vehicle_ctrl.route("/read", methods=["GET", "POST"])

@@ -29,4 +29,7 @@ def vehicle_json(vehicles: list[Vehicle]):
     return vehicle_data
 
 def generate_image_url(vehicle):
-    return url_for("static", filename="vehicles/" + vehicle.image_file)
+    if vehicle.image_file[:17] != "/static/vehicles/":
+        return url_for("static", filename="vehicles/" + vehicle.image_file)
+    else:
+        return vehicle.image_file

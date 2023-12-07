@@ -5,7 +5,7 @@
 {% endblock stylesheet %}
 
 {% block content %}
-    <h1>{% if vehicle.kilometres > 0 %}Used{% else %}New{% endif %} {{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }} {{ vehicle.trim }}</h1>
+    <h1>{% if vehicle.kilometres|int > 0 %}Used{% else %}New{% endif %} {{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }} {{ vehicle.trim }}</h2>
     <!-- A redirect to the compare vehicles page that passes in a vehicle -->
     {% if not trade_in %}
     <form action="{{ url_for('main.compare_vehicles') }}" method="post" class="compare_vehicle_form">
@@ -31,11 +31,11 @@
                 </div>
                 <div class="floating_box">
                     <h3>Kilometres</h3>
-                    <p>{{ vehicle.kilometres }} km</p>
+                    <p>{{ "{:,}".format(vehicle.kilometres) }} km</p>
                 </div>
                 <div class="floating_box">
                     <h3>Max Driving Range</h3>
-                    <p>{{ vehicle.max_range }} km</p>
+                    <p>{{ "{:,}".format(vehicle.max_range) }} km</p>
                 </div>
             </div>
         </div>
@@ -98,9 +98,11 @@
             <div class="floating_box review">
                 <h4>{{ review.f_name }} {{ review.l_initial }}</h4>
                 <h5>{{ review.review_date.strftime("%F") }}</h5>
-                {% with num_stars=review.rating %}
-                {% include "stars.html" %}
+                <div class="star_container">
+                {% with num_stars = review.rating %}
+                    {% include "stars.html" %}
                 {% endwith %}
+                </div>
                 <p>{{ review.review_body }}</p>
             </div>
             {% endfor %}
