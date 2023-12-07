@@ -60,19 +60,38 @@
     margin-bottom: 30px;
 }
 
+.star_container {
+    display: inline-block;
+    width: 80pt;
+    height: 36px;
+    margin-bottom: -100px;
+}
+
+.empty_star_container {
+    width: 80pt;
+    display: inline-block;
+    z-index: -1;
+    position: relative;
+    top: -106%;
+    margin-bottom: -100px;
+}
+
+.despacer {
+    color: transparent;
+    margin-top: -50pt;
+}
+
 .stars {
     display: inline-block;
-    height: 36px;
     overflow: hidden;
-    font-size: x-large;
+    margin-right: -5px;
+    font-size: 16pt;
 }
 
 .stars.orange {
     color: orange;
-    margin-right: -5px;
 }
 
 .stars.grey {
     color: lightgray;
-    margin-right: -5px;
 }
