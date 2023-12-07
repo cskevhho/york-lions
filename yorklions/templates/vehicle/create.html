@@ -1,52 +1,35 @@
 {% extends "admin_layout.html" %}
 {% block content %}
-<form action="{{ url_for('vehicle.create') }}" method="post">
-    <label for="price">Price:</label>
-    <input type="number" id="price" name="price"/><br/>
-    <label for="discount">Discount:</label>
-    <input type="number" id="discount" name="discount"/><br/>
-    <label for="year">Year:</label>
-    <input type="number" id="year" name="year"/><br/>
-    <label for="make">Make:</label>
-    <input type="text" id="make" name="make"/><br/>
-    <label for="model">Model:</label>
-    <input type="text" id="model" name="model"/><br/>
-    <label for="trim">Trim:</label>
-    <input type="text" id="trim" name="trim"/><br/>
-    <label for="colour">Colour:</label>
-    <select id="colour" name="colour">
-        <option value="Black">Black</option>
-        <option value="White">White</option>
-        <option value="Grey">Grey</option>
-        <option value="Red">Red</option>
-        <option value="Orange">Orange</option>
-        <option value="Yellow">Yellow</option>
-        <option value="Green">Green</option>
-        <option value="Blue">Blue</option>
-        <option value="Purple">Purple</option>
-        <option value="Pink">Pink</option>
-        <option value="Beige">Beige</option>
-        <option value="Beige">Beige</option>
-    </select><br/>
-    <label for="type">Vehicle Type:</label>
-    <select id="type" name="type">
-        <option value="Sedan">Sedan</option>
-        <option value="Coupe">Coupe</option>
-        <option value="Sports Car">Sports Car</option>
-        <option value="Station Wagon">Station Wagon</option>
-        <option value="Hatchback">Hatchback</option>
-        <option value="Convertible">Convertible</option>
-        <option value="Pickup Truck">Pickup Truck</option>
-        <option value="Minivan">Minivan</option>
-        <option value="SUV">SUV</option>
-    </select><br/>
-    <label for="kilometres">Kilometres:</label>
-    <input type="number" id="kilometres" name="kilometres"/><br/>
-    <label for="max_range">Max Range:</label>
-    <input type="number" id="max_range" name="max_range"/><br/>
-    <label for="description">Description:</label>
-    <input type="text" id="description" name="description"/><br/>
-    <input type="submit" value="Create Vehicle"/>
+<form action="" method="POST" enctype="multipart/form-data" class="floating_box">
+    {{ form.hidden_tag() }}
+    {{ form.price.label() }}<br/>
+    {{ form.price() }}<br/>
+    {{ form.discount.label() }}<br/>
+    {{ form.discount() }}<br/>
+    {{ form.year.label() }}<br/>
+    {{ form.year() }}<br/>
+    {{ form.make.label() }}<br/>
+    {{ form.make() }}<br/>
+    {{ form.model.label() }}<br/>
+    {{ form.model() }}<br/>
+    {{ form.trim.label() }}<br/>
+    {{ form.trim() }}<br/>
+    {{ form.colour.label() }}<br/>
+    {{ form.colour() }}<br/>
+    {{ form.type.label() }}<br/>
+    {{ form.type() }}<br/>
+    {{ form.kilometres.label() }}<br/>
+    {{ form.kilometres() }}<br/>
+    {{ form.max_range.label() }}<br/>
+    {{ form.max_range() }}<br/>
+    {{ form.picture.label() }}<br/>
+    {{ form.picture(class=image_upload) }}<br/>
+    {{ form.description.label() }}<br/>
+    {{ form.description(rows="4", cols="50") }}<br/>
+    {{ form.submit(class="button submit") }}<br/>
+    {% for error in form.errors.items() %}
+    <p style="color: red;">{{ error }}<br/></p>
+    {% endfor %}
 </form>
 
 <form action="{{ url_for('vehicle.create_dummy_data') }}" method="post">
