@@ -1,4 +1,5 @@
 from flask import Flask
+from config import configure_app
 from .extensions import db, migrate, bcrypt, login_manager
 from .routes.user.controller import user_ctrl
 from .routes.vehicle.controller import vehicle_ctrl
@@ -12,8 +13,7 @@ from .routes.cart.controller import cart_ctrl
 from .routes.confirmedorder import confirmed_order
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite3"
-app.config["SECRET_KEY"] = "1234"
+app = configure_app(app)
 
 
 db.init_app(app)
